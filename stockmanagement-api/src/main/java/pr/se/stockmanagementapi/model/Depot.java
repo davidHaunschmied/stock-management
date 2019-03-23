@@ -1,10 +1,12 @@
 package pr.se.stockmanagementapi.model;
 
+import pr.se.stockmanagementapi.model.audit.DateAudit;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "depot")
-public class Depot {
+public class Depot extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

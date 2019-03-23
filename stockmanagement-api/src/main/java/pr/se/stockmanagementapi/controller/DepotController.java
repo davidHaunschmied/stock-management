@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/depot")
+@RequestMapping("/api/depots")
 public class DepotController {
 
     private final DepotRepository depotRepository;
@@ -28,6 +28,11 @@ public class DepotController {
         return depotRepository.findAll();
     }
 
+    @GetMapping("/{depotId}")
+    public ResponseEntity<?> getDepot(@PathVariable long depotId) {
+        return ResponseEntity.ok(depotRepository.findById(depotId));
+    }
+
     @PostMapping("/new")
     public ResponseEntity<?> createNewDepot(@Valid @RequestBody DepotCreationRequest depotCreationRequest) {
         if (depotRepository.findDepotByName(depotCreationRequest.getName()).isPresent()) {
@@ -36,4 +41,10 @@ public class DepotController {
         Depot depot = new Depot(depotCreationRequest.getName());
         return new ResponseEntity<>(depotRepository.save(depot), HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{depotId}")
+    public void deleteDepot(@PathVariable long depotId) {
+        depotRepository.deleteById(depotId);
+    }
+
 }
