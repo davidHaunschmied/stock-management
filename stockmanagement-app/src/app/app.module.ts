@@ -7,11 +7,13 @@ import {CoreModule} from './core/core.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {StockListComponent} from './stock/stock-list/stock-list.component';
+import { StockDetailsComponent } from './stock/stock-details/stock-details.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        StockListComponent
+        StockListComponent,
+        StockDetailsComponent
     ],
     imports: [
         CoreModule,

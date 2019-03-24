@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {IStock} from '../model/IStock';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {catchError, tap} from 'rxjs/operators';
+import {catchError, tap, map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 
 @Injectable({
@@ -9,19 +9,25 @@ import {Observable, throwError} from 'rxjs';
 })
 export class StockService {
 
-    private productUrl = 'mockapi/stocks/stocks.json';
+    private stockUrl = 'mockapi/stocks/stocks.json';
 
     constructor(private http: HttpClient) {
     }
 
     getStocks(): Observable<IStock[]> {
-        return this.http.get<IStock[]>(this.productUrl).pipe(
+        return this.http.get<IStock[]>(this.stockUrl).pipe(
             tap(data => console.log('All: ' + JSON.stringify(data))),
             catchError(this.handleError)
         );
     }
 
-    // Copy & Paste von DeborahK
+    getStockDetails(name: string): Observable<IStock | undefined> {
+        return this.getStocks().pipe(
+            map((stocks: IStock[]) => stocks.find(s => s.name === name))
+        );
+    }
+
+    // Copy & Paste of DeborahK
     private handleError(err: HttpErrorResponse) {
         // in a real world app, we may send the server to some remote logging infrastructure
         // instead of just logging it to the console
