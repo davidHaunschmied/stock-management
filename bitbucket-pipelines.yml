@@ -20,5 +20,5 @@ definitions:
           - build/libs/**
 
 pipelines:
-  custom:
+  default:
     - step: *build-test-sonarcloud
