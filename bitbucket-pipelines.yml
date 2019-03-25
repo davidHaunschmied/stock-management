@@ -13,12 +13,10 @@ definitions:
           - gradle
           - sonar
         script:
-          - pipe: sonarsource/sonarcloud-scan:0.1.5
-            variables:
-              SONAR_TOKEN: '8a9894728671001e76292c7260f6ff5de8d5a088'
+          - ./gradlew build sonarqube
         artifacts:
           - build/libs/**
 
 pipelines:
-  default:
+  custom:
     - step: *build-test-sonarcloud
