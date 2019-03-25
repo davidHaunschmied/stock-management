@@ -24,9 +24,4 @@ pipelines:
                     # EXTRA_ARGS: '<string>' # Optional.
                     # SONAR_SCANNER_OPTS: '<string>' # Optional.
                     # DEBUG: '<boolean>' # Optional.
-
-      deployment-to-prod: # Another display name
-        - step:
-            script:
-              - echo "Manual triggers for deployments are awesome!"
     
