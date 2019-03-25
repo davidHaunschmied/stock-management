@@ -13,7 +13,9 @@ definitions:
           - gradle
           - sonar
         script:
-          - ./gradlew build sonarqube
+          - pipe: sonarsource/sonarcloud-scan:0.1.5
+            variables:
+              SONAR_TOKEN: '8a9894728671001e76292c7260f6ff5de8d5a088'
         artifacts:
           - build/libs/**
 
