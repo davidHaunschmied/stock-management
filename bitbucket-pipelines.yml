@@ -1,0 +1,32 @@
+# This is a sample build configuration for Java (Gradle).
+# Check our guides at https://confluence.atlassian.com/x/zd-5Mw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: openjdk:8
+
+pipelines:
+  custom: # Pipelines that are triggered manually
+      Sonar: # The name that is displayed in the list in Bitbucket Cloud GUI
+      - step:
+              caches:
+                - gradle
+              script: # Modify the commands below to build your repository.
+                # You must commit the Gradle wrapper to your repository
+                # https://docs.gradle.org/current/userguide/gradle_wrapper.html
+                - bash ./gradlew build
+      - step:
+            script:
+              - echo "Manual triggers for Sonar are awesome!"
+              - pipe: sonarsource/sonarcloud-scan:0.1.5
+                variables:
+                  SONAR_TOKEN: '466f18ef7e0506e0e2d5bb334e3c8592a38e6663'
+                    # EXTRA_ARGS: '<string>' # Optional.
+                    # SONAR_SCANNER_OPTS: '<string>' # Optional.
+                    # DEBUG: '<boolean>' # Optional.
+
+      deployment-to-prod: # Another display name
+        - step:
+            script:
+              - echo "Manual triggers for deployments are awesome!"
+    
