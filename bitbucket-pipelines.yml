@@ -18,8 +18,5 @@ definitions:
           - build/libs/**
 
 pipelines:
-  default:
+  custom:
     - step: *build-test-sonarcloud
-  pull-requests:
-    '**':
-      - step: *build-test-sonarcloud
