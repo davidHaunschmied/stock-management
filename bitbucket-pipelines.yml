@@ -7,13 +7,9 @@ image: java:8
 
 pipelines:
   definitions:
-      caches:
-        sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
       steps:
         - step: &build-test-sonarcloud
             name: Build, test and analyze on SonarCloud
-            caches:
-              - sonar
             script:
               - bash ./stockmanagement-api/gradlew build
               - pipe: sonarsource/sonarcloud-scan:0.1.5
