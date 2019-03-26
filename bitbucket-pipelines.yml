@@ -13,16 +13,15 @@ pipelines:
         - step: &build-test-sonarcloud
             name: Build, test and analyze on SonarCloud
             caches:
-              - gradle
               - sonar
             script:
               - bash ./stockmanagement-api/gradlew build
               - pipe: sonarsource/sonarcloud-scan:0.1.5
                 variables:
-                  SONAR_TOKEN: 'c97374a6c972e5b98ce5ade30eb7a57e0207d494'
-                    # EXTRA_ARGS: '<string>' # Optional.
-                    # SONAR_SCANNER_OPTS: '<string>' # Optional.
-                    # DEBUG: '<boolean>' # Optional.
+                SONAR_TOKEN: 'c97374a6c972e5b98ce5ade30eb7a57e0207d494'
+                  # EXTRA_ARGS: '<string>' # Optional.
+                  # SONAR_SCANNER_OPTS: '<string>' # Optional.
+                  # DEBUG: '<boolean>' # Optional.
             artifacts:
               - build/libs/**
   custom: # Pipelines that are triggered manually
