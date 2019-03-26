@@ -31,3 +31,8 @@ pipelines:
             name: Build
             script:
               - bash ./stockmanagement-api/gradlew build
+    Sonar2: # just gradle build
+            - step:
+                name: Build
+                script:
+                  - bash ./stockmanagement-api/gradlew sonarqube -Dsonar.projectKey=Stockmanager -Dsonar.organization=draff-bitbucket -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=c97374a6c972e5b98ce5ade30eb7a57e0207d494
