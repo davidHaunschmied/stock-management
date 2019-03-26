@@ -7,22 +7,17 @@ image: java:8
 
 pipelines:
   definitions:
-      caches:
-        sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
       steps:
         - step: &build-test-sonarcloud
             name: Build, test and analyze on SonarCloud
-            caches:
-              - gradle
-              - sonar
             script:
               - bash ./stockmanagement-api/gradlew build
               - pipe: sonarsource/sonarcloud-scan:0.1.5
-                    variables:
-                      SONAR_TOKEN: 'c97374a6c972e5b98ce5ade30eb7a57e0207d494'
-                        # EXTRA_ARGS: '<string>' # Optional.
-                        # SONAR_SCANNER_OPTS: '<string>' # Optional.
-                        # DEBUG: '<boolean>' # Optional.
+                variables:
+                SONAR_TOKEN: 'c97374a6c972e5b98ce5ade30eb7a57e0207d494'
+                  # EXTRA_ARGS: '<string>' # Optional.
+                  # SONAR_SCANNER_OPTS: '<string>' # Optional.
+                  # DEBUG: '<boolean>' # Optional.
             artifacts:
               - build/libs/**
   custom: # Pipelines that are triggered manually
@@ -31,3 +26,13 @@ pipelines:
     - step:
         script:
           - echo "Pipeline finished!"
+    Build: # just gradle build
+        - step:
+            name: Build
+            script:
+              - bash ./stockmanagement-api/gradlew build
+    Sonar2: # just gradle build
+            - step:
+                name: Build
+                script:
+                  - bash ./stockmanagement-api/gradlew sonarqube -Dsonar.projectKey=Stockmanager -Dsonar.organization=draff-bitbucket -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=c97374a6c972e5b98ce5ade30eb7a57e0207d494
