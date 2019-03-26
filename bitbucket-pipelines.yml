@@ -15,7 +15,7 @@ pipelines:
               - pipe: sonarsource/sonarcloud-scan:0.1.5
                 variables:
                   SONAR_TOKEN: c97374a6c972e5b98ce5ade30eb7a57e0207d494
-                  EXTRA_ARGS: -Dsonar.projectKey=Stockmanager -Dsonar.organization=draff-bitbucket -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=c97374a6c972e5b98ce5ade30eb7a57e0207d494
+                  EXTRA_ARGS: -Dsonar.projectKey=Stockmanager -Dsonar.organization=draff-bitbucket -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=c97374a6c972e5b98ce5ade30eb7a57e0207d494 -Dsonar.java.binaries=build/libs/
                   # SONAR_SCANNER_OPTS: '<string>' # Optional.
                   # DEBUG: '<boolean>' # Optional.
                 
