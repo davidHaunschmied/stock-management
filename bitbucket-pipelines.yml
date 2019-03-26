@@ -1,22 +1,33 @@
+# This is a sample build configuration for Java (Gradle).
+# Check our guides at https://confluence.atlassian.com/x/zd-5Mw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
 image: java:8
 
-clone:
-  depth: full              # SonarCloud scanner needs the full history to assign issues properly
-
-definitions:
-  caches:
-    sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
-  steps:
-    - step: &build-test-sonarcloud
-        name: Build, test and analyze on SonarCloud
-        caches:
-          - gradle
-          - sonar
-        script:
-          - ./gradlew build sonarqube
-        artifacts:
-          - build/libs/**
-
 pipelines:
-  custom:
-    - step: *build-test-sonarcloud
+  definitions:
+      caches:
+        sonar: ~/.sonar/cache  # Caching SonarCloud artifacts will speed up your build
+      steps:
+        - step: &build-test-sonarcloud
+            name: Build, test and analyze on SonarCloud
+            caches:
+              - gradle
+              - sonar
+            script:
+              - bash ./stockmanagement-api/gradlew build
+              - pipe: sonarsource/sonarcloud-scan:0.1.5
+                variables:
+                  SONAR_TOKEN: 'c97374a6c972e5b98ce5ade30eb7a57e0207d494'
+                    # EXTRA_ARGS: '<string>' # Optional.
+                    # SONAR_SCANNER_OPTS: '<string>' # Optional.
+                    # DEBUG: '<boolean>' # Optional.
+            artifacts:
+              - build/libs/**
+  custom: # Pipelines that are triggered manually
+    Sonar: # The name that is displayed in the list in Bitbucket Cloud GUI
+    - step: *build-test-sonarcloud                
+    - step:
+        script:
+          - echo "Pipeline finished!"
