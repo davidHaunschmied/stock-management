@@ -26,3 +26,8 @@ pipelines:
     - step:
         script:
           - echo "Pipeline finished!"
+    Build: # just gradle build
+        - step:
+            name: Build
+            script:
+              - bash ./stockmanagement-api/gradlew build
