@@ -14,8 +14,8 @@ pipelines:
               - bash ./stockmanagement-api/gradlew build
               - pipe: sonarsource/sonarcloud-scan:0.1.5
                 variables:
-                  SONAR_TOKEN: ${c97374a6c972e5b98ce5ade30eb7a57e0207d494} # Use a secure repository or account variable
-                  # EXTRA_ARGS: "<string>" # Optional.
+                  SONAR_TOKEN: ${SONAR_TOKEN}
+                  EXTRA_ARGS: -Dsonar.projectKey=Stockmanager -Dsonar.organization=draff-bitbucket -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=c97374a6c972e5b98ce5ade30eb7a57e0207d494
                   # SONAR_SCANNER_OPTS: '<string>' # Optional.
                   # DEBUG: '<boolean>' # Optional.
                 
