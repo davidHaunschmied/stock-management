@@ -16,7 +16,7 @@ public class TestDataGenerator {
     }
 
     public void fillDbWithTestData(){
-        depotRepository.save(new Depot("Risikoepot"));
+        depotRepository.save(new Depot("Risikodepot"));
         depotRepository.save(new Depot("Sicherheitsdepot"));
     }
 }
