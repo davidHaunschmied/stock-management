@@ -8,9 +8,6 @@ public class DepotCreationRequest {
     @Size(min = 3, max = 30)
     private String name;
 
-    public DepotCreationRequest() {
-    }
-
     public String getName() {
         return name;
     }

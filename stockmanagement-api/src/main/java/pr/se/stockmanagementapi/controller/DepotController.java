@@ -11,6 +11,7 @@ import pr.se.stockmanagementapi.respository.DepotRepository;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/depots")
@@ -29,12 +30,12 @@ public class DepotController {
     }
 
     @GetMapping("/{depotId}")
-    public ResponseEntity<?> getDepot(@PathVariable long depotId) {
+    public ResponseEntity<Optional<Depot>> getDepot(@PathVariable long depotId) {
         return ResponseEntity.ok(depotRepository.findById(depotId));
     }
 
     @PostMapping("/new")
-    public ResponseEntity<?> createNewDepot(@Valid @RequestBody DepotCreationRequest depotCreationRequest) {
+    public ResponseEntity createNewDepot(@Valid @RequestBody DepotCreationRequest depotCreationRequest) {
         if (depotRepository.findDepotByName(depotCreationRequest.getName()).isPresent()) {
             return new ResponseEntity<>(new ApiResponse(false, "Depot name already taken!"), HttpStatus.BAD_REQUEST);
         }
