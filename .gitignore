@@ -1,6 +1,7 @@
 HELP.md
 .gradle
 /build/
+build/
 !gradle/wrapper/gradle-wrapper.jar
 
 ### STS ###
@@ -19,22 +20,41 @@ HELP.md
 *.iml
 *.ipr
 /out/
+out/
 
+# misc
+/.sass-cache
+.sass-cache/
+/connect.lock
+connect.lock/
+/coverage
+coverage/
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+typings/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# compiled output
 /dist
+dist/
 /tmp
+tmp/
 /out-tsc
+out-tsc/
 
 # dependencies
 /node_modules
+node_modules/
 
 # profiling files
 chrome-profiler-events.json
 speed-measure-plugin.json
-
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
@@ -43,17 +63,3 @@ speed-measure-plugin.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
-
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
-# System Files
-.DS_Store
-Thumbs.db
