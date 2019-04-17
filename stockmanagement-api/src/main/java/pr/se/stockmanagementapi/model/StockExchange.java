@@ -1,31 +1,33 @@
 package pr.se.stockmanagementapi.model;
 
-import pr.se.stockmanagementapi.model.audit.DateAudit;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Depot")
-public class Depot extends DateAudit {
+@Table(name = "StockExchange")
+public class StockExchange {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 30, unique = true)
+    @Column(nullable = false, length = 20, unique = true)
+    private String shortName;
+
+    @Column(nullable = false, length = 50, unique = true)
     private String name;
 
-    @ManyToMany
+    @OneToMany(mappedBy="stockExchange")
     private List<Stock> stocks;
 
-    public Depot() {
+    public StockExchange() {
         this.stocks = new ArrayList<>();
     }
 
-    public Depot(String name) {
+    public StockExchange(String shortName, String name) {
         this.stocks = new ArrayList<>();
+        this.shortName = shortName;
         this.name = name;
     }
 
@@ -35,6 +37,14 @@ public class Depot extends DateAudit {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public String getName() {
