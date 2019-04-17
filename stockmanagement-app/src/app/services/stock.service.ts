@@ -3,13 +3,14 @@ import {IStock} from '../model/IStock';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, tap, map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
+import {AppConstants} from "../app-settings";
 
 @Injectable({
     providedIn: 'root'
 })
 export class StockService {
 
-    private stockUrl = 'mockapi/stocks/stocks.json';
+    private stockUrl = AppConstants.API_ENDPOINT + '/stocks/stocks.json';
 
     constructor(private http: HttpClient) {
     }
