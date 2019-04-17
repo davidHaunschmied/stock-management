@@ -7,7 +7,7 @@ import {MatSortModule, MatSort} from "@angular/material";
 @Component({
     selector: 'app-stock-list',
     templateUrl: './stock-list.component.html',
-    styleUrls: ['./stock-list.component.sass']
+    styleUrls: ['./stock-list.component.scss']
 })
 export class StockListComponent implements OnInit {
     displayedColumns: string[] = ['name', 'market', 'price', 'change1d'];
@@ -34,5 +34,9 @@ export class StockListComponent implements OnInit {
             error => console.log(error)
         );
     }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 
 }

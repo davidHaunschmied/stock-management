@@ -15,7 +15,7 @@ import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component
     AppComponent,
     DepotCreateDialogComponent,
     StockListComponent,
-    StockDetailsComponent
+    StockDetailsComponent,
   ],
   imports: [
     CoreModule,
