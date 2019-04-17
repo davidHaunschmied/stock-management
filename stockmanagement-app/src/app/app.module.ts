@@ -7,24 +7,27 @@ import {CoreModule} from './core/core.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {StockListComponent} from './stock/stock-list/stock-list.component';
-import { StockDetailsComponent } from './stock/stock-details/stock-details.component';
+import {StockDetailsComponent} from './stock/stock-details/stock-details.component';
+import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        StockListComponent,
-        StockDetailsComponent
-    ],
-    imports: [
-        CoreModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        AppRoutingModule,
-        MaterialModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    DepotCreateDialogComponent,
+    StockListComponent,
+    StockDetailsComponent
+  ],
+  imports: [
+    CoreModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    MaterialModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
+  entryComponents: [DepotCreateDialogComponent]
 })
 export class AppModule {
 }

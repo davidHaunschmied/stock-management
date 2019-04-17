@@ -1,12 +1,24 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
-        <span>Stockmanagement</span>
+        <span>StockmanagementApp</span>
+        <span class="fill-remaining-space"></span>
+        <span class="padding-right">
+            <mat-label>Aktiendepot:</mat-label>
+        </span>
+        <span>
+            <mat-form-field>
+                <mat-select [(ngModel)]="currentDepot">
+                    <mat-option *ngFor="let depot of depots" [value]="depot.id">{{depot.name}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </span>
+        <span>
+            <button (click)="openCreateDepotDialog()">
+                <img alt="Add" src="../assets/icons/ic_add_white_48dp.png" height="40" width="40"/>
+            </button>
+        </span>
     </mat-toolbar-row>
 </mat-toolbar>
-<mat-card class="mat-card-content">
-    <mat-card-header>
-        <mat-card-title>Test</mat-card-title>
-    </mat-card-header>
-</mat-card>
+<router-outlet></router-outlet>
 
 <app-stock-list></app-stock-list>

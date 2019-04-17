@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "name": "Risikodepot"
+    },
+    {
+        "id": 2,
+        "name": "Sicherheitsdepot"
+    },
+    {
+        "id": 3,
+        "name": "Amerikanisches Depot"
+    }
+]

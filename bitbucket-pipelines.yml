@@ -1,0 +1,26 @@
+# Check our guides at https://confluence.atlassian.com/x/zd-5Mw for examples.
+# Only use spaces to indent your .yml configuration.
+image: java:8
+
+pipelines:
+  definitions:
+      steps:
+        - step: &build-test-sonarcloud
+            name: Build, test and analyze on SonarCloud
+            script:
+              - bash ./gradlew build
+              - pipe: sonarsource/sonarcloud-scan:0.1.5
+                variables:
+                  SONAR_TOKEN: $SONAR_TOKEN
+                  EXTRA_ARGS: $SONAR_EXTRA_ARGS
+                  # SONAR_SCANNER_OPTS: '<string>' # Optional.
+                  # DEBUG: '<boolean>' # Optional.
+                
+  custom: # Pipelines that are triggered manually
+    Sonar: # The name that is displayed in the list in Bitbucket Cloud GUI
+    - step: *build-test-sonarcloud                
+    Build: # just gradle build
+        - step:
+            name: Build
+            script:
+              - bash ./gradlew build
