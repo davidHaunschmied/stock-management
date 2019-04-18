@@ -1,5 +1,3 @@
-@import "styles/material-icons";
-
 button {
   background-color: Transparent;
   background-repeat: no-repeat;
@@ -7,4 +5,10 @@ button {
   cursor: pointer;
   overflow: hidden;
   outline: none;
+}
+
+.add-button {
+  position: relative;
+  top: 12px;
+  left: 9px;
 }

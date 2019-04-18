@@ -1,0 +1,12 @@
+<span>
+    <mat-form-field>
+        <mat-select (selectionChange)="changeDepot($event.value)">
+            <mat-option *ngFor="let depot of depots" [value]="depot.id">{{depot.name}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</span>
+<span>
+    <button (click)="openCreateDepotDialog()" class="add-button">
+        <i class="material-icons md-light md-36">add</i>
+    </button>
+</span>
