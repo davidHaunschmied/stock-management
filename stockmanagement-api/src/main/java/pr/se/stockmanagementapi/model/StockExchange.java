@@ -1,5 +1,7 @@
 package pr.se.stockmanagementapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ public class StockExchange {
     private String name;
 
     @OneToMany(mappedBy="stockExchange")
+    @JsonIgnore
     private List<Stock> stocks;
 
     public StockExchange() {
