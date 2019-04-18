@@ -9,6 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {StockListComponent} from './stock/stock-list/stock-list.component';
 import {StockDetailsComponent} from './stock/stock-details/stock-details.component';
 import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';
+import { AlertCreateDialogComponent } from './alert/alert-create-dialog/alert-create-dialog.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component
     DepotCreateDialogComponent,
     StockListComponent,
     StockDetailsComponent,
+    AlertCreateDialogComponent,
   ],
   imports: [
     CoreModule,
@@ -27,7 +29,10 @@ import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DepotCreateDialogComponent]
+  entryComponents: [
+    DepotCreateDialogComponent,
+    AlertCreateDialogComponent
+  ]
 })
 export class AppModule {
 }

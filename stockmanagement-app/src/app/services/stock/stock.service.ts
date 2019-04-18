@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {IStock} from '../model/IStock';
+import {IStock} from '../../model/IStock';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, tap, map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
-import {AppConstants} from "../app-settings";
+import {AppConstants} from "../../app-settings";
 
 @Injectable({
     providedIn: 'root'

@@ -4,7 +4,7 @@ table{
 
 mat-form-field{
   width: 60%;
-  padding: 0px 20% 0px 20%;
+  padding: 0 20% 0 20%;
 }
 
 div{
@@ -15,3 +15,14 @@ div{
 mat-form-field{
   text-align: center;
 }
+
+button {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+

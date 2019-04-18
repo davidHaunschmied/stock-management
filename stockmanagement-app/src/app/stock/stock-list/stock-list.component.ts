@@ -1,8 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {StockService} from 'src/app/services/stock.service';
+import {StockService} from 'src/app/services/stock/stock.service';
 import {IStock} from '../../model/IStock';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatSortModule, MatSort} from "@angular/material";
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort, MatDialog, MatPaginator} from "@angular/material";
+import {AlertCreateDialogComponent} from "../../alert/alert-create-dialog/alert-create-dialog.component";
+import {AlertService} from "../../services/alert/alert.service";
 
 @Component({
     selector: 'app-stock-list',
@@ -10,19 +12,21 @@ import {MatSortModule, MatSort} from "@angular/material";
     styleUrls: ['./stock-list.component.scss']
 })
 export class StockListComponent implements OnInit {
-    displayedColumns: string[] = ['name', 'market', 'price', 'change1d'];
+    displayedColumns: string[] = ['name', 'market', 'price', 'change1d', 'alert'];
     //stocks: IStock[] | undefined;
     dataSource: MatTableDataSource<IStock>;
 
 
-    constructor(private stockService: StockService) {
-
+    constructor(private stockService: StockService,
+                private alertService: AlertService,
+                private createAlertDialog: MatDialog) {
     }
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
     ngOnInit() {
         this.getStocks();
+
     }
 
     getStocks() {
@@ -30,6 +34,7 @@ export class StockListComponent implements OnInit {
             data => {
               this.dataSource = new MatTableDataSource(data);
               this.dataSource.sort = this.sort;
+              this.dataSource.paginator = this.paginator;
             },
             error => console.log(error)
         );
@@ -38,5 +43,25 @@ export class StockListComponent implements OnInit {
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+
+  openCreateAlertDialog(name: string, price: number): void {
+    const dialogRef = this.createAlertDialog.open(AlertCreateDialogComponent, {
+      width: '300px',
+      data: {price: price, stock: name, value: price},
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      console.log('The dialog was closed');
+      this.alertService.createAlert(data.stock, data.value).subscribe(
+        data => {
+          console.log('Added alert of data: ' + data);
+        }, error => {
+          console.log('Error: ' + error);
+        }
+      );
+    });
+  }
+
 
 }

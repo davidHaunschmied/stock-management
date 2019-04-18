@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {IDepot} from '../model/IDepot';
-import {AppConstants} from '../app-settings';
+import {IDepot} from '../../model/IDepot';
+import {AppConstants} from '../../app-settings';
 
 @Injectable({
     providedIn: 'root'

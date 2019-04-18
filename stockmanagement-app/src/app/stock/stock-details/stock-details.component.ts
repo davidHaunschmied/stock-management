@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {StockService} from '../../services/stock.service';
+import {StockService} from '../../services/stock/stock.service';
 import {IStock} from '../../model/IStock';
 import {ActivatedRoute, Router} from '@angular/router';
 
