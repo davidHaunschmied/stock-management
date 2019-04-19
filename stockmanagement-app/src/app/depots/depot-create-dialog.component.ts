@@ -14,10 +14,12 @@ export class DepotCreateDialogComponent {
   }
 
   onNoClick(): void {
-    console.log('Test');
     this.dialogRef.close();
   }
 
+  isNameValid(): boolean {
+    return (3 <= this.data.name.length) && (this.data.name.length <= 30);
+  }
 }
 
 export interface DepotCreateData {

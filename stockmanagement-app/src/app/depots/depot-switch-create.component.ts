@@ -7,10 +7,10 @@ import {AppSettings} from "../app-settings";
 
 @Component({
   selector: 'app-depot-switch-add',
-  templateUrl: './depot-switch-add.component.html',
-  styleUrls: ['./depot-switch-add.component.scss']
+  templateUrl: './depot-switch-create.component.html',
+  styleUrls: ['./depot-switch-create.component.scss']
 })
-export class DepotSwitchAddComponent implements OnInit {
+export class DepotSwitchCreateComponent implements OnInit {
 
   constructor(private depotService: DepotService,
               private createDepotDialog: MatDialog) {
