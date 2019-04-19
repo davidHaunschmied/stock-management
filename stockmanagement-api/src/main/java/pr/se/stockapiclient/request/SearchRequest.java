@@ -6,11 +6,9 @@ import pr.se.stockapiclient.response.SearchResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.util.Objects.requireNonNull;
-
 public class SearchRequest extends StockAPIRequest {
-    private String apiPath = "/stock_search";
-    private String searchTerm;
+    private final String apiPath = "/stock_search";
+    private String searchTerm;  // use empty search term to find all stocks (e.g. for Vienna Stock Exchange (VSE) )
     private SearchByOption searchBy;
     private List<String> stockExchanges;
 
@@ -27,7 +25,11 @@ public class SearchRequest extends StockAPIRequest {
 
     @Override
     public SearchResponse getData() {
-        requireNonNull(searchTerm, "SearchTerm must not be null!");
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.getForObject(getRequestUrl(), SearchResponse.class);
+    }
+
+    private String getRequestUrl() {
         String requestUrl = this.apiBasePath + apiPath;
         requestUrl += "?search_term=" + searchTerm;
         requestUrl += "&search_by=" + searchBy.getOption();
@@ -35,8 +37,7 @@ public class SearchRequest extends StockAPIRequest {
             requestUrl += "&stock_exchange=" + String.join(",", stockExchanges);
         }
         requestUrl += "&api_token=" + this.apiKey;
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(requestUrl, SearchResponse.class);
+        return requestUrl;
     }
 
     public String getSearchTerm() {
