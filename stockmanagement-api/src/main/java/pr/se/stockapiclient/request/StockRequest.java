@@ -1,7 +1,7 @@
 package pr.se.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockapiclient.model.stock.StockResponse;
+import pr.se.stockapiclient.response.StockResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,10 @@ public class StockRequest extends StockAPIRequest {
 
 
     public StockRequest() {
-        super();
         this.symbols = new ArrayList<>();
     }
 
     public StockRequest(List<String> symbols) {
-        super();
         this.symbols = symbols;
     }
 

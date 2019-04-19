@@ -2,9 +2,11 @@ package pr.se.stockapiclient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pr.se.stockapiclient.model.history.HistoryResponse;
-import pr.se.stockapiclient.model.stock.StockResponse;
+import pr.se.stockapiclient.response.HistoryResponse;
+import pr.se.stockapiclient.response.SearchResponse;
+import pr.se.stockapiclient.response.StockResponse;
 import pr.se.stockapiclient.request.HistoryRequest;
+import pr.se.stockapiclient.request.SearchRequest;
 import pr.se.stockapiclient.request.StockRequest;
 
 /* Test class for testing api requests*/
@@ -14,6 +16,15 @@ public class StockApiClient  {
     public static void main(String args[]) {
         stockRequest();
         historyRequest();
+        searchRequest();
+    }
+
+    private static void searchRequest() {
+        SearchRequest searchRequest = new SearchRequest("VOEST");
+        searchRequest.getStockExchanges().add("VSE");
+        searchRequest.getStockExchanges().add("GER");
+        SearchResponse response = searchRequest.getData();
+        log.info(response.toString());
     }
 
     private static void historyRequest() {

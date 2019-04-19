@@ -1,16 +1,16 @@
-package pr.se.stockapiclient.model.history;
+package pr.se.stockapiclient.stockdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HistoryDetail {
+public class StockHistoryDetail {
     private float open;
     private float close;
     private float high;
     private float low;
     private long volume;
 
-    public HistoryDetail() {
+    public StockHistoryDetail() {
     }
 
     public float getOpen() {
@@ -55,7 +55,7 @@ public class HistoryDetail {
 
     @Override
     public String toString() {
-        return "HistoryDetail{" +
+        return "StockHistoryDetail{" +
             "open=" + open +
             ", close=" + close +
             ", high=" + high +

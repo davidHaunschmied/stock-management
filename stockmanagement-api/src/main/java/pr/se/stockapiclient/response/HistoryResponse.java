@@ -1,14 +1,14 @@
-package pr.se.stockapiclient.model.history;
+package pr.se.stockapiclient.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import pr.se.stockapiclient.model.IStockAPIResponse;
+import pr.se.stockapiclient.stockdata.StockHistoryDetail;
 
 import java.util.HashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HistoryResponse implements IStockAPIResponse {
     private String name;
-    private HashMap<String, HistoryDetail> history;
+    private HashMap<String, StockHistoryDetail> history;
 
     public HistoryResponse() {
         this.history = new HashMap<>();
@@ -22,11 +22,11 @@ public class HistoryResponse implements IStockAPIResponse {
         this.name = name;
     }
 
-    public HashMap<String, HistoryDetail> getHistory() {
+    public HashMap<String, StockHistoryDetail> getHistory() {
         return history;
     }
 
-    public void setHistory(HashMap<String, HistoryDetail> history) {
+    public void setHistory(HashMap<String, StockHistoryDetail> history) {
         this.history = history;
     }
 

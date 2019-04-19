@@ -1,18 +1,17 @@
 package pr.se.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockapiclient.model.history.HistoryResponse;
+import pr.se.stockapiclient.response.HistoryResponse;
 
 public class HistoryRequest extends StockAPIRequest{
     private String symbol;
     private String apiPath = "/history";
 
     public HistoryRequest() {
-        super();
+
     }
 
     public HistoryRequest(String symbol) {
-        super();
         this.symbol = symbol;
     }
 

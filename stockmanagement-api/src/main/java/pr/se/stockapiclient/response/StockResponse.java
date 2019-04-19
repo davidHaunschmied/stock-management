@@ -1,7 +1,7 @@
-package pr.se.stockapiclient.model.stock;
+package pr.se.stockapiclient.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import pr.se.stockapiclient.model.IStockAPIResponse;
+import pr.se.stockapiclient.stockdata.StockDataDetail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class StockResponse implements IStockAPIResponse {
     private int symbols_returned;
-    private List<StockData> data;
+    private List<StockDataDetail> data;
 
     public StockResponse() {
         this.data = new ArrayList<>();
@@ -23,11 +23,11 @@ public class StockResponse implements IStockAPIResponse {
         this.symbols_returned = symbols_returned;
     }
 
-    public List<StockData> getData() {
+    public List<StockDataDetail> getData() {
         return data;
     }
 
-    public void setData(List<StockData> data) {
+    public void setData(List<StockDataDetail> data) {
         this.data = data;
     }
 
