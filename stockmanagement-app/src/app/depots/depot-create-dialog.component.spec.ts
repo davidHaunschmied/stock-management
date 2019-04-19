@@ -1,6 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DepotCreateDialogComponent } from './depot-create-dialog.component';
+import {DepotCreateDialogComponent} from './depot-create-dialog.component';
+import {TestcoreModule} from "../core/testcore.module";
 
 describe('DepotCreateDialogComponent', () => {
   let component: DepotCreateDialogComponent;
@@ -8,9 +9,12 @@ describe('DepotCreateDialogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DepotCreateDialogComponent ]
+      imports: [
+        TestcoreModule
+      ],
+      declarations: [DepotCreateDialogComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
