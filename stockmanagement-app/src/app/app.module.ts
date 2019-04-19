@@ -7,13 +7,13 @@ import {CoreModule} from './core/core.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';
-import { DepotSwitchAddComponent } from './depots/depot-switch-add.component';
+import { DepotSwitchCreateComponent } from './depots/depot-switch-create.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         DepotCreateDialogComponent,
-        DepotSwitchAddComponent
+        DepotSwitchCreateComponent
     ],
     imports: [
         CoreModule,

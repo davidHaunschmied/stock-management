@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DepotSwitchAddComponent } from './depot-switch-add.component';
+import { DepotSwitchCreateComponent } from './depot-switch-create.component';
 
-describe('DepotSwitchAddComponent', () => {
-  let component: DepotSwitchAddComponent;
-  let fixture: ComponentFixture<DepotSwitchAddComponent>;
+describe('DepotSwitchCreateComponent', () => {
+  let component: DepotSwitchCreateComponent;
+  let fixture: ComponentFixture<DepotSwitchCreateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DepotSwitchAddComponent ]
+      declarations: [ DepotSwitchCreateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DepotSwitchAddComponent);
+    fixture = TestBed.createComponent(DepotSwitchCreateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
