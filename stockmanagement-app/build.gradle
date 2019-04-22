@@ -19,6 +19,14 @@ task run {
     dependsOn 'npm_run_start'
 }
 
+test {
+    dependsOn 'npm_run_test'
+}
+
+task e2eTest (type: Test){
+    dependsOn 'npm_run_e2e'
+}
+
 jar {
     from "dist/$project.name" into 'static'
 }

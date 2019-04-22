@@ -2,10 +2,12 @@
 <div mat-dialog-content>
     <p>Name:</p>
     <mat-form-field>
-        <input matInput [(ngModel)]="data.name">
+        <label>
+            <input matInput [(ngModel)]="data.name" cdkFocusInitial>
+        </label>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Abbrechen</button>
-    <button mat-button [mat-dialog-close]="data.name" cdkFocusInitial>Erstellen</button>
+    <button mat-raised-button class="mat-primary" [mat-dialog-close]="data.name" [disabled]="!isNameValid()">Erstellen</button>
 </div>

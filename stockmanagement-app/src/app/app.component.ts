@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {DepotService} from './services/depot/depot.service';
+import {DepotService} from './services/depot.service';
 import {IDepot} from './model/IDepot';
 import {MatDialog} from '@angular/material';
 import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';

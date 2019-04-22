@@ -1,6 +1,11 @@
+import {IStockExchange} from "./IStockExchange";
+
 export interface IStock {
-    name: string;
-    market: string;
-    price: number;
-    change1d: number;
+  id: number;
+  symbol: string;
+  name: string;
+  currency: string;
+  createdAt: string;
+  updatedAt: string;
+  stockExchange: IStockExchange;
 }
