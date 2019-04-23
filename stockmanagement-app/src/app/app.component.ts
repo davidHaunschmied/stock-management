@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {DepotService} from "./services/depot.service";
 
 @Component({
   selector: 'app-root',
@@ -7,9 +8,12 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
 
-  constructor() {
+  constructor(private depotService: DepotService) {
   }
 
   title = 'stockmanagement-app';
 
+  noDepotSelected(): boolean {
+    return !this.depotService.getCurrentDepot();
+  }
 }

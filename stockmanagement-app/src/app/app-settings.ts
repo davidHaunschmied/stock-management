@@ -1,5 +1,4 @@
 import {HttpHeaders} from '@angular/common/http';
-import {IDepot} from "./model/IDepot";
 
 export class AppSettings {
 //  public static API_ENDPOINT = 'mockapi';
@@ -11,14 +10,4 @@ export class AppSettings {
       'Content-Type': 'application/json'
     })
   };
-
-  private static CURRENT_DEPOT_STORAGE_ITEM = 'CURRENT_DEPOT';
-
-  public static setCurrentDepot(depot: IDepot) {
-    localStorage.setItem(this.CURRENT_DEPOT_STORAGE_ITEM, JSON.stringify(depot));
-  }
-
-  public static getCurrentDepot(): IDepot {
-    return JSON.parse(localStorage.getItem(this.CURRENT_DEPOT_STORAGE_ITEM));
-  }
 }

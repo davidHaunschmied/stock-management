@@ -5,23 +5,33 @@ import {IDepot} from '../model/IDepot';
 import {AppSettings} from '../app-settings';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class DepotService {
 
-    readonly endpoint = AppSettings.API_ENDPOINT + '/depots';
+  readonly current_depot_storage = 'CURRENT_DEPOT';
 
-    constructor(private http: HttpClient) {
-    }
+  readonly endpoint = AppSettings.API_ENDPOINT + '/depots';
 
-    getAllDepots(): Observable<IDepot[]> {
-        return this.http.get<IDepot[]>(this.endpoint + '/all', AppSettings.HTTP_OPTIONS);
-    }
+  constructor(private http: HttpClient) {
+  }
 
-    createDepot(name: string): Observable<IDepot> {
-        return this.http.post<IDepot>(this.endpoint + '/new',
-            {
-                'name': name
-            }, AppSettings.HTTP_OPTIONS);
-    }
+  getAllDepots(): Observable<IDepot[]> {
+    return this.http.get<IDepot[]>(this.endpoint + '/all', AppSettings.HTTP_OPTIONS);
+  }
+
+  createDepot(name: string): Observable<IDepot> {
+    return this.http.post<IDepot>(this.endpoint + '/new',
+      {
+        'name': name
+      }, AppSettings.HTTP_OPTIONS);
+  }
+
+  setCurrentDepot(depot: IDepot) {
+    localStorage.setItem(this.current_depot_storage, JSON.stringify(depot));
+  }
+
+  getCurrentDepot(): IDepot {
+    return JSON.parse(localStorage.getItem(this.current_depot_storage));
+  }
 }
