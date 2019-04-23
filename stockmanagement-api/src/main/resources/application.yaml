@@ -5,9 +5,17 @@ spring:
       enabled: true
       path: /h2
 
-# Datasource
+  # Datasource
   datasource:
-    url: jdbc:h2:file:~/test
+    url: jdbc:h2:file:./data/app_db;DB_CLOSE_ON_EXIT=FALSE
     username: stockman
     password:
     driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
