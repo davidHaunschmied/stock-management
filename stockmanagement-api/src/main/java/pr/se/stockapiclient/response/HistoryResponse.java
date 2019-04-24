@@ -6,7 +6,7 @@ import pr.se.stockapiclient.stockdata.StockHistoryDetail;
 import java.util.HashMap;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HistoryResponse implements IStockAPIResponse {
+public class HistoryResponse extends StockAPIResponse {
     private String name;
     private HashMap<String, StockHistoryDetail> history;
 

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class StockResponse implements IStockAPIResponse {
+public class StockResponse extends StockAPIResponse {
     private int symbols_returned;
     private List<StockDataDetail> data;
 
