@@ -3,7 +3,7 @@ import {DepotCreateDialogComponent} from "./depot-create-dialog.component";
 import {DepotService} from "../services/depot.service";
 import {MatDialog} from "@angular/material";
 import {IDepot} from "../model/IDepot";
-import {AppSettings} from "../app-settings";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-depot-switch-add',
@@ -17,8 +17,10 @@ export class DepotSwitchCreateComponent implements OnInit {
   }
 
   depots: IDepot[] = [];
+  filter = new FormControl();
 
   ngOnInit(): void {
+    this.filter.setValue(this.depotService.getCurrentDepot());
     this.depotService.getAllDepots().subscribe(
       depots => {
         this.depots = depots;
@@ -27,6 +29,7 @@ export class DepotSwitchCreateComponent implements OnInit {
         console.log('Error1: ' + error.message);
       }
     );
+    console.log("Selected depot is: " + JSON.stringify(this.filter.value));
   }
 
   openCreateDepotDialog(): void {
@@ -47,8 +50,11 @@ export class DepotSwitchCreateComponent implements OnInit {
     });
   }
 
-  changeDepot(depot: IDepot) {
-    AppSettings.setCurrentDepot(depot);
-    console.log(JSON.stringify(AppSettings.getCurrentDepot()));
+  refreshLocalStorageItem() {
+    this.depotService.setCurrentDepot(this.filter.value);
+  }
+
+  compareDepots(d1: IDepot, d2: IDepot): boolean {
+    return d1.id === d2.id;
   }
 }

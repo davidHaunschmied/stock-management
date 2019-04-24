@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pr.se.stockmanagementapi.model.Depot;
+import pr.se.stockmanagementapi.model.lightweights.DepotIdAndName;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.payload.DepotCreationRequest;
 import pr.se.stockmanagementapi.respository.DepotRepository;
@@ -25,8 +26,8 @@ public class DepotController {
     }
 
     @GetMapping("/all")
-    public List<Depot> getAllDepots() {
-        return depotRepository.findAll();
+    public List<DepotIdAndName> getAllDepots() {
+        return depotRepository.findAllDepotIdAndName();
     }
 
     @GetMapping("/{depotId}")
