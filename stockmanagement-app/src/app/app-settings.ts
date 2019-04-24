@@ -2,7 +2,7 @@ import {HttpHeaders} from '@angular/common/http';
 import {IDepot} from "./model/IDepot";
 
 export class AppSettings {
-//  public static API_ENDPOINT = 'mockapi';
+  // public static API_ENDPOINT = 'mockapi';
   public static API_ENDPOINT = 'http://localhost:8080/api';
 
     public static HTTP_OPTIONS = {

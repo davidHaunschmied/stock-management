@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AppConstants} from "../../app-settings";
+import {AppSettings} from "../../app-settings";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IAlert} from "../../model/IAlert";
@@ -9,12 +9,12 @@ import {IAlert} from "../../model/IAlert";
 })
 export class AlertService {
 
-  readonly endpoint = AppConstants.API_ENDPOINT + '/alerts';
+  readonly endpoint = AppSettings.API_ENDPOINT + '/alerts';
 
   constructor(private http: HttpClient) { }
 
   getAllAlerts(): Observable<IAlert[]> {
-    return this.http.get<IAlert[]>(this.endpoint + '/all', AppConstants.HTTP_OPTIONS);
+    return this.http.get<IAlert[]>(this.endpoint + '/all', AppSettings.HTTP_OPTIONS);
   }
 
   createAlert(stock: string, value: number): Observable<IAlert> {
@@ -22,6 +22,6 @@ export class AlertService {
       {
         'stock': stock,
         'value': value,
-      }, AppConstants.HTTP_OPTIONS);
+      }, AppSettings.HTTP_OPTIONS);
   }
 }
