@@ -33,7 +33,7 @@ public class SearchResponse extends StockAPIResponse {
     public String toString() {
         return "SearchResponse{" +
             "total_results=" + total_results +
-            ", data=" + Arrays.toString(data) + this.getMessage() +
+            ", data=" + Arrays.toString(data) +
             '}';
     }
 }
