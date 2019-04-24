@@ -11,6 +11,7 @@ public class SearchRequest extends StockAPIRequest {
     private String searchTerm;  // use empty search term to find all stocks (e.g. for Vienna Stock Exchange (VSE) )
     private SearchByOption searchBy;
     private List<String> stockExchanges;
+    private int page = 1;
 
 
     public SearchRequest() {
@@ -31,8 +32,9 @@ public class SearchRequest extends StockAPIRequest {
 
     private String getRequestUrl() {
         String requestUrl = this.apiBasePath + apiPath;
-        requestUrl += "?search_term=" + searchTerm;
+        requestUrl += "?search_term=" + (searchTerm != null ? searchTerm : "");
         requestUrl += "&search_by=" + searchBy.getOption();
+        requestUrl += "&page=" + page;
         if (this.stockExchanges.size() > 0) {
             requestUrl += "&stock_exchange=" + String.join(",", stockExchanges);
         }
@@ -54,6 +56,14 @@ public class SearchRequest extends StockAPIRequest {
 
     public void setSearchBy(SearchByOption searchBy) {
         this.searchBy = searchBy;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
     }
 
     public List<String> getStockExchanges() {

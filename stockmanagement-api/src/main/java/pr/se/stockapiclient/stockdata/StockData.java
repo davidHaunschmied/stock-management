@@ -7,7 +7,7 @@ public class StockData {
     protected String symbol;
     protected String name;
     protected String currency;
-    protected float price;
+    protected double price;
     protected String stock_exchange_long;
     protected String stock_exchange_short;
 
@@ -38,11 +38,11 @@ public class StockData {
         this.currency = currency;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
