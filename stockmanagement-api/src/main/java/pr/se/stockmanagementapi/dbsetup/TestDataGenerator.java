@@ -29,24 +29,26 @@ public class TestDataGenerator {
     }
 
     public void fillDbWithTestData() {
-        // Stock Exchanges
+        // Fetch and save up to 100 stocks from Vienna Stock Exchange
         StockExchange se = new StockExchange("VSE", "Vienna Stock Exchange");
-        stockExchangeRepository.save(se);
-
-        // Stocks
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.getStockExchanges().add(se.getShortName());
         saveAllStocks(searchRequest.getData(), se);
         searchRequest.setPage(2);
         saveAllStocks(searchRequest.getData(), se);
 
-        // Depots
-        depotRepository.save(new Depot("Risikodepot"));
-        depotRepository.save(new Depot("Sicherheitsdepot"));
-        depotRepository.save(new Depot("David's Depot"));
+        // Create test depots if empty
+        if (depotRepository.findAll().isEmpty()){
+            depotRepository.save(new Depot("Risikodepot"));
+            depotRepository.save(new Depot("Sicherheitsdepot"));
+        }
     }
 
     private void saveAllStocks(SearchResponse data, StockExchange stockExchange) {
+        Optional<StockExchange> optionalStockExchange = stockExchangeRepository.findByShortName(stockExchange.getShortName());
+        if (optionalStockExchange.isPresent()) {
+            stockExchangeRepository.save(stockExchange);
+        }
         for (StockData stockData : data.getData()) {
             if (isValid(stockData)) {
                 Optional<Stock> optionalStock = stockRepository.findBySymbol(stockData.getSymbol());
