@@ -2,7 +2,7 @@ package pr.se.stockmanagementapi.payload;
 
 import java.util.Date;
 
-public class StockPurchaseRequest {
+public class StockTransactionRequest {
     private Long depotId;
     private Long stockId;
     private int amount;

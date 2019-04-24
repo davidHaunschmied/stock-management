@@ -4,8 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pr.se.stockmanagementapi.model.Transaction;
-import pr.se.stockmanagementapi.payload.StockPurchaseRequest;
-import pr.se.stockmanagementapi.payload.StockSellRequest;
+import pr.se.stockmanagementapi.payload.StockTransactionRequest;
 import pr.se.stockmanagementapi.respository.TransactionRepository;
 import pr.se.stockmanagementapi.services.TransactionService;
 
@@ -40,13 +39,13 @@ public class TransactionController {
     }
 
     @PostMapping("/purchase")
-    public ResponseEntity purchaseStock(@Valid @RequestBody StockPurchaseRequest stockPurchaseRequest) {
-        Transaction transaction = transactionService.purchase(stockPurchaseRequest);
+    public ResponseEntity purchaseStock(@Valid @RequestBody StockTransactionRequest stockTransactionRequest) {
+        Transaction transaction = transactionService.purchase(stockTransactionRequest);
         return new ResponseEntity<>(transactionRepository.save(transaction), HttpStatus.CREATED);
     }
 
     @PostMapping("/sell")
-    public ResponseEntity sellStock(@Valid @RequestBody StockSellRequest stockSellRequest) {
+    public ResponseEntity sellStock(@Valid @RequestBody StockTransactionRequest stockSellRequest) {
         Transaction transaction = transactionService.sell(stockSellRequest);
         return new ResponseEntity<>(transactionRepository.save(transaction), HttpStatus.CREATED);
     }

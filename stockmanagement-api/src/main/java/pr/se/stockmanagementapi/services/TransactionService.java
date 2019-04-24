@@ -8,8 +8,7 @@ import pr.se.stockmanagementapi.model.Depot;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.Transaction;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
-import pr.se.stockmanagementapi.payload.StockPurchaseRequest;
-import pr.se.stockmanagementapi.payload.StockSellRequest;
+import pr.se.stockmanagementapi.payload.StockTransactionRequest;
 import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
 import pr.se.stockmanagementapi.respository.TransactionRepository;
@@ -43,14 +42,14 @@ public class TransactionService {
         return allDepotSales(depotId).mapToDouble(Transaction::getPrice).sum() - allDepotPurchases(depotId).mapToDouble(Transaction::getPrice).sum();
     }
 
-    public Transaction purchase(StockPurchaseRequest stockPurchaseRequest) {
-        return Transaction.purchase(stockPurchaseRequest.getAmount(), stockPurchaseRequest.getPrice(),
-            stockPurchaseRequest.getDate(),
-            findStockByIdOrThrow(stockPurchaseRequest.getStockId()),
-            findDepotByIdOrThrow(stockPurchaseRequest.getDepotId()));
+    public Transaction purchase(StockTransactionRequest stockTransactionRequest) {
+        return Transaction.purchase(stockTransactionRequest.getAmount(), stockTransactionRequest.getPrice(),
+            stockTransactionRequest.getDate(),
+            findStockByIdOrThrow(stockTransactionRequest.getStockId()),
+            findDepotByIdOrThrow(stockTransactionRequest.getDepotId()));
     }
 
-    public Transaction sell(StockSellRequest stockSellRequest) {
+    public Transaction sell(StockTransactionRequest stockSellRequest) {
         int currentStockAmount = getCurrentAmountFor(stockSellRequest.getDepotId(), stockSellRequest.getStockId());
         if (!(currentStockAmount >= stockSellRequest.getAmount())) {
             throw new BadRequestException("You cannot sell more stocks than you own!");
