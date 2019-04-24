@@ -46,7 +46,7 @@ public class TestDataGenerator {
 
     private void saveAllStocks(SearchResponse data, StockExchange stockExchange) {
         Optional<StockExchange> optionalStockExchange = stockExchangeRepository.findByShortName(stockExchange.getShortName());
-        if (optionalStockExchange.isPresent()) {
+        if (!optionalStockExchange.isPresent()) {
             stockExchangeRepository.save(stockExchange);
         }
         for (StockData stockData : data.getData()) {
