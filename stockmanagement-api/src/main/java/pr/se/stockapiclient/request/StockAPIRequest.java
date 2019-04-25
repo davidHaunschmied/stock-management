@@ -7,13 +7,13 @@ public abstract class StockAPIRequest {
     String apiKey = System.getProperty("stock_api_key");
     String apiBasePath = "https://www.worldtradingdata.com/api/v1";
 
-    public StockAPIResponse getData() {
-        StockAPIResponse response = this.sendRequest();
+    public R getData() {
+        R response = this.sendRequest();
         if (response.getMessage() != null && response.getMessage().contains("Invalid API Key")) {
             throw new APIRequestException("Invalid API Key");
         }
         return response;
     }
 
-    protected abstract StockAPIResponse sendRequest();
+    protected abstract R sendRequest();
 }

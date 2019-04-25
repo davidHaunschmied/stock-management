@@ -6,7 +6,7 @@ import pr.se.stockapiclient.response.SearchResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchRequest extends StockAPIRequest {
+public class SearchRequest extends StockAPIRequest<SearchResponse> {
     private final String apiPath = "/stock_search";
     private String searchTerm;  // use empty search term to find all stocks (e.g. for Vienna Stock Exchange (VSE) )
     private SearchByOption searchBy;
@@ -28,11 +28,6 @@ public class SearchRequest extends StockAPIRequest {
     public SearchResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), SearchResponse.class);
-    }
-
-    @Override
-    public SearchResponse getData() {
-        return (SearchResponse) super.getData();
     }
 
     private String getRequestUrl() {

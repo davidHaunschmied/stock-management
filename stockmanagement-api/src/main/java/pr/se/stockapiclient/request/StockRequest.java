@@ -6,7 +6,7 @@ import pr.se.stockapiclient.response.StockResponse;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockRequest extends StockAPIRequest {
+public class StockRequest extends StockAPIRequest<StockResponse> {
     private final String apiPath = "/stock";
     private List<String> symbols;
 
@@ -23,11 +23,6 @@ public class StockRequest extends StockAPIRequest {
     public StockResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), StockResponse.class);
-    }
-
-    @Override
-    public StockResponse getData() {
-        return (StockResponse) super.getData();
     }
 
     private String getRequestUrl() {
