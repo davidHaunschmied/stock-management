@@ -6,17 +6,23 @@ import {MaterialModule} from './material/material.module';
 import {CoreModule} from './core/core.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {StockListComponent} from './stock/stock-list/stock-list.component';
+import {StockDetailsComponent} from './stock/stock-details/stock-details.component';
 import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';
+import {AlertCreateDialogComponent} from './alert/alert-create-dialog/alert-create-dialog.component';
 import {DepotSwitchCreateComponent} from './depots/depot-switch-create.component';
 import {HomeComponent} from './home/home.component';
-import { NavigationComponent } from './navigation/navigation.component';
-import { DepotOverviewComponent } from './depots/depot-overview/depot-overview.component';
-import { DepotStocksComponent } from './depots/depot-stocks/depot-stocks.component';
+import {NavigationComponent} from './navigation/navigation.component';
+import {DepotOverviewComponent} from './depots/depot-overview/depot-overview.component';
+import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DepotCreateDialogComponent,
+    StockListComponent,
+    StockDetailsComponent,
+    AlertCreateDialogComponent,
     DepotSwitchCreateComponent,
     HomeComponent,
     NavigationComponent,
@@ -33,7 +39,10 @@ import { DepotStocksComponent } from './depots/depot-stocks/depot-stocks.compone
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [DepotCreateDialogComponent]
+  entryComponents: [
+    DepotCreateDialogComponent,
+    AlertCreateDialogComponent
+  ]
 })
 export class AppModule {
 }
