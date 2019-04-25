@@ -38,6 +38,10 @@ public class StockDataUpdater {
     private void initAvailableStockExchanges() {
         this.availableStockExchanges = new ArrayList<>();
         this.availableStockExchanges.add(new StockExchange("VSE", "Vienna Stock Exchange"));
+        this.availableStockExchanges.add(new StockExchange("WSE", "Warsaw Stock Exchange"));
+        //this.availableStockExchanges.add(new StockExchange("GER", "Deutsche Börse XETRA"));
+        //this.availableStockExchanges.add(new StockExchange("NASDAQ", "NASDAQ Stock Exchange"));
+
     }
 
 
