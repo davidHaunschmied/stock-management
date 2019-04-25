@@ -24,12 +24,8 @@ public class Transaction extends DateAudit {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name="stock_id")
-    private Stock stock;
-
-    @ManyToOne
-    @JoinColumn(name="depot_id")
-    private Depot depot;
+    @JoinColumn(name = "holding_id")
+    private Holding holding;
 
     @Column(nullable = false)
     private TransactionType transactionType;
@@ -37,21 +33,11 @@ public class Transaction extends DateAudit {
     public Transaction() {
     }
 
-    public Transaction(int amount, double price, Date date, Stock stock, Depot depot, TransactionType transactionType) {
+    public Transaction(int amount, double price, Date date, TransactionType transactionType) {
         this.amount = amount;
         this.price = price;
         this.date = date;
-        this.stock = stock;
-        this.depot = depot;
         this.transactionType = transactionType;
-    }
-
-    public static Transaction purchase(int amount, double price, Date date, Stock stock, Depot depot) {
-        return new Transaction(amount, price, date, stock, depot, TransactionType.PURCHASE);
-    }
-
-    public static Transaction sell(int amount, double price, Date date, Stock stock, Depot depot) {
-        return new Transaction(amount, price, date, stock, depot, TransactionType.SALE);
     }
 
     public Long getId() {
@@ -86,27 +72,7 @@ public class Transaction extends DateAudit {
         this.date = date;
     }
 
-    public Stock getStock() {
-        return stock;
-    }
-
-    public void setStock(Stock stock) {
-        this.stock = stock;
-    }
-
-    public Depot getDepot() {
-        return depot;
-    }
-
-    public void setDepot(Depot depot) {
-        this.depot = depot;
-    }
-
     public TransactionType getTransactionType() {
         return transactionType;
-    }
-
-    public void setTransactionType(TransactionType transactionType) {
-        this.transactionType = transactionType;
     }
 }

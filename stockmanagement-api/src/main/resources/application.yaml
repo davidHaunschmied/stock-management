@@ -24,3 +24,6 @@ spring:
     job-store-type: memory
     jdbc:
       initialize-schema: never
+
+  jackson:
+    date-format: dd.MM.yyyy HH:mm:ss

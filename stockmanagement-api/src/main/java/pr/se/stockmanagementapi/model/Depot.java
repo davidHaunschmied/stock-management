@@ -1,5 +1,6 @@
 package pr.se.stockmanagementapi.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import pr.se.stockmanagementapi.model.audit.DateAudit;
 
 import javax.persistence.*;
@@ -17,15 +18,15 @@ public class Depot extends DateAudit {
     @Column(nullable = false, length = 30, unique = true)
     private String name;
 
-    @ManyToMany
-    private List<Stock> stocks;
+    @OneToMany(mappedBy="depot")
+    private List<Holding> holdings;
 
     public Depot() {
-        this.stocks = new ArrayList<>();
+        this.holdings = new ArrayList<>();
     }
 
     public Depot(String name) {
-        this.stocks = new ArrayList<>();
+        this.holdings = new ArrayList<>();
         this.name = name;
     }
 
@@ -45,11 +46,11 @@ public class Depot extends DateAudit {
         this.name = name;
     }
 
-    public List<Stock> getStocks() {
-        return stocks;
+    public List<Holding> getHoldings() {
+        return holdings;
     }
 
-    public void setStocks(List<Stock> stocks) {
-        this.stocks = stocks;
+    public void setHoldings(List<Holding> holdings) {
+        this.holdings = holdings;
     }
 }

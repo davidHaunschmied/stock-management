@@ -1,33 +1,32 @@
 package pr.se.stockmanagementapi.services;
 
 import org.springframework.stereotype.Service;
-import pr.se.stockmanagementapi.exceptions.BadRequestException;
-import pr.se.stockmanagementapi.functions.TransactionDepotFilter;
-import pr.se.stockmanagementapi.functions.TransactionStockFilter;
+import org.springframework.transaction.annotation.Transactional;
 import pr.se.stockmanagementapi.model.Depot;
+import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.Transaction;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
 import pr.se.stockmanagementapi.payload.StockTransactionRequest;
-import pr.se.stockmanagementapi.respository.DepotRepository;
-import pr.se.stockmanagementapi.respository.StockRepository;
+import pr.se.stockmanagementapi.respository.HoldingRepository;
 import pr.se.stockmanagementapi.respository.TransactionRepository;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class TransactionService {
 
-    private final StockRepository stockRepository;
-    private final DepotRepository depotRepository;
+    private final HoldingRepository holdingRepository;
 
     private final TransactionRepository transactionRepository;
+    private final DepotService depotService;
+    private final StockService stockService;
 
-    public TransactionService(StockRepository stockRepository, DepotRepository depotRepository, TransactionRepository transactionRepository) {
-        this.stockRepository = stockRepository;
-        this.depotRepository = depotRepository;
+    public TransactionService(HoldingRepository holdingRepository, TransactionRepository transactionRepository, DepotService depotService, StockService stockService) {
+        this.holdingRepository = holdingRepository;
         this.transactionRepository = transactionRepository;
+        this.depotService = depotService;
+        this.stockService = stockService;
     }
 
     public List<Transaction> getAllPurchases() {
@@ -38,54 +37,14 @@ public class TransactionService {
         return transactionRepository.findAllByTransactionType(TransactionType.SALE);
     }
 
-    public double calculateEarnings(Long depotId) {
-        return allDepotSales(depotId).mapToDouble(Transaction::getPrice).sum() - allDepotPurchases(depotId).mapToDouble(Transaction::getPrice).sum();
-    }
-
-    public Transaction purchase(StockTransactionRequest stockTransactionRequest) {
-        return Transaction.purchase(stockTransactionRequest.getAmount(), stockTransactionRequest.getPrice(),
-            stockTransactionRequest.getDate(),
-            findStockByIdOrThrow(stockTransactionRequest.getStockId()),
-            findDepotByIdOrThrow(stockTransactionRequest.getDepotId()));
-    }
-
-    public Transaction sell(StockTransactionRequest stockSellRequest) {
-        int currentStockAmount = getCurrentAmountFor(stockSellRequest.getDepotId(), stockSellRequest.getStockId());
-        if (!(currentStockAmount >= stockSellRequest.getAmount())) {
-            throw new BadRequestException("You cannot sell more stocks than you own!");
-        }
-        return Transaction.sell(stockSellRequest.getAmount(), stockSellRequest.getPrice(),
-            stockSellRequest.getDate(),
-            findStockByIdOrThrow(stockSellRequest.getStockId()),
-            findDepotByIdOrThrow(stockSellRequest.getDepotId()));
-    }
-
-    private Stock findStockByIdOrThrow(long id) {
-        return stockRepository.findById(id).orElseThrow(() -> new BadRequestException("Stock with id " + id + " not found!"));
-    }
-
-    private Depot findDepotByIdOrThrow(long id) {
-        return depotRepository.findById(id).orElseThrow(() -> new BadRequestException("Depot with id " + id + " not found!"));
-    }
-
-    private int getCurrentAmountFor(Long depotId, Long stockId) {
-        return allDepotPurchases(depotId).filter(byStockId(stockId)).mapToInt(Transaction::getAmount).sum()
-            - allDepotSales(depotId).filter(byStockId(stockId)).mapToInt(Transaction::getAmount).sum();
-    }
-
-    private Stream<Transaction> allDepotPurchases(Long depotId) {
-        return getAllPurchases().stream().filter(byDepotId(depotId));
-    }
-
-    private Stream<Transaction> allDepotSales(Long depotId) {
-        return getAllSales().stream().filter(byDepotId(depotId));
-    }
-
-    private static TransactionDepotFilter byDepotId(Long depotId) {
-        return new TransactionDepotFilter(depotId);
-    }
-
-    private static TransactionStockFilter byStockId(Long stockId) {
-        return new TransactionStockFilter(stockId);
+    @Transactional
+    public Holding newTransaction(StockTransactionRequest stockTransactionRequest, TransactionType transactionType) {
+        final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
+        final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
+        Transaction transaction = new Transaction(stockTransactionRequest.getAmount(), stockTransactionRequest.getPrice(),
+            stockTransactionRequest.getDate(), transactionType);
+        Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
+        holding.addTransaction(transaction);
+        return holdingRepository.save(holding);
     }
 }
