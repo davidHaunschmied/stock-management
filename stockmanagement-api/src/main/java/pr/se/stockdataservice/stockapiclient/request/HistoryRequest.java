@@ -1,12 +1,12 @@
-package pr.se.stockapiclient.request;
+package pr.se.stockdataservice.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockapiclient.response.HistoryResponse;
+import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class HistoryRequest extends StockAPIRequest {
+public class HistoryRequest extends StockAPIRequest<HistoryResponse> {
     public static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
     private final String apiPath = "/history";
 
@@ -22,14 +22,9 @@ public class HistoryRequest extends StockAPIRequest {
     }
 
     @Override
-    public HistoryResponse sendRequest() {
+    protected HistoryResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), HistoryResponse.class);
-    }
-
-    @Override
-    public HistoryResponse getData() {
-        return (HistoryResponse) super.getData();
     }
 
     private String getRequestUrl() {

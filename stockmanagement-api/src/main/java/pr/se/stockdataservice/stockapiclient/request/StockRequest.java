@@ -1,12 +1,12 @@
-package pr.se.stockapiclient.request;
+package pr.se.stockdataservice.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockapiclient.response.StockResponse;
+import pr.se.stockdataservice.stockapiclient.response.StockResponse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StockRequest extends StockAPIRequest {
+public class StockRequest extends StockAPIRequest<StockResponse> {
     private final String apiPath = "/stock";
     private List<String> symbols;
 
@@ -20,14 +20,9 @@ public class StockRequest extends StockAPIRequest {
     }
 
     @Override
-    public StockResponse sendRequest() {
+    protected StockResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), StockResponse.class);
-    }
-
-    @Override
-    public StockResponse getData() {
-        return (StockResponse) super.getData();
     }
 
     private String getRequestUrl() {

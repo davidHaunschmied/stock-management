@@ -1,16 +1,18 @@
-package pr.se.stockapiclient.request;
+package pr.se.stockdataservice.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockapiclient.response.SearchResponse;
+import pr.se.stockdataservice.stockapiclient.response.SearchResponse;
+import pr.se.stockmanagementapi.model.StockExchange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class SearchRequest extends StockAPIRequest {
+public class SearchRequest extends StockAPIRequest<SearchResponse> {
     private final String apiPath = "/stock_search";
     private String searchTerm;  // use empty search term to find all stocks (e.g. for Vienna Stock Exchange (VSE) )
     private SearchByOption searchBy;
-    private List<String> stockExchanges;
+    private List<StockExchange> stockExchanges;
     private int page = 1;
 
 
@@ -25,14 +27,9 @@ public class SearchRequest extends StockAPIRequest {
     }
 
     @Override
-    public SearchResponse sendRequest() {
+    protected SearchResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), SearchResponse.class);
-    }
-
-    @Override
-    public SearchResponse getData() {
-        return (SearchResponse) super.getData();
     }
 
     private String getRequestUrl() {
@@ -41,7 +38,8 @@ public class SearchRequest extends StockAPIRequest {
         requestUrl += "&search_by=" + searchBy.getOption();
         requestUrl += "&page=" + page;
         if (this.stockExchanges.size() > 0) {
-            requestUrl += "&stock_exchange=" + String.join(",", stockExchanges);
+            String shortNames = stockExchanges.stream().map(StockExchange::getShortName).collect(Collectors.joining(","));
+            requestUrl += "&stock_exchange=" + shortNames;
         }
         requestUrl += "&api_token=" + this.apiKey;
         return requestUrl;
@@ -71,11 +69,11 @@ public class SearchRequest extends StockAPIRequest {
         this.page = page;
     }
 
-    public List<String> getStockExchanges() {
+    public List<StockExchange> getStockExchanges() {
         return stockExchanges;
     }
 
-    public void setStockExchanges(List<String> stockExchanges) {
+    public void setStockExchanges(List<StockExchange> stockExchanges) {
         this.stockExchanges = stockExchanges;
     }
 

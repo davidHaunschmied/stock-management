@@ -1,4 +1,4 @@
-package pr.se.stockapiclient.exceptions;
+package pr.se.stockdataservice.stockapiclient.exceptions;
 
 public class APIRequestException extends RuntimeException {
     public APIRequestException(String message) {
