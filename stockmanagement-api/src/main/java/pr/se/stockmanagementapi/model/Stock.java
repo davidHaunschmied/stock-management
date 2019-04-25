@@ -1,5 +1,6 @@
 package pr.se.stockmanagementapi.model;
 
+import pr.se.stockapiclient.stockdata.StockData;
 import pr.se.stockmanagementapi.model.audit.DateAudit;
 
 import javax.persistence.*;
@@ -21,16 +22,25 @@ public class Stock extends DateAudit {
     @Column(nullable = false, length = 20)
     private String currency;
 
+    @Column(nullable = false)
+    private double price;
+
     @ManyToOne
-    @JoinColumn(name="stockExchange_id")
+    @JoinColumn(name = "stockExchange_id")
     private StockExchange stockExchange;
 
     public Stock() {
     }
 
-    public Stock(String symbol, String name) {
+    public Stock(String symbol, String name, String currency, double price) {
         this.symbol = symbol;
         this.name = name;
+        this.currency = currency;
+        this.price = price;
+    }
+
+    public static Stock fromStockData(StockData stockData) {
+        return new Stock(stockData.getSymbol(), stockData.getName(), stockData.getCurrency(), stockData.getPrice());
     }
 
     public Long getId() {
@@ -63,6 +73,14 @@ public class Stock extends DateAudit {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public StockExchange getStockExchange() {

@@ -1,7 +1,7 @@
 <span>
     <mat-form-field>
-        <mat-select (selectionChange)="changeDepot($event.value)">
-            <mat-option *ngFor="let depot of depots" [value]="depot.id">{{depot.name}}</mat-option>
+        <mat-select (selectionChange)="refreshLocalStorageItem()" [formControl]="filter"  [compareWith]="compareDepots">
+            <mat-option *ngFor="let depot of depots" [value]="depot">{{depot.name}}</mat-option>
         </mat-select>
     </mat-form-field>
 </span>

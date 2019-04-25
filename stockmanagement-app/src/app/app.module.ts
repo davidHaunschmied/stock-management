@@ -10,27 +10,35 @@ import {StockListComponent} from './stock/stock-list/stock-list.component';
 import {StockDetailsComponent} from './stock/stock-details/stock-details.component';
 import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';
 import { AlertCreateDialogComponent } from './alert/alert-create-dialog/alert-create-dialog.component';
-import { DepotSwitchCreateComponent } from './depots/depot-switch-create.component';
+import {DepotSwitchCreateComponent} from './depots/depot-switch-create.component';
+import {HomeComponent} from './home/home.component';
+import { NavigationComponent } from './navigation/navigation.component';
+import { DepotOverviewComponent } from './depots/depot-overview/depot-overview.component';
+import { DepotStocksComponent } from './depots/depot-stocks/depot-stocks.component';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        DepotCreateDialogComponent,
-        StockListComponent,
-        StockDetailsComponent,
-        AlertCreateDialogComponent,
-        DepotSwitchCreateComponent
-    ],
-    imports: [
-        CoreModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        AppRoutingModule,
-        MaterialModule
-    ],
-    providers: [],
-    bootstrap: [AppComponent],
+  declarations: [
+    AppComponent,
+    DepotCreateDialogComponent,
+    StockListComponent,
+    StockDetailsComponent,
+    AlertCreateDialogComponent,
+    DepotSwitchCreateComponent
+    HomeComponent,
+    NavigationComponent,
+    DepotOverviewComponent,
+    DepotStocksComponent
+  ],
+  imports: [
+    CoreModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    MaterialModule
+  ],
+  providers: [],
+  bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
     AlertCreateDialogComponent
