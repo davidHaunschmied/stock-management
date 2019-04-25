@@ -6,7 +6,7 @@ import pr.se.stockdataservice.StockDataUpdater;
 import pr.se.stockdataservice.scheduler.job.StockDataUpdateJob;
 
 public class JobScheduler {
-    private final int intervalInMinutes = 5;
+    private final int intervalInMinutes = 3;
     private StockDataUpdater stockDataUpdater;
 
     public JobScheduler(StockDataUpdater stockDataUpdater) {

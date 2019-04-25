@@ -20,7 +20,7 @@ public class StockRequest extends StockAPIRequest<StockResponse> {
     }
 
     @Override
-    public StockResponse sendRequest() {
+    protected StockResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), StockResponse.class);
     }

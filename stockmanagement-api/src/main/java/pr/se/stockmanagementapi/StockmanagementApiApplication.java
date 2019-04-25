@@ -6,13 +6,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import pr.se.stockdataservice.StockDataUpdater;
 import pr.se.stockdataservice.scheduler.JobScheduler;
+import pr.se.stockmanagementapi.dbsetup.TestDataGenerator;
 
 @ComponentScan("pr.se")
 @SpringBootApplication
 public class StockmanagementApiApplication {
 
     @Autowired
-    public StockmanagementApiApplication(StockDataUpdater stockDataUpdater) {
+    public StockmanagementApiApplication(TestDataGenerator testDataGenerator, StockDataUpdater stockDataUpdater) {
+        testDataGenerator.fillDbWithTestData();
         JobScheduler scheduler = new JobScheduler(stockDataUpdater);
         scheduler.fireJob();
     }

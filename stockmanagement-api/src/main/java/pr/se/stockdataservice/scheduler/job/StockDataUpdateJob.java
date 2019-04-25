@@ -24,6 +24,6 @@ public class StockDataUpdateJob implements Job {
     }
 
     private void updateStockData() {
-        stockDataUpdater.fillDbWithTestData();
+        stockDataUpdater.updateStockData();
     }
 }

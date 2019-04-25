@@ -8,13 +8,14 @@ import pr.se.stockdataservice.stockapiclient.request.StockRequest;
 import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
 import pr.se.stockdataservice.stockapiclient.response.SearchResponse;
 import pr.se.stockdataservice.stockapiclient.response.StockResponse;
+import pr.se.stockmanagementapi.model.StockExchange;
 
 import java.text.ParseException;
 
 public class StockApiClient { 
     private static final Logger log = LoggerFactory.getLogger(StockApiClient.class);
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         stockRequest();
         historyRequest();
         searchRequest();
@@ -22,8 +23,8 @@ public class StockApiClient {
 
     private static void searchRequest() {
         SearchRequest searchRequest = new SearchRequest("VOEST");
-        searchRequest.getStockExchanges().add("VSE");
-        searchRequest.getStockExchanges().add("GER");
+        searchRequest.getStockExchanges().add(new StockExchange("VSE", "Vienna Stock Exchange"));
+        searchRequest.getStockExchanges().add(new StockExchange("GER", "Deutsche Börse XETRA"));
         SearchResponse response = searchRequest.getData();
         log.info(response.toString());
     }
