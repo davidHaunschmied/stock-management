@@ -23,7 +23,7 @@ import { DepotStocksComponent } from './depots/depot-stocks/depot-stocks.compone
     StockListComponent,
     StockDetailsComponent,
     AlertCreateDialogComponent,
-    DepotSwitchCreateComponent
+    DepotSwitchCreateComponent,
     HomeComponent,
     NavigationComponent,
     DepotOverviewComponent,
