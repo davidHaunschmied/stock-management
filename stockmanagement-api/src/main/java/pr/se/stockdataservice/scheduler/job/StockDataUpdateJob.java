@@ -1,17 +1,18 @@
 package pr.se.stockdataservice.scheduler.job;
 
 import org.quartz.Job;
-import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import pr.se.stockdataservice.StockDataUpdater;
 
 public class StockDataUpdateJob implements Job {
+    public static final String UPDATER_ID = "StockDataUpdater";
+    private StockDataUpdater stockDataUpdater;
+
     @Override
-    public void execute(JobExecutionContext context) throws JobExecutionException {
-        System.out.println("Job is executed!");
-        JobDetail jobDetail = context.getJobDetail();
-        updateStockData(jobDetail);
+    public void execute(JobExecutionContext context) {
+        this.stockDataUpdater = (StockDataUpdater) context.getJobDetail().getJobDataMap().get(UPDATER_ID);
+        System.out.println(this.getClass() + " is executed!");
+        updateStockData();
         updateHistoryData();
         checkAlerts();
     }
@@ -22,8 +23,7 @@ public class StockDataUpdateJob implements Job {
     private void updateHistoryData() {
     }
 
-    private void updateStockData(JobDetail jobDetail) {
-        StockDataUpdater updater = (StockDataUpdater) jobDetail.getJobDataMap().get("updater");
-        updater.fillDbWithTestData();
+    private void updateStockData() {
+        stockDataUpdater.fillDbWithTestData();
     }
 }

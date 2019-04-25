@@ -6,19 +6,11 @@ import pr.se.stockdataservice.StockDataUpdater;
 import pr.se.stockdataservice.scheduler.job.StockDataUpdateJob;
 
 public class JobScheduler {
-    private final int intervalInSeconds = 5 * 60;
+    private final int intervalInMinutes = 5;
     private StockDataUpdater stockDataUpdater;
 
     public JobScheduler(StockDataUpdater stockDataUpdater) {
         this.stockDataUpdater = stockDataUpdater;
-    }
-
-    public JobScheduler() {
-    }
-
-    public static void main(String[] args) {
-        JobScheduler jobScheduler = new JobScheduler();
-        jobScheduler.fireJob();
     }
 
     public void fireJob() {
@@ -28,7 +20,7 @@ public class JobScheduler {
             scheduler.start();
 
             JobDataMap data = new JobDataMap();
-            data.put("updater", stockDataUpdater);
+            data.put(StockDataUpdateJob.UPDATER_ID, stockDataUpdater);
 
             JobDetail job = JobBuilder.newJob(StockDataUpdateJob.class)
                 .withIdentity("StockDataUpdateJob")
@@ -39,20 +31,10 @@ public class JobScheduler {
                 .withIdentity("StockDataUpdateTrigger")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                    .withIntervalInSeconds(intervalInSeconds)
+                    .withIntervalInMinutes(intervalInMinutes)
                     .repeatForever())
                 .build();
-
             scheduler.scheduleJob(job, trigger);
-
-            /*
-            try {
-                Thread.sleep(1000 * 60 * 5);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            scheduler.shutdown();
-            */
         } catch (SchedulerException e) {
             e.printStackTrace();
         }
