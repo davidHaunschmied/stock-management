@@ -1,13 +1,13 @@
-package pr.se.stockapiclient;
+package pr.se.stockdataservice.stockapiclient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pr.se.stockapiclient.request.HistoryRequest;
-import pr.se.stockapiclient.request.SearchRequest;
-import pr.se.stockapiclient.request.StockRequest;
-import pr.se.stockapiclient.response.HistoryResponse;
-import pr.se.stockapiclient.response.SearchResponse;
-import pr.se.stockapiclient.response.StockResponse;
+import pr.se.stockdataservice.stockapiclient.request.HistoryRequest;
+import pr.se.stockdataservice.stockapiclient.request.SearchRequest;
+import pr.se.stockdataservice.stockapiclient.request.StockRequest;
+import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
+import pr.se.stockdataservice.stockapiclient.response.SearchResponse;
+import pr.se.stockdataservice.stockapiclient.response.StockResponse;
 
 import java.text.ParseException;
 

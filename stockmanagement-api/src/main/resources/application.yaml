@@ -19,3 +19,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+  quartz:
+    job-store-type: memory
+    jdbc:
+      initialize-schema: never

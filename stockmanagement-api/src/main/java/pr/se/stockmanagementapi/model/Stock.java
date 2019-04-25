@@ -1,6 +1,6 @@
 package pr.se.stockmanagementapi.model;
 
-import pr.se.stockapiclient.stockdata.StockData;
+import pr.se.stockdataservice.stockapiclient.stockdata.StockData;
 import pr.se.stockmanagementapi.model.audit.DateAudit;
 
 import javax.persistence.*;

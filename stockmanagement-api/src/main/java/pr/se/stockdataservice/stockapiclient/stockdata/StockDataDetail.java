@@ -1,4 +1,4 @@
-package pr.se.stockapiclient.stockdata;
+package pr.se.stockdataservice.stockapiclient.stockdata;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

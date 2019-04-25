@@ -1,7 +1,7 @@
-package pr.se.stockapiclient.response;
+package pr.se.stockdataservice.stockapiclient.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import pr.se.stockapiclient.stockdata.StockData;
+import pr.se.stockdataservice.stockapiclient.stockdata.StockData;
 
 import java.util.Arrays;
 

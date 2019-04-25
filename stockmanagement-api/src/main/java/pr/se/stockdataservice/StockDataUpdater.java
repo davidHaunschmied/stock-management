@@ -1,4 +1,4 @@
-package pr.se.stockmanagementapi.dbsetup;
+package pr.se.stockdataservice;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,19 +15,20 @@ import pr.se.stockmanagementapi.respository.StockRepository;
 import java.util.Optional;
 
 @Component
-public class TestDataGenerator {
+public class StockDataUpdater {
 
     private final DepotRepository depotRepository;
     private final StockRepository stockRepository;
     private final StockExchangeRepository stockExchangeRepository;
 
     @Autowired
-    public TestDataGenerator(DepotRepository depotRepository, StockRepository stockRepository, StockExchangeRepository stockExchangeRepository) {
+    public StockDataUpdater(DepotRepository depotRepository, StockRepository stockRepository, StockExchangeRepository stockExchangeRepository) {
         this.depotRepository = depotRepository;
         this.stockRepository = stockRepository;
         this.stockExchangeRepository = stockExchangeRepository;
     }
 
+    // TODO: send request with Symbols to get details
     public void fillDbWithTestData() {
         // Fetch and save up to 100 stocks from Vienna Stock Exchange
         StockExchange se = new StockExchange("VSE", "Vienna Stock Exchange");
@@ -38,7 +39,7 @@ public class TestDataGenerator {
         saveAllStocks(searchRequest.getData(), se);
 
         // Create test depots if empty
-        if (depotRepository.findAll().isEmpty()){
+        if (depotRepository.findAll().isEmpty()) {
             depotRepository.save(new Depot("Risikodepot"));
             depotRepository.save(new Depot("Sicherheitsdepot"));
         }

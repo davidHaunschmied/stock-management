@@ -1,7 +1,7 @@
-package pr.se.stockapiclient.request;
+package pr.se.stockdataservice.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockapiclient.response.StockResponse;
+import pr.se.stockdataservice.stockapiclient.response.StockResponse;
 
 import java.util.ArrayList;
 import java.util.List;

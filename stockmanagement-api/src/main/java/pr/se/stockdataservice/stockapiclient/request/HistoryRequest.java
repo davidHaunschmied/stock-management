@@ -1,7 +1,7 @@
-package pr.se.stockapiclient.request;
+package pr.se.stockdataservice.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockapiclient.response.HistoryResponse;
+import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
