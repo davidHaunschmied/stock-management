@@ -5,10 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pr.se.stockmanagementapi.model.Depot;
+import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.lightweights.DepotIdAndName;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.payload.DepotCreationRequest;
 import pr.se.stockmanagementapi.respository.DepotRepository;
+import pr.se.stockmanagementapi.services.DepotService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,10 +21,12 @@ import java.util.Optional;
 public class DepotController {
 
     private final DepotRepository depotRepository;
+    private final DepotService depotService;
 
     @Autowired
-    public DepotController(DepotRepository depotRepository) {
+    public DepotController(DepotRepository depotRepository, DepotService depotService) {
         this.depotRepository = depotRepository;
+        this.depotService = depotService;
     }
 
     @GetMapping("/all")
@@ -49,4 +53,13 @@ public class DepotController {
         depotRepository.deleteById(depotId);
     }
 
+    @GetMapping("/earnings/{depotId}")
+    public double getEarnings(@PathVariable long depotId) {
+        return depotService.calculateEarnings(depotId);
+    }
+
+    @GetMapping("/holdings/{depotId}")
+    public List<Holding> getHoldings(@PathVariable long depotId) {
+        return depotService.allCurrentHoldings(depotId);
+    }
 }
