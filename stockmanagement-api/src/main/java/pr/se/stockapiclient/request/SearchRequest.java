@@ -25,9 +25,14 @@ public class SearchRequest extends StockAPIRequest {
     }
 
     @Override
-    public SearchResponse getData() {
+    public SearchResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), SearchResponse.class);
+    }
+
+    @Override
+    public SearchResponse getData() {
+        return (SearchResponse) super.getData();
     }
 
     private String getRequestUrl() {

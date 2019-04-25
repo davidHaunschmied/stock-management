@@ -20,10 +20,14 @@ public class StockRequest extends StockAPIRequest {
     }
 
     @Override
-    public StockResponse getData() {
-
+    public StockResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), StockResponse.class);
+    }
+
+    @Override
+    public StockResponse getData() {
+        return (StockResponse) super.getData();
     }
 
     private String getRequestUrl() {

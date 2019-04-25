@@ -22,9 +22,14 @@ public class HistoryRequest extends StockAPIRequest {
     }
 
     @Override
-    public HistoryResponse getData() {
+    public HistoryResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.getForObject(getRequestUrl(), HistoryResponse.class);
+    }
+
+    @Override
+    public HistoryResponse getData() {
+        return (HistoryResponse) super.getData();
     }
 
     private String getRequestUrl() {
