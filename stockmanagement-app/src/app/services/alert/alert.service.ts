@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AppSettings} from "../../app-settings";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
@@ -11,7 +11,8 @@ export class AlertService {
 
   readonly endpoint = AppSettings.API_ENDPOINT + '/alerts';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   getAllAlerts(): Observable<IAlert[]> {
     return this.http.get<IAlert[]>(this.endpoint + '/all', AppSettings.HTTP_OPTIONS);

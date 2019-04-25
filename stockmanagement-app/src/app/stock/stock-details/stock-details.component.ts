@@ -4,33 +4,33 @@ import {IStock} from '../../model/IStock';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
-    selector: 'app-stock-details',
-    templateUrl: './stock-details.component.html',
-    styleUrls: ['./stock-details.component.scss']
+  selector: 'app-stock-details',
+  templateUrl: './stock-details.component.html',
+  styleUrls: ['./stock-details.component.scss']
 })
 export class StockDetailsComponent implements OnInit {
 
-    @Input()
-    name: string;
+  @Input()
+  name: string;
 
-    param: string;
-    stock: IStock;
+  param: string;
+  stock: IStock;
 
-    constructor(private stockService: StockService, private route: ActivatedRoute, private router: Router) {
-    }
+  constructor(private stockService: StockService, private route: ActivatedRoute, private router: Router) {
+  }
 
-    ngOnInit() {
-        this.getStockDetails(name);
-    }
+  ngOnInit() {
+    this.getStockDetails(name);
+  }
 
 
-    getStockDetails(name: string) {
-        this.stockService.getStockDetails(name).subscribe(data => {
-                this.stock = data;
-            }, error => {
-                console.log(error);
-            }
-        );
-    }
+  getStockDetails(name: string) {
+    this.stockService.getStockDetails(name).subscribe(data => {
+        this.stock = data;
+      }, error => {
+        console.log(error);
+      }
+    );
+  }
 
 }
