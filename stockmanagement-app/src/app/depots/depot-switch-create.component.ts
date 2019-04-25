@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {DepotCreateDialogComponent} from "./depot-create-dialog.component";
-import {DepotService} from "../services/depot.service";
+import {DepotService} from "../services/depot/depot.service";
 import {MatDialog} from "@angular/material";
 import {IDepot} from "../model/IDepot";
 import {FormControl} from "@angular/forms";

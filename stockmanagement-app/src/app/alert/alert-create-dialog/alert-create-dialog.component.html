@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Neuer Alarm</h1>
+<div mat-dialog-content>
+    <p>Alarm für <b>{{data.stock}}</b> erstellen</p>
+    <mat-form-field>
+
+        <ng-container *ngIf="data.value > data.price">
+            <p>für Überschreitung dieses Wertes. </p>
+        </ng-container>
+        <ng-container *ngIf="data.value < data.price">
+            <p>für Unterschreitung dieses Wertes. </p>
+        </ng-container>
+        <ng-container *ngIf="data.value == data.price">
+            <p>Das ist der aktuelle Preis.</p>
+        </ng-container>
+        <ng-container>
+            <mat-label>$</mat-label>
+            <input matInput id="val" type="number" [(ngModel)]="data.value">
+        </ng-container>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Abbrechen</button>
+    <button mat-button [mat-dialog-close]="data.stock">Erstellen</button>
+</div>
