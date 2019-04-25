@@ -6,7 +6,7 @@ import pr.se.stockapiclient.stockdata.StockData;
 import java.util.Arrays;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class SearchResponse implements IStockAPIResponse {
+public class SearchResponse extends StockAPIResponse {
     private int total_results;
     private StockData[] data;
 
