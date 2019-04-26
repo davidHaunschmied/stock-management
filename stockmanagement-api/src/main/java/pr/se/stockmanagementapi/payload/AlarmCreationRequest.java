@@ -1,19 +1,18 @@
 package pr.se.stockmanagementapi.payload;
 
-import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.enums.AlarmType;
 
 public class AlarmCreationRequest {
-    private Stock stock;
+    private long stockId;
     private AlarmType alarmType;
     private double price;
 
-    public Stock getStock() {
-        return stock;
+    public long getStockId() {
+        return stockId;
     }
 
-    public void setStock(Stock stock) {
-        this.stock = stock;
+    public void setStockId(long stockId) {
+        this.stockId = stockId;
     }
 
     public AlarmType getAlarmType() {

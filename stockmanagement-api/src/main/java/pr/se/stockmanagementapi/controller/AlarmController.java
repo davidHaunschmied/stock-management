@@ -8,6 +8,7 @@ import pr.se.stockmanagementapi.model.Alarm;
 import pr.se.stockmanagementapi.payload.AlarmCreationRequest;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.respository.AlarmRepository;
+import pr.se.stockmanagementapi.services.StockService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -16,10 +17,12 @@ import java.util.List;
 @RequestMapping("/api/alarms")
 public class AlarmController {
     private final AlarmRepository alarmRepository;
+    private final StockService stockService;
 
     @Autowired
-    public AlarmController(AlarmRepository alarmRepository) {
+    public AlarmController(AlarmRepository alarmRepository, StockService stockService) {
         this.alarmRepository = alarmRepository;
+        this.stockService = stockService;
     }
 
     @GetMapping("/all")
@@ -29,7 +32,7 @@ public class AlarmController {
 
     @PostMapping("/new")
     public ResponseEntity createNewDepot(@Valid @RequestBody AlarmCreationRequest alarmCreationRequest) {
-        Alarm alarm = new Alarm(alarmCreationRequest.getStock(), alarmCreationRequest.getAlarmType(), alarmCreationRequest.getPrice());
+        Alarm alarm = new Alarm(stockService.findStockByIdOrThrow(alarmCreationRequest.getStockId()), alarmCreationRequest.getAlarmType(), alarmCreationRequest.getPrice());
         if (alarmRepository.findAll().contains(alarm)) {
             return new ResponseEntity<>(new ApiResponse(false, "Alarm already exists!"), HttpStatus.BAD_REQUEST);
         }
