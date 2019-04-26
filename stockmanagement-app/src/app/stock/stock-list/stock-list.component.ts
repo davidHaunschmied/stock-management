@@ -31,7 +31,7 @@ export class StockListComponent implements OnInit {
   }
 
   getStocks() {
-    this.stockService.getStocks().subscribe(
+    this.stockService.getAllStocks().subscribe(
       data => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;

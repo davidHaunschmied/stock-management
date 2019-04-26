@@ -8,19 +8,19 @@
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Aktie</th>
             <td mat-cell *matCellDef="let element"><a
-                [routerLink]="['/stock-details', element.name]">{{element.name}}</a></td>
+                [routerLink]="['/stocks/stock-details', element.id]">{{element.name}}</a></td>
         </ng-container>
         <ng-container matColumnDef="market">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Börse</th>
-            <td mat-cell *matCellDef="let element">{{element.market}}</td>
+            <td mat-cell *matCellDef="let element">{{element.stockExchange.name + " (" + element.stockExchange.shortName + ")"}}</td>
         </ng-container>
         <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Preis</th>
-            <td mat-cell *matCellDef="let element">{{element.price | currency : "$ "}}</td>
+            <td mat-cell *matCellDef="let element">{{element.price | currency : element.currency + " "}}</td>
         </ng-container>
         <ng-container matColumnDef="change1d">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tagesschwankung</th>
-            <td mat-cell *matCellDef="let element">{{element.change1d + " %"}}</td>
+            <td mat-cell *matCellDef="let element">{{"-- %"}}</td>
         </ng-container>
 
         <ng-container matColumnDef="alert">
