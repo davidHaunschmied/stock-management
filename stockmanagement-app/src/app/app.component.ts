@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {DepotService} from "./services/depot.service";
+import {DepotService} from "./services/depot/depot.service";
 
 @Component({
   selector: 'app-root',
