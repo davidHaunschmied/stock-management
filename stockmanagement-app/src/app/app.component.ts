@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DepotService} from "./services/depot/depot.service";
 
 @Component({
@@ -6,14 +6,22 @@ import {DepotService} from "./services/depot/depot.service";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   constructor(private depotService: DepotService) {
   }
 
   title = 'stockmanagement-app';
+  depotPresent: boolean;
 
-  noDepotSelected(): boolean {
-    return !this.depotService.getCurrentDepot();
+  ngOnInit(): void {
+    this.depotService.currentDepot.subscribe(next => {
+      if (next) {
+        this.depotPresent = true;
+      } else {
+        this.depotPresent = false;
+      }
+    })
   }
+
 }
