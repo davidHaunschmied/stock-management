@@ -16,7 +16,7 @@ public class StockDataUpdateJob implements Job {
 
     public static final String UPDATER_ID = "StockDataUpdater";
     public static final String NOTIFICATION_SERVICE_ID = "AlarmNotifier";
-    private static final Logger LOGGER = LoggerFactory.getLogger(StockDataUpdateJob.class);
+    private static final Logger log = LoggerFactory.getLogger(StockDataUpdateJob.class);
     private StockDataUpdater stockDataUpdater;
     private NotificationService notificationService;
     private AlarmChecker alarmChecker;
@@ -24,9 +24,9 @@ public class StockDataUpdateJob implements Job {
     @Override
     public void execute(JobExecutionContext context) {
         this.stockDataUpdater = (StockDataUpdater) context.getJobDetail().getJobDataMap().get(UPDATER_ID);
+        log.info("Checking for stock updates and alarms");
         this.notificationService = (NotificationService) context.getJobDetail().getJobDataMap().get(NOTIFICATION_SERVICE_ID);
         this.alarmChecker = (AlarmChecker) context.getJobDetail().getJobDataMap().get(ALARM_CHECKER_ID);
-        LOGGER.info("Checking for stock updates and alarms");
         updateStockData();
         updateHistoryData();
         checkAlarms();

@@ -10,9 +10,8 @@ import pr.se.stockdataservice.scheduler.job.StockDataUpdateJob;
 import pr.se.stockmanagementapi.services.NotificationService;
 
 public class JobScheduler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(JobScheduler.class);
-    private static final int INTERVAL_MINUTES = 3;
-
+    private static final Logger log = LoggerFactory.getLogger(JobScheduler.class);
+    private static final int INTERVAL_IN_MINUTES = 3;
     private StockDataUpdater stockDataUpdater;
     private NotificationService notificationService;
     private AlarmChecker alarmChecker;
@@ -43,12 +42,12 @@ public class JobScheduler {
                 .withIdentity("StockDataUpdateTrigger")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                    .withIntervalInMinutes(INTERVAL_MINUTES)
+                    .withIntervalInMinutes(INTERVAL_IN_MINUTES)
                     .repeatForever())
                 .build();
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
-            LOGGER.error("Job could not be started!", e);
+            log.error("Job could not be started!", e);
         }
     }
 }

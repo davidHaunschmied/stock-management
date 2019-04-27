@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import pr.se.stockmanagementapi.model.audit.DateAudit;
+import pr.se.stockmanagementapi.model.enums.TransactionType;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -78,19 +79,18 @@ public class Holding extends DateAudit {
     }
 
     public void addTransaction(Transaction transaction) {
-        switch (transaction.getTransactionType()) {
-            case PURCHASE:
-                amount += transaction.getAmount();
-                totalPrice += transaction.getPrice();
-                break;
-            case SALE:
-                Preconditions.checkArgument(transaction.getAmount() <= amount, "Transaction amount must not be greater than amount of holding!");
-                final double investedPrice = transaction.getAmount() * (totalPrice / amount);
-                earning += transaction.getPrice() - investedPrice;
-                amount -= transaction.getAmount();
-                totalPrice -= investedPrice;
-                totalPrice = totalPrice > 0 ? totalPrice : 0;
-                break;
+        if (transaction.getTransactionType() == TransactionType.PURCHASE) {
+            amount += transaction.getAmount();
+            totalPrice += transaction.getPrice();
+        } else if (transaction.getTransactionType() == TransactionType.SALE) {
+            Preconditions.checkArgument(transaction.getAmount() <= amount, "Transaction amount must not be greater than amount of holding!");
+            final double investedPrice = transaction.getAmount() * (totalPrice / amount);
+            earning += transaction.getPrice() - investedPrice;
+            amount -= transaction.getAmount();
+            totalPrice -= investedPrice;
+            totalPrice = totalPrice > 0 ? totalPrice : 0;
+        } else {
+            throw new UnsupportedOperationException(TransactionType.class.getSimpleName() +" " + transaction.getTransactionType().name() + " unknown");
         }
         this.transactions.add(transaction);
     }
