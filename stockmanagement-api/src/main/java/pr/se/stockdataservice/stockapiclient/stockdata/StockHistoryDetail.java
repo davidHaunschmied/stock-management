@@ -10,9 +10,6 @@ public class StockHistoryDetail {
     private float low;
     private long volume;
 
-    public StockHistoryDetail() {
-    }
-
     public float getOpen() {
         return open;
     }
