@@ -32,9 +32,9 @@ public class StockApiClient {
     private static void historyRequest() {
         HistoryRequest historyRequest = new HistoryRequest("VOE.VI");
         try {
-            historyRequest.setDateFrom(HistoryRequest.formatter.parse("2019-01-01"));
+            historyRequest.setDateFrom(historyRequest.formatter.parse("2019-01-01"));
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error(e.getMessage(), e);
         }
         HistoryResponse response = historyRequest.getData();
         log.info(response.toString());

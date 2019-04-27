@@ -10,7 +10,6 @@ import pr.se.stockdataservice.stockapiclient.stockdata.StockData;
 import pr.se.stockdataservice.stockapiclient.stockdata.StockDataDetail;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.StockExchange;
-import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.respository.StockExchangeRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
 
@@ -22,13 +21,11 @@ import java.util.Optional;
 public class StockDataUpdater {
     private List<StockExchange> availableStockExchanges;
 
-    private final DepotRepository depotRepository;
     private final StockRepository stockRepository;
     private final StockExchangeRepository stockExchangeRepository;
 
     @Autowired
-    public StockDataUpdater(DepotRepository depotRepository, StockRepository stockRepository, StockExchangeRepository stockExchangeRepository) {
-        this.depotRepository = depotRepository;
+    public StockDataUpdater(StockRepository stockRepository, StockExchangeRepository stockExchangeRepository) {
         this.stockRepository = stockRepository;
         this.stockExchangeRepository = stockExchangeRepository;
 
@@ -39,8 +36,10 @@ public class StockDataUpdater {
         this.availableStockExchanges = new ArrayList<>();
         this.availableStockExchanges.add(new StockExchange("VSE", "Vienna Stock Exchange"));
         this.availableStockExchanges.add(new StockExchange("WSE", "Warsaw Stock Exchange"));
-        //this.availableStockExchanges.add(new StockExchange("GER", "Deutsche Börse XETRA"));
-        //this.availableStockExchanges.add(new StockExchange("NASDAQ", "NASDAQ Stock Exchange"));
+
+        // possible others:
+        // this.availableStockExchanges.add(new StockExchange("GER", "Deutsche Börse XETRA"));
+        // this.availableStockExchanges.add(new StockExchange("NASDAQ", "NASDAQ Stock Exchange"));
 
     }
 

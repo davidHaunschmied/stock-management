@@ -7,8 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HistoryRequest extends StockAPIRequest<HistoryResponse> {
-    public static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    private final String apiPath = "/history";
+    public final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     private String symbol;
     private Date dateFrom;
@@ -28,7 +27,7 @@ public class HistoryRequest extends StockAPIRequest<HistoryResponse> {
     }
 
     private String getRequestUrl() {
-        String requestUrl = this.apiBasePath + apiPath;
+        String requestUrl = "" + APIPath.BASE_PATH + APIPath.HISTORY;
         requestUrl += "?symbol=" + symbol;
         requestUrl += "&api_token=" + this.apiKey;
         if (dateFrom != null) {

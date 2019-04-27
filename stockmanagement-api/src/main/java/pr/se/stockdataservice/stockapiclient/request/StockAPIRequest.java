@@ -4,8 +4,7 @@ import pr.se.stockdataservice.stockapiclient.exceptions.APIRequestException;
 import pr.se.stockdataservice.stockapiclient.response.StockAPIResponse;
 
 public abstract class StockAPIRequest<R extends StockAPIResponse> {
-    String apiKey = System.getProperty("stock_api_key");
-    String apiBasePath = "https://www.worldtradingdata.com/api/v1";
+    String apiKey = "9L9IMFzQzY1h8DbW2qYMuZHuUgKKKe0faoSS8j1Ge3NHwpLvoR6Mgtlc6GJV";
 
     public R getData() {
         R response = this.sendRequest();
