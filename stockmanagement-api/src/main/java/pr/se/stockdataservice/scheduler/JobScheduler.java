@@ -2,11 +2,14 @@ package pr.se.stockdataservice.scheduler;
 
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import pr.se.stockdataservice.StockDataUpdater;
 import pr.se.stockdataservice.scheduler.job.StockDataUpdateJob;
 
 public class JobScheduler {
-    private final int intervalInMinutes = 3;
+    private static final Logger log = LoggerFactory.getLogger(JobScheduler.class);
+    private static final int INTERVAL_IN_MINUTES = 3;
     private StockDataUpdater stockDataUpdater;
 
     public JobScheduler(StockDataUpdater stockDataUpdater) {
@@ -31,12 +34,12 @@ public class JobScheduler {
                 .withIdentity("StockDataUpdateTrigger")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                    .withIntervalInMinutes(intervalInMinutes)
+                    .withIntervalInMinutes(INTERVAL_IN_MINUTES)
                     .repeatForever())
                 .build();
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
-            e.printStackTrace();
+            log.error("An exception occured: " + e.getMessage(), e);
         }
     }
 }

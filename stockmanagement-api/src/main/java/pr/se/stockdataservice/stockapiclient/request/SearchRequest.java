@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SearchRequest extends StockAPIRequest<SearchResponse> {
-    private final String apiPath = "/stock_search";
     private String searchTerm;  // use empty search term to find all stocks (e.g. for Vienna Stock Exchange (VSE) )
     private SearchByOption searchBy;
     private List<StockExchange> stockExchanges;
@@ -33,11 +32,11 @@ public class SearchRequest extends StockAPIRequest<SearchResponse> {
     }
 
     private String getRequestUrl() {
-        String requestUrl = this.apiBasePath + apiPath;
+        String requestUrl = "" + APIPath.BASE_PATH + APIPath.SEARCH;
         requestUrl += "?search_term=" + (searchTerm != null ? searchTerm : "");
         requestUrl += "&search_by=" + searchBy.getOption();
         requestUrl += "&page=" + page;
-        if (this.stockExchanges.size() > 0) {
+        if (!this.stockExchanges.isEmpty()) {
             String shortNames = stockExchanges.stream().map(StockExchange::getShortName).collect(Collectors.joining(","));
             requestUrl += "&stock_exchange=" + shortNames;
         }

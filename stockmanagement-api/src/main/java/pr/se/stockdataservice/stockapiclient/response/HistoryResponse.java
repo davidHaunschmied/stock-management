@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import pr.se.stockdataservice.stockapiclient.stockdata.StockHistoryDetail;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class HistoryResponse extends StockAPIResponse {
     private String name;
-    private HashMap<String, StockHistoryDetail> history;
+    private Map<String, StockHistoryDetail> history;
 
     public HistoryResponse() {
         this.history = new HashMap<>();
@@ -22,11 +23,11 @@ public class HistoryResponse extends StockAPIResponse {
         this.name = name;
     }
 
-    public HashMap<String, StockHistoryDetail> getHistory() {
+    public Map<String, StockHistoryDetail> getHistory() {
         return history;
     }
 
-    public void setHistory(HashMap<String, StockHistoryDetail> history) {
+    public void setHistory(Map<String, StockHistoryDetail> history) {
         this.history = history;
     }
 

@@ -1,6 +1,5 @@
 package pr.se.stockmanagementapi.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import pr.se.stockmanagementapi.model.audit.DateAudit;
 
 import javax.persistence.*;
@@ -18,7 +17,7 @@ public class Depot extends DateAudit {
     @Column(nullable = false, length = 30, unique = true)
     private String name;
 
-    @OneToMany(mappedBy="depot")
+    @OneToMany(mappedBy = "depot")
     private List<Holding> holdings;
 
     public Depot() {

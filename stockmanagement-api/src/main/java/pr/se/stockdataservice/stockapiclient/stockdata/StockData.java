@@ -11,9 +11,6 @@ public class StockData {
     protected String stock_exchange_long;
     protected String stock_exchange_short;
 
-    public StockData() {
-    }
-
     public String getSymbol() {
         return symbol;
     }

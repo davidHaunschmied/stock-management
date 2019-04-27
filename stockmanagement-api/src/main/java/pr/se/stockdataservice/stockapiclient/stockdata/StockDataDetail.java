@@ -11,8 +11,6 @@ public class StockDataDetail extends StockData {
     private double close_yesterday;
     private long market_cap;
 
-    public StockDataDetail() {
-    }
 
     public double getDay_change() {
         return day_change;

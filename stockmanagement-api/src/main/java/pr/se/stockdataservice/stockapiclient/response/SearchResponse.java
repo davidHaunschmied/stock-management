@@ -12,9 +12,6 @@ public class SearchResponse extends StockAPIResponse {
     private int total_returned;
     private StockData[] data;
 
-    public SearchResponse() {
-    }
-
     public int getTotal_results() {
         return total_results;
     }
