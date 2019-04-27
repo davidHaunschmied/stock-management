@@ -4,7 +4,7 @@ import pr.se.stockdataservice.stockapiclient.exceptions.APIRequestException;
 import pr.se.stockdataservice.stockapiclient.response.StockAPIResponse;
 
 public abstract class StockAPIRequest<R extends StockAPIResponse> {
-    String apiKey = "9L9IMFzQzY1h8DbW2qYMuZHuUgKKKe0faoSS8j1Ge3NHwpLvoR6Mgtlc6GJV";
+    String apiKey = System.getProperty("stock_api_key");
 
     public R getData() {
         R response = this.sendRequest();
