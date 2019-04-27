@@ -3,13 +3,13 @@
         <mat-list>
             <mat-list-item><span>Absolute Veränderung:</span><span
                 [ngClass]="absoluteChange > 0 ? 'positive-number' : 'negative-number'"
-                class="padding-left">{{absoluteChange | number : '1.2-2'}} USD</span></mat-list-item>
+                class="padding-left">{{absoluteChange | number : '1.2-2'}} &euro;</span></mat-list-item>
             <mat-list-item><span>Relative Veränderung:</span><span
                 [ngClass]="relativeChange > 0 ? 'positive-number' : 'negative-number'"
                 class="padding-left">{{relativeChange | number : '1.2-2'}} %</span></mat-list-item>
             <mat-list-item><span>Realisierter Gewinn:</span><span
                 [ngClass]="totalEarnings > 0 ? 'positive-number' : 'negative-number'"
-                class="padding-left">{{totalEarnings | number : '1.2-2'}} USD</span></mat-list-item>
+                class="padding-left">{{totalEarnings | number : '1.2-2'}} &euro;</span></mat-list-item>
             <mat-list-item></mat-list-item>
         </mat-list>
     </div>
