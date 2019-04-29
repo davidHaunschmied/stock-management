@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StockRequest extends StockAPIRequest<StockResponse> {
-    private final String apiPath = "/stock";
     private List<String> symbols;
 
 
@@ -26,7 +25,7 @@ public class StockRequest extends StockAPIRequest<StockResponse> {
     }
 
     private String getRequestUrl() {
-        return this.apiBasePath + apiPath + "?symbol=" + String.join(",", symbols) + "&api_token=" + this.apiKey;
+        return "" + APIPath.BASE_PATH + APIPath.STOCK + "?symbol=" + String.join(",", symbols) + "&api_token=" + this.apiKey;
     }
 
     public void addSymbol(String symbol){

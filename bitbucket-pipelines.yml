@@ -8,7 +8,7 @@ pipelines:
         - step: &build-test-sonarcloud
             name: Build, test and analyze on SonarCloud
             script:
-              - bash ./gradlew build
+              - bash ./gradlew build -x :stockmanagement-app:test
               - pipe: sonarsource/sonarcloud-scan:0.1.5
                 variables:
                   SONAR_TOKEN: $SONAR_TOKEN

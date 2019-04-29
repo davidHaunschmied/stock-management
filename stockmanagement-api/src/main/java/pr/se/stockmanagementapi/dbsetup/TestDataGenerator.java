@@ -4,21 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pr.se.stockmanagementapi.model.Depot;
 import pr.se.stockmanagementapi.respository.DepotRepository;
-import pr.se.stockmanagementapi.respository.StockExchangeRepository;
-import pr.se.stockmanagementapi.respository.StockRepository;
 
 @Component
 public class TestDataGenerator {
 
     private final DepotRepository depotRepository;
-    private final StockRepository stockRepository;
-    private final StockExchangeRepository stockExchangeRepository;
 
     @Autowired
-    public TestDataGenerator(DepotRepository depotRepository, StockRepository stockRepository, StockExchangeRepository stockExchangeRepository) {
+    public TestDataGenerator(DepotRepository depotRepository) {
         this.depotRepository = depotRepository;
-        this.stockRepository = stockRepository;
-        this.stockExchangeRepository = stockExchangeRepository;
     }
 
     public void fillDbWithTestData() {
