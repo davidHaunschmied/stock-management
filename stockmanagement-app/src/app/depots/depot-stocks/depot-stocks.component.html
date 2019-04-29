@@ -1,3 +1,29 @@
 <p>
-  Hier sollen die Aktienbesitze angezeigt werden!
+    Hier sollen die Aktienbesitze angezeigt werden!
 </p>
+<div class="mat-elevation-z8">
+    <table [dataSource]="dataSource" mat-table matSort>
+        <ng-container matColumnDef="name">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Aktie</th>
+            <td *matCellDef="let element" mat-cell><a
+                [routerLink]="['/stock-details', element.name]">{{element.name}}</a></td>
+        </ng-container>
+        <ng-container matColumnDef="market">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Börse</th>
+            <td *matCellDef="let element" mat-cell>{{element.market}}</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>
+            <td *matCellDef="let element" mat-cell>{{element.price | currency : "$ "}}</td>
+        </ng-container>
+        <ng-container matColumnDef="change1d">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Tagesschwankung</th>
+            <td *matCellDef="let element" mat-cell>{{element.change1d + " %"}}</td>
+        </ng-container>
+
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row ; columns: displayedColumns;" mat-row></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons></mat-paginator>
+</div>
