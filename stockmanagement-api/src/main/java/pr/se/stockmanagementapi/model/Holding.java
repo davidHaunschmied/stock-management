@@ -11,7 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Holding")
+@Table(name = "Holding",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"depot_id", "stock_id"})
+)
 public class Holding extends DateAudit {
 
     @Id
@@ -37,7 +39,7 @@ public class Holding extends DateAudit {
     private double earning;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "holding")
+    @JoinColumn(name = "holding_id")
     @JsonIgnore
     private List<Transaction> transactions;
 
@@ -90,7 +92,7 @@ public class Holding extends DateAudit {
             totalPrice -= investedPrice;
             totalPrice = totalPrice > 0 ? totalPrice : 0;
         } else {
-            throw new UnsupportedOperationException(TransactionType.class.getSimpleName() +" " + transaction.getTransactionType().name() + " unknown");
+            throw new UnsupportedOperationException(TransactionType.class.getSimpleName() + " " + transaction.getTransactionType().name() + " unknown");
         }
         this.transactions.add(transaction);
     }

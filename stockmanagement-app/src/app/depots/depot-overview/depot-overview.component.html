@@ -1,3 +1,19 @@
-<p>
-    Depotübersicht
-</p>
+<mat-card>
+    <div *ngIf="holdings && holdings.length > 0">
+        <mat-list>
+            <mat-list-item><span>Absolute Veränderung:</span><span
+                [ngClass]="absoluteChange > 0 ? 'positive-number' : 'negative-number'"
+                class="padding-left">{{absoluteChange | number : '1.2-2'}} &euro;</span></mat-list-item>
+            <mat-list-item><span>Relative Veränderung:</span><span
+                [ngClass]="relativeChange > 0 ? 'positive-number' : 'negative-number'"
+                class="padding-left">{{relativeChange | number : '1.2-2'}} %</span></mat-list-item>
+            <mat-list-item><span>Realisierter Gewinn:</span><span
+                [ngClass]="totalEarnings > 0 ? 'positive-number' : 'negative-number'"
+                class="padding-left">{{totalEarnings | number : '1.2-2'}} &euro;</span></mat-list-item>
+            <mat-list-item></mat-list-item>
+        </mat-list>
+    </div>
+    <div *ngIf="!holdings || holdings.length == 0">
+        <h3 class="mat-h3">Es befinden sich keine Aktien in diesem Depot!</h3>
+    </div>
+</mat-card>
