@@ -73,4 +73,9 @@ public class Alarm extends DateAudit {
             Objects.equals(stock, alarm.stock) &&
             alarmType == alarm.alarmType;
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, stock, alarmType, price);
+    }
 }
