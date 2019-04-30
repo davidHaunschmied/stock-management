@@ -10,7 +10,7 @@ import {IHolding} from "../../model/IHolding";
   styleUrls: ['./depot-stocks.component.scss']
 })
 export class DepotStocksComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'market', 'price', 'change1d']; // Todo (rada): show right displayed columns
+  displayedColumns: string[] = ['stock.name', 'amount', 'totalPrice', 'alert'];
   dataSource: MatTableDataSource<IHolding>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -21,7 +21,6 @@ export class DepotStocksComponent implements OnInit {
 
   ngOnInit() {
     this.getHoldings();
-
   }
 
   getHoldings() {
@@ -34,4 +33,7 @@ export class DepotStocksComponent implements OnInit {
     });
   }
 
+  openSellStockDialog() {
+    console.log("TODO");
+  }
 }
