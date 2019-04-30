@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Aktien kaufen: </h1>
+<div mat-dialog-content>
+    <p>Aktie: {{data.stock.name}}</p>
+    <mat-form-field>
+        <label>
+            <input [(ngModel)]="amount" cdkFocusInitial matInput>
+        </label>
+    </mat-form-field>
+    <mat-form-field>
+        <label>
+            <input [(ngModel)]="totalPrice" matInput>
+        </label>
+    </mat-form-field>
+
+</div>
+<div mat-dialog-actions>
+    <button (click)="onNoClick()" mat-button>Abbrechen</button>
+    <button [mat-dialog-close]="data.stock.name" class="mat-primary" mat-raised-button>Verkaufen</button>
+</div>

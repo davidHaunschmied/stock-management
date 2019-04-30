@@ -15,6 +15,8 @@ import {HomeComponent} from './home/home.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {DepotOverviewComponent} from './depots/depot-overview/depot-overview.component';
 import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component';
+import {StockSellComponent} from './stock/stock-sell/stock-sell.component';
+import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component
     HomeComponent,
     NavigationComponent,
     DepotOverviewComponent,
-    DepotStocksComponent
+    DepotStocksComponent,
+    StockSellComponent,
+    StockPurchaseComponent
   ],
   imports: [
     CoreModule,
@@ -41,7 +45,9 @@ import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component
   bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
-    AlertCreateDialogComponent
+    AlertCreateDialogComponent,
+    StockSellComponent,
+    StockPurchaseComponent
   ]
 })
 export class AppModule {

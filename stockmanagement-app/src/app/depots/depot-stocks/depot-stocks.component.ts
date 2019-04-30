@@ -1,8 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
+import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {DepotService} from "../../services/depot/depot.service";
 import {IDepot} from "../../model/IDepot";
 import {IHolding} from "../../model/IHolding";
+import {StockSellComponent} from "../../stock/stock-sell/stock-sell.component";
+import {TransactionService} from "../../services/transaction/transaction.service";
 
 @Component({
   selector: 'app-depot-stocks',
@@ -16,7 +18,9 @@ export class DepotStocksComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private depotService: DepotService) {
+  constructor(private depotService: DepotService,
+              private transactionService: TransactionService,
+              private sellStockDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -33,7 +37,15 @@ export class DepotStocksComponent implements OnInit {
     });
   }
 
-  openSellStockDialog() {
-    console.log("TODO");
+  openSellStockDialog(holding: IHolding): void {
+    const dialogRef = this.sellStockDialog.open(StockSellComponent, {
+      width: '250px',
+      data: {holding: holding},
+    });
+
+    dialogRef.afterClosed().subscribe(t => {
+      //this.transactionService.createTransaction(t).subscribe(      );
+      // TODO
+    });
   }
 }
