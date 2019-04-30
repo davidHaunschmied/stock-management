@@ -10,7 +10,7 @@ import {IStock} from "../../model/IStock";
 export class AlarmCreateDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AlarmCreateDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: AlarmCreateData) {
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
@@ -19,12 +19,10 @@ export class AlarmCreateDialogComponent implements OnInit {
 
   onNoClick(): void {
     console.log(this.data);
-    console.log('Test');
     this.dialogRef.close();
   }
 
 }
-
 
 export interface AlarmCreateData {
   stock: IStock;

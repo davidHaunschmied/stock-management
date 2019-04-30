@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StockService} from 'src/app/services/stock/stock.service';
 import {IStock} from '../../model/IStock';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatSort, MatDialog, MatPaginator} from "@angular/material";
+import {MatDialog, MatPaginator, MatSort} from "@angular/material";
 import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
 import {AlarmService} from "../../services/alarm/alarm.service";
 
@@ -49,7 +49,7 @@ export class StockListComponent implements OnInit {
   openCreateAlarmDialog(stock : IStock): void {
     const dialogRef = this.createAlarmDialog.open(AlarmCreateDialogComponent, {
       width: '300px',
-      data: {stock: stock, alarmPrice: stock.price, above: false},
+      data: {stock: stock, alarmPrice: stock.price},
     });
 
     dialogRef.afterClosed().subscribe(data => {
