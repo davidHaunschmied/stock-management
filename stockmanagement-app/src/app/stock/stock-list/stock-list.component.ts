@@ -46,21 +46,21 @@ export class StockListComponent implements OnInit {
   }
 
 
-  openCreateAlertDialog(name: string, price: number): void {
+  openCreateAlarmDialog(stock : IStock): void {
     const dialogRef = this.createAlarmDialog.open(AlarmCreateDialogComponent, {
       width: '300px',
-      data: {price: price, name: name, value: price},
+      data: {stock: stock, alarmPrice: stock.price, above: false},
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      console.log('The dialog was closed');
-      this.alarmService.createAlert(data.name, data.value).subscribe(
+      console.log('The dialog was closed');/*
+      this.alarmService.createAlarm(data, data.alarmPrice).subscribe(
         data => {
           console.log('Added alarm of data: ' + data);
         }, error => {
           console.log('Error: ' + error);
         }
-      );
+      );*/
     });
   }
 

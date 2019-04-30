@@ -3,6 +3,7 @@ import {AppSettings} from "../../app-settings";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IAlarm} from "../../model/IAlarm";
+import {IStock} from "../../model/IStock";
 
 @Injectable({
   providedIn: 'root'
@@ -14,15 +15,15 @@ export class AlarmService {
   constructor(private http: HttpClient) {
   }
 
-  getAllAlerts(): Observable<IAlarm[]> {
+  getAllAlarms(): Observable<IAlarm[]> {
     return this.http.get<IAlarm[]>(this.endpoint + '/all', AppSettings.HTTP_OPTIONS);
   }
 
-  createAlert(stock: string, value: number): Observable<IAlarm> {
+  createAlarm(stock: IStock, alarmPrice: number): Observable<IAlarm> {
     return this.http.post<IAlarm>(this.endpoint + '/new',
       {
         'stock': stock,
-        'value': value,
+        'alarmPrice': alarmPrice,
       }, AppSettings.HTTP_OPTIONS);
   }
 }

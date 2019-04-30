@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {IStock} from "../../model/IStock";
 
 @Component({
   selector: 'app-alarm-create-dialog',
@@ -9,13 +10,15 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 export class AlarmCreateDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<AlarmCreateDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: AlertCreateData) {
+              @Inject(MAT_DIALOG_DATA) public data: AlarmCreateData) {
   }
 
   ngOnInit() {
+
   }
 
   onNoClick(): void {
+    console.log(this.data);
     console.log('Test');
     this.dialogRef.close();
   }
@@ -23,8 +26,8 @@ export class AlarmCreateDialogComponent implements OnInit {
 }
 
 
-export interface AlertCreateData {
-  name: string;
-  price: number;
+export interface AlarmCreateData {
+  stock: IStock;
+  alarmPrice: number;
   above: boolean;
 }
