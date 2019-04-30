@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {DepotService} from "./services/depot/depot.service";
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
@@ -8,18 +8,25 @@ import * as SockJS from 'sockjs-client';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   private stompClient;
 
   title = 'stockmanagement-app';
-
-  noDepotSelected(): boolean {
-    return !this.depotService.getCurrentDepot();
-  }
+  depotPresent: boolean;
 
   constructor(private depotService: DepotService) {
     this.initializeWebSocketConnection();
+  }
+
+  ngOnInit(): void {
+    this.depotService.currentDepot.subscribe(next => {
+      if (next) {
+        this.depotPresent = true;
+      } else {
+        this.depotPresent = false;
+      }
+    });
   }
 
   initializeWebSocketConnection() {

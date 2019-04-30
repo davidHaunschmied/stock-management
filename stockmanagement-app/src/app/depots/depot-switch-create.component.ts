@@ -20,7 +20,9 @@ export class DepotSwitchCreateComponent implements OnInit {
   filter = new FormControl();
 
   ngOnInit(): void {
-    this.filter.setValue(this.depotService.getCurrentDepot());
+    this.depotService.currentDepot.subscribe(depot => {
+      this.filter.setValue(depot);
+    });
     this.depotService.getAllDepots().subscribe(
       depots => {
         this.depots = depots;
@@ -39,7 +41,6 @@ export class DepotSwitchCreateComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(name => {
-      console.log('The dialog was closed');
       this.depotService.createDepot(name).subscribe(
         depot => {
           this.depots.push(depot);
@@ -50,11 +51,11 @@ export class DepotSwitchCreateComponent implements OnInit {
     });
   }
 
-  refreshLocalStorageItem() {
+  refreshCurrentDepot() {
     this.depotService.setCurrentDepot(this.filter.value);
   }
 
   compareDepots(d1: IDepot, d2: IDepot): boolean {
-    return d1.id === d2.id;
+    return (d1 && d2) && (d1.id === d2.id);
   }
 }

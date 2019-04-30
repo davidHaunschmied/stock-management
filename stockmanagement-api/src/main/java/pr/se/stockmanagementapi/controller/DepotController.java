@@ -53,12 +53,12 @@ public class DepotController {
         depotRepository.deleteById(depotId);
     }
 
-    @GetMapping("/earnings/{depotId}")
+    @GetMapping("/{depotId}/earnings")
     public double getEarnings(@PathVariable long depotId) {
         return depotService.calculateEarnings(depotId);
     }
 
-    @GetMapping("/holdings/{depotId}")
+    @GetMapping("/{depotId}/holdings")
     public List<Holding> getHoldings(@PathVariable long depotId) {
         return depotService.allCurrentHoldings(depotId);
     }

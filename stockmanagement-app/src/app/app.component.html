@@ -8,8 +8,8 @@
         <app-depot-switch-add></app-depot-switch-add>
     </mat-toolbar-row>
 </mat-toolbar>
-<app-home *ngIf="noDepotSelected()"></app-home>
-<div *ngIf="!noDepotSelected()">
+<app-home *ngIf="!depotPresent"></app-home>
+<div *ngIf="depotPresent">
     <app-navigation></app-navigation>
     <router-outlet></router-outlet>
 </div>

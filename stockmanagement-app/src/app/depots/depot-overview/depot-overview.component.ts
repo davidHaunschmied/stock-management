@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {DepotService} from "../../services/depot/depot.service";
+import {IDepot} from "../../model/IDepot";
+import {IHolding} from "../../model/IHolding";
 
 @Component({
   selector: 'app-depot-overview',
@@ -7,9 +10,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DepotOverviewComponent implements OnInit {
 
-  constructor() { }
+  holdings: IHolding[];
+  absoluteChange: number;
+  relativeChange: number;
+  totalEarnings: number;
 
-  ngOnInit() {
+  constructor(private depotService: DepotService) {
   }
 
+  ngOnInit() {
+    this.depotService.currentDepot.subscribe((depot: IDepot) => {
+      this.depotService.getAllHoldings(depot.id).subscribe(data => {
+        this.holdings = data;
+        this.calculateAbsoluteChange();
+        this.calculateRelativeChange();
+        this.calculateTotalEarnings();
+      });
+    });
+  }
+
+  calculateAbsoluteChange() {
+    let absolutChange = 0;
+    this.holdings.forEach(holding => {
+      absolutChange += holding.amount * holding.stock.price;
+      absolutChange -= holding.totalPrice;
+    });
+    this.absoluteChange = absolutChange;
+  }
+
+  calculateRelativeChange() {
+    let holdingValue = 0;
+    this.holdings.forEach(holding => {
+      holdingValue += holding.totalPrice;
+    });
+    this.relativeChange = this.absoluteChange / holdingValue * 100;
+  }
+
+  calculateTotalEarnings() {
+    let totalEarnings = 0;
+    this.holdings.forEach(holding => {
+      totalEarnings += holding.earning;
+    });
+    this.totalEarnings = totalEarnings;
+  }
 }
