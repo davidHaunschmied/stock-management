@@ -14,11 +14,11 @@
         </ng-container>
         <ng-container>
             <mat-label>$</mat-label>
-            <input matInput id="val" type="number" [(ngModel)]="data.value">
+            <input matInput id="val" type="number" [(ngModel)]="data.price">
         </ng-container>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Abbrechen</button>
-    <button mat-button [mat-dialog-close]="data.stock">Erstellen</button>
+    <button mat-button [mat-dialog-close]="data.name">Erstellen</button>
 </div>

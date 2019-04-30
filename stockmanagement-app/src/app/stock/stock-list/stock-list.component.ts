@@ -3,8 +3,8 @@ import {StockService} from 'src/app/services/stock/stock.service';
 import {IStock} from '../../model/IStock';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort, MatDialog, MatPaginator} from "@angular/material";
-import {AlertCreateDialogComponent} from "../../alert/alert-create-dialog/alert-create-dialog.component";
-import {AlertService} from "../../services/alert/alert.service";
+import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
+import {AlarmService} from "../../services/alarm/alarm.service";
 
 @Component({
   selector: 'app-stock-list',
@@ -18,8 +18,8 @@ export class StockListComponent implements OnInit {
 
 
   constructor(private stockService: StockService,
-              private alertService: AlertService,
-              private createAlertDialog: MatDialog) {
+              private alarmService: AlarmService,
+              private createAlarmDialog: MatDialog) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -47,16 +47,16 @@ export class StockListComponent implements OnInit {
 
 
   openCreateAlertDialog(name: string, price: number): void {
-    const dialogRef = this.createAlertDialog.open(AlertCreateDialogComponent, {
+    const dialogRef = this.createAlarmDialog.open(AlarmCreateDialogComponent, {
       width: '300px',
-      data: {price: price, stock: name, value: price},
+      data: {price: price, name: name, value: price},
     });
 
     dialogRef.afterClosed().subscribe(data => {
       console.log('The dialog was closed');
-      this.alertService.createAlert(data.stock, data.value).subscribe(
+      this.alarmService.createAlert(data.name, data.value).subscribe(
         data => {
-          console.log('Added alert of data: ' + data);
+          console.log('Added alarm of data: ' + data);
         }, error => {
           console.log('Error: ' + error);
         }

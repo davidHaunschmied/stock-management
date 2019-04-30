@@ -9,7 +9,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {StockListComponent} from './stock/stock-list/stock-list.component';
 import {StockDetailsComponent} from './stock/stock-details/stock-details.component';
 import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';
-import {AlertCreateDialogComponent} from './alert/alert-create-dialog/alert-create-dialog.component';
+import {AlarmCreateDialogComponent} from './alert/alert-create-dialog/alarm-create-dialog.component';
 import {DepotSwitchCreateComponent} from './depots/depot-switch-create.component';
 import {HomeComponent} from './home/home.component';
 import {NavigationComponent} from './navigation/navigation.component';
@@ -22,7 +22,7 @@ import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component
     DepotCreateDialogComponent,
     StockListComponent,
     StockDetailsComponent,
-    AlertCreateDialogComponent,
+    AlarmCreateDialogComponent,
     DepotSwitchCreateComponent,
     HomeComponent,
     NavigationComponent,
@@ -41,7 +41,7 @@ import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component
   bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
-    AlertCreateDialogComponent
+    AlarmCreateDialogComponent
   ]
 })
 export class AppModule {

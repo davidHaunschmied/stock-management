@@ -3,12 +3,12 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 
 @Component({
   selector: 'app-alarm-create-dialog',
-  templateUrl: './alert-create-dialog.component.html',
-  styleUrls: ['./alert-create-dialog.component.scss']
+  templateUrl: './alarm-create-dialog.component.html',
+  styleUrls: ['./alarm-create-dialog.component.scss']
 })
-export class AlertCreateDialogComponent implements OnInit {
+export class AlarmCreateDialogComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<AlertCreateDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<AlarmCreateDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: AlertCreateData) {
   }
 
@@ -24,7 +24,7 @@ export class AlertCreateDialogComponent implements OnInit {
 
 
 export interface AlertCreateData {
-  stock: string;
-  value: number;
+  name: string;
+  price: number;
   above: boolean;
 }
