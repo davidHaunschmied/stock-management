@@ -1,6 +1,8 @@
+import {IStock} from "./IStock";
+
 export interface IAlarm {
   id: number;
-  stock: string;
+  stock: IStock;
   price: number;
-  above: boolean;
+  alarmType: string;
 }

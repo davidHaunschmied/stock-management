@@ -10,7 +10,7 @@ import {IStock} from "../../model/IStock";
 })
 export class AlarmService {
 
-  readonly endpoint = AppSettings.API_ENDPOINT + '/alarm';
+  readonly endpoint = AppSettings.API_ENDPOINT + '/alarms';
 
   constructor(private http: HttpClient) {
   }
@@ -22,8 +22,9 @@ export class AlarmService {
   createAlarm(stock: IStock, alarmPrice: number): Observable<IAlarm> {
     return this.http.post<IAlarm>(this.endpoint + '/new',
       {
-        'stock': stock,
-        'alarmPrice': alarmPrice,
+        'stockId': stock.id,
+        'price': alarmPrice,
+        'alarmType': stock.price > alarmPrice ? 'UNDER' : 'OVER'
       }, AppSettings.HTTP_OPTIONS);
   }
 }
