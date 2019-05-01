@@ -44,8 +44,7 @@ export class DepotStocksComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(t => {
-      //this.transactionService.createTransaction(t).subscribe(      );
-      // TODO
+      this.transactionService.createTransaction(t);
     });
   }
 }
