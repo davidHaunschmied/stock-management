@@ -26,12 +26,12 @@ public class AlarmController {
     }
 
     @GetMapping("/all")
-    public List<Alarm> getAllDepots() {
+    public List<Alarm> getAllAlarms() {
         return alarmRepository.findAll();
     }
 
     @PostMapping("/new")
-    public ResponseEntity createNewDepot(@Valid @RequestBody AlarmCreationRequest alarmCreationRequest) {
+    public ResponseEntity createNewAlarm(@Valid @RequestBody AlarmCreationRequest alarmCreationRequest) {
         Alarm alarm = new Alarm(stockService.findStockByIdOrThrow(alarmCreationRequest.getStockId()), alarmCreationRequest.getAlarmType(), alarmCreationRequest.getPrice());
         if (alarmRepository.findAll().contains(alarm)) {
             return new ResponseEntity<>(new ApiResponse(false, "Alarm already exists!"), HttpStatus.BAD_REQUEST);
