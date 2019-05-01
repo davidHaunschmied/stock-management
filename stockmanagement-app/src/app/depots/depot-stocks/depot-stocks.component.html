@@ -7,16 +7,12 @@
         <ng-container matColumnDef="amount">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Menge</th>
             <td *matCellDef="let element" mat-cell>{{element.amount}}</td>
-            <div>
-                <label for="val">Menge</label>
-                <input matInput id="val" type="number" [(ngModel)]="amount">
-            </div>
         </ng-container>
         <ng-container matColumnDef="totalPrice">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>
             <td *matCellDef="let element" mat-cell>{{element.totalPrice | currency : "$"}}</td>
         </ng-container>
-        <ng-container matColumnDef="alert">
+        <ng-container matColumnDef="sell">
             <th *matHeaderCellDef mat-header-cell>Sell</th>
             <td *matCellDef="let element" class="mat-cell cdk-column-alert mat-column-alert">
                 <span>

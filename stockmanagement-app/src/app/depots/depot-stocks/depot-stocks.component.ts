@@ -12,7 +12,7 @@ import {TransactionService} from "../../services/transaction/transaction.service
   styleUrls: ['./depot-stocks.component.scss']
 })
 export class DepotStocksComponent implements OnInit {
-  displayedColumns: string[] = ['stock.name', 'amount', 'totalPrice', 'alert'];
+  displayedColumns: string[] = ['stock.name', 'amount', 'totalPrice', 'sell'];
   dataSource: MatTableDataSource<IHolding>;
   currentDepot: IDepot;
 
