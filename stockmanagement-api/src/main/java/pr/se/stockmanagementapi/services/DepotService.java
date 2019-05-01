@@ -9,6 +9,7 @@ import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepotService {
@@ -30,6 +31,6 @@ public class DepotService {
     }
 
     public List<Holding> allCurrentHoldings(long depotId) {
-        return holdingRepository.findByDepot(findDepotByIdOrThrow(depotId));
+        return holdingRepository.findByDepot(findDepotByIdOrThrow(depotId)).stream().filter(holding -> holding.getAmount() > 0).collect(Collectors.toList());
     }
 }
