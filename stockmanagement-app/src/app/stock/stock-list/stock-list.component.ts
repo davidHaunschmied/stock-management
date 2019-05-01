@@ -2,9 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {StockService} from 'src/app/services/stock/stock.service';
 import {IStock} from '../../model/IStock';
 import {MatTableDataSource} from '@angular/material/table';
-import {MatSort, MatDialog, MatPaginator} from "@angular/material";
-import {AlertCreateDialogComponent} from "../../alert/alert-create-dialog/alert-create-dialog.component";
-import {AlertService} from "../../services/alert/alert.service";
+import {MatDialog, MatPaginator, MatSort} from "@angular/material";
+import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
+import {AlarmService} from "../../services/alarm/alarm.service";
 
 @Component({
   selector: 'app-stock-list',
@@ -12,14 +12,14 @@ import {AlertService} from "../../services/alert/alert.service";
   styleUrls: ['./stock-list.component.scss']
 })
 export class StockListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'market', 'price', 'change1d', 'alert'];
+  displayedColumns: string[] = ['name', 'market', 'price', 'day_change', 'alert'];
   //stocks: IStock[] | undefined;
   dataSource: MatTableDataSource<IStock>;
 
 
   constructor(private stockService: StockService,
-              private alertService: AlertService,
-              private createAlertDialog: MatDialog) {
+              private alarmService: AlarmService,
+              private createAlarmDialog: MatDialog) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -31,7 +31,7 @@ export class StockListComponent implements OnInit {
   }
 
   getStocks() {
-    this.stockService.getStocks().subscribe(
+    this.stockService.getAllStocks().subscribe(
       data => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
@@ -46,23 +46,20 @@ export class StockListComponent implements OnInit {
   }
 
 
-  openCreateAlertDialog(name: string, price: number): void {
-    const dialogRef = this.createAlertDialog.open(AlertCreateDialogComponent, {
+  openCreateAlarmDialog(stock : IStock): void {
+    const dialogRef = this.createAlarmDialog.open(AlarmCreateDialogComponent, {
       width: '300px',
-      data: {price: price, stock: name, value: price},
+      data: {stock: stock, alarmPrice: stock.price},
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      console.log('The dialog was closed');
-      this.alertService.createAlert(data.stock, data.value).subscribe(
-        data => {
-          console.log('Added alert of data: ' + data);
+      this.alarmService.createAlarm(data.stock, data.alarmPrice).subscribe(
+        alarm => {
+          console.log('Added alarm of data: ' + JSON.stringify(alarm));
         }, error => {
-          console.log('Error: ' + error);
+          console.log('Error: ' + error.message);
         }
       );
     });
   }
-
-
 }

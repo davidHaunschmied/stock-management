@@ -1,24 +1,24 @@
 <h1 mat-dialog-title>Neuer Alarm</h1>
 <div mat-dialog-content>
-    <p>Alarm für <b>{{data.stock}}</b> erstellen</p>
+    <p>Alarm für <b>{{data.stock.name}}</b> erstellen!</p>
     <mat-form-field>
 
-        <ng-container *ngIf="data.value > data.price">
+        <ng-container *ngIf="data.alarmPrice > data.stock.price">
             <p>für Überschreitung dieses Wertes. </p>
         </ng-container>
-        <ng-container *ngIf="data.value < data.price">
+        <ng-container *ngIf="data.alarmPrice < data.stock.price">
             <p>für Unterschreitung dieses Wertes. </p>
         </ng-container>
-        <ng-container *ngIf="data.value == data.price">
+        <ng-container *ngIf="data.alarmPrice == data.stock.price">
             <p>Das ist der aktuelle Preis.</p>
         </ng-container>
         <ng-container>
-            <mat-label>$</mat-label>
-            <input matInput id="val" type="number" [(ngModel)]="data.value">
+            <mat-label>{{data.stock.currency}}</mat-label>
+            <input [(ngModel)]="data.alarmPrice" class="input-field" matInput type="number">
         </ng-container>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Abbrechen</button>
-    <button mat-button [mat-dialog-close]="data.stock">Erstellen</button>
+    <button [mat-dialog-close]="data" mat-button>Erstellen</button>
 </div>
