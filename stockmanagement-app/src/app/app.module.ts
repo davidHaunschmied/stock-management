@@ -15,6 +15,7 @@ import {HomeComponent} from './home/home.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {DepotOverviewComponent} from './depots/depot-overview/depot-overview.component';
 import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component';
+import {AlertListComponent} from "./alert/alert-list.component";
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component
     HomeComponent,
     NavigationComponent,
     DepotOverviewComponent,
-    DepotStocksComponent
+    DepotStocksComponent,
+    AlertListComponent
   ],
   imports: [
     CoreModule,

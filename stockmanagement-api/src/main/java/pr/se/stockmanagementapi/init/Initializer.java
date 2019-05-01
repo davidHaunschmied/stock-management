@@ -62,16 +62,20 @@ public class Initializer implements ApplicationRunner {
         Stock stockVoe = stockRepository.findBySymbol("VOE.VI").orElseThrow(() -> new IllegalStateException("VOE.VI not available!"));
         Stock stockPost = stockRepository.findBySymbol("POST.VI").orElseThrow(() -> new IllegalStateException("POST.VI not available!"));
 
-        insertInstantAlarm(stockVoe);
+        insertInstantAlarm(stockVoe, stockPost);
 
         insertHoldingsForVoest(depot, stockVoe);
         insertHoldingsForPost(depot, stockPost);
     }
 
-    private void insertInstantAlarm(Stock stock) {
+    private void insertInstantAlarm(Stock stock, Stock stock2) {
         Alarm alarm = new Alarm(stock, AlarmType.UNDER, stock.getPrice() + 2);
+        Alarm alarm2 = new Alarm(stock2, AlarmType.OVER, stock2.getPrice() - 4);
         if (!alarmRepository.findAll().contains(alarm)) {
             alarmRepository.save(alarm);
+        }
+        if (!alarmRepository.findAll().contains(alarm2)) {
+            alarmRepository.save(alarm2);
         }
     }
 
