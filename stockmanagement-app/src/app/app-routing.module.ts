@@ -3,11 +3,13 @@ import {RouterModule, Routes} from '@angular/router';
 import {DepotOverviewComponent} from "./depots/depot-overview/depot-overview.component";
 import {DepotStocksComponent} from "./depots/depot-stocks/depot-stocks.component";
 import {StockListComponent} from "./stock/stock-list/stock-list.component";
+import {StockDetailsComponent} from "./stock/stock-details/stock-details.component";
 
 const routes: Routes = [
   {path: 'overview', component: DepotOverviewComponent},
   {path: 'properties', component: DepotStocksComponent},
   {path: 'stocks', component: StockListComponent},
+  {path: 'stocks/stock-details/:id', component: StockDetailsComponent},
 //  {path: 'transactions', component: },
   {path: '', redirectTo: 'overview', pathMatch: 'full'},
 ];

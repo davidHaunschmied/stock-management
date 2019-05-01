@@ -1,6 +1,6 @@
-export interface IAlert {
+export interface IAlarm {
   id: number;
   stock: string;
-  value: number;
+  price: number;
   above: boolean;
 }

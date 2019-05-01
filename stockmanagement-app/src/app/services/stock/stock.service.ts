@@ -10,22 +10,17 @@ import {AppSettings} from "../../app-settings";
 })
 export class StockService {
 
-  private stockUrl = AppSettings.API_ENDPOINT + '/stocks/stocks.json';
+  private endpoint = AppSettings.API_ENDPOINT + '/stocks';
 
   constructor(private http: HttpClient) {
   }
 
-  getStocks(): Observable<IStock[]> {
-    return this.http.get<IStock[]>(this.stockUrl).pipe(
-      tap(data => console.log('All: ' + JSON.stringify(data))),
-      catchError(this.handleError)
-    );
+  getAllStocks(): Observable<IStock[]> {
+    return this.http.get<IStock[]>(this.endpoint + '/all', AppSettings.HTTP_OPTIONS);
   }
 
-  getStockDetails(name: string): Observable<IStock | undefined> {
-    return this.getStocks().pipe(
-      map((stocks: IStock[]) => stocks.find(s => s.name === name))
-    );
+  getStockDetails(id: number): Observable<IStock> {
+    return this.http.get<IStock>(this.endpoint + '/stock-detail/' + id, AppSettings.HTTP_OPTIONS);
   }
 
   // Copy & Paste of DeborahK
