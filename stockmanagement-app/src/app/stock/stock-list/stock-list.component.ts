@@ -84,7 +84,7 @@ export class StockListComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       console.log(data);
-      this.transactionService.purchaseStock(data.holding.stock, this.currentDepot, data.amount, data.totalPrice).subscribe(
+      this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount, data.totalPrice).subscribe(
         holding => {
           this.getStocks()
         }, error => {
