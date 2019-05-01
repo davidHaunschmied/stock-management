@@ -3,8 +3,12 @@ import {StockService} from 'src/app/services/stock/stock.service';
 import {IStock} from '../../model/IStock';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatPaginator, MatSort} from "@angular/material";
-import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
 import {AlarmService} from "../../services/alarm/alarm.service";
+import {StockPurchaseComponent} from "../stock-purchase/stock-purchase.component";
+import {TransactionService} from "../../services/transaction/transaction.service";
+import {IDepot} from "../../model/IDepot";
+import {DepotService} from "../../services/depot/depot.service";
+import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
 
 @Component({
   selector: 'app-stock-list',
@@ -12,14 +16,18 @@ import {AlarmService} from "../../services/alarm/alarm.service";
   styleUrls: ['./stock-list.component.scss']
 })
 export class StockListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'market', 'price', 'day_change', 'alert'];
+  displayedColumns: string[] = ['name', 'market', 'price', 'day_change', 'buy', 'alert'];
   //stocks: IStock[] | undefined;
   dataSource: MatTableDataSource<IStock>;
+  private currentDepot: IDepot;
 
 
   constructor(private stockService: StockService,
               private alarmService: AlarmService,
-              private createAlarmDialog: MatDialog) {
+              private createAlarmDialog: MatDialog,
+              private purchaseStockDialog: MatDialog,
+              private transactionService: TransactionService,
+              private depotService: DepotService) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -27,6 +35,9 @@ export class StockListComponent implements OnInit {
 
   ngOnInit() {
     this.getStocks();
+    this.depotService.currentDepot.subscribe((depot: IDepot) => {
+      this.currentDepot = depot;
+    });
 
   }
 
@@ -61,5 +72,25 @@ export class StockListComponent implements OnInit {
         }
       );
     });
+  }
+
+
+  openBuyStockDialog(stock: any) {
+    const dialogRef = this.purchaseStockDialog.open(StockPurchaseComponent, {
+      width: '300px',
+      data: {stock: stock, amount: 1, totalPrice: stock.price},
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      console.log(data);
+      this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount, data.totalPrice).subscribe(
+        holding => {
+          this.getStocks()
+        }, error => {
+          console.log('Error: ' + error.message);
+        }
+      );
+    });
+
   }
 }
