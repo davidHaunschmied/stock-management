@@ -9,12 +9,14 @@ import {HttpClientModule} from '@angular/common/http';
 import {StockListComponent} from './stock/stock-list/stock-list.component';
 import {StockDetailsComponent} from './stock/stock-details/stock-details.component';
 import {DepotCreateDialogComponent} from './depots/depot-create-dialog.component';
-import {AlarmCreateDialogComponent} from './alert/alert-create-dialog/alarm-create-dialog.component';
 import {DepotSwitchCreateComponent} from './depots/depot-switch-create.component';
 import {HomeComponent} from './home/home.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {DepotOverviewComponent} from './depots/depot-overview/depot-overview.component';
 import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component';
+import {StockSellComponent} from './stock/stock-sell/stock-sell.component';
+import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.component';
+import {AlarmCreateDialogComponent} from "./alert/alert-create-dialog/alarm-create-dialog.component";
 import {AlertListComponent} from "./alert/alert-list.component";
 
 @NgModule({
@@ -28,6 +30,9 @@ import {AlertListComponent} from "./alert/alert-list.component";
     HomeComponent,
     NavigationComponent,
     DepotOverviewComponent,
+    DepotStocksComponent,
+    StockSellComponent,
+    StockPurchaseComponent
     DepotStocksComponent,
     AlertListComponent
   ],
@@ -43,7 +48,9 @@ import {AlertListComponent} from "./alert/alert-list.component";
   bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
-    AlarmCreateDialogComponent
+    AlarmCreateDialogComponent,
+    StockSellComponent,
+    StockPurchaseComponent
   ]
 })
 export class AppModule {

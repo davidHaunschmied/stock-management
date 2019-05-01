@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>Aktien verkaufen: </h1>
+<div mat-dialog-content>
+    <p>Aktie: {{data.holding.stock.name}}</p>
+    Menge:
+    <mat-slider [(ngModel)]="data.amount" max="{{data.holding.amount}}" min="1" step="1"></mat-slider>
+    <mat-form-field>
+        <label>
+            <input [(ngModel)]="data.amount" cdkFocusInitial matInput max="{{data.holding.amount}}" min="1"
+                   type="number">
+        </label>
+    </mat-form-field>
+    <mat-form-field>
+        <label>
+            Preis:
+            <input [(ngModel)]="data.price" cdkFocusInitial matInput>
+        </label>
+    </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <button (click)="onNoClick()" mat-button>Abbrechen</button>
+    <button [mat-dialog-close]="data" class="mat-primary" mat-raised-button>Verkaufen</button>
+</div>
