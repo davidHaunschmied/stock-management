@@ -1,3 +1,31 @@
-<p>
-  Hier sollen die Aktienbesitze angezeigt werden!
-</p>
+<div class="mat-elevation-z8">
+    <table [dataSource]="dataSource" mat-table matSort>
+        <ng-container matColumnDef="stock.name">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Aktie</th>
+            <td *matCellDef="let element" mat-cell>{{element.stock.name}}</td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Menge</th>
+            <td *matCellDef="let element" mat-cell>{{element.amount}}</td>
+        </ng-container>
+        <ng-container matColumnDef="totalPrice">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>
+            <td *matCellDef="let element" mat-cell>{{element.totalPrice | currency : "$"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="alert">
+            <th *matHeaderCellDef mat-header-cell>Sell</th>
+            <td *matCellDef="let element" class="mat-cell cdk-column-alert mat-column-alert">
+                <span>
+                    <button (click)="openSellStockDialog()">
+                        <i class="material-icons">gavel</i>
+                    </button>
+                </span>
+            </td>
+        </ng-container>
+
+
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row ; columns: displayedColumns;" mat-row></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons></mat-paginator>
+</div>

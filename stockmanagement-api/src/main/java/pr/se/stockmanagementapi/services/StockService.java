@@ -6,6 +6,8 @@ import pr.se.stockmanagementapi.exceptions.BadRequestException;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.respository.StockRepository;
 
+import java.util.List;
+
 @Service
 public class StockService {
     private final StockRepository stockRepository;
@@ -17,5 +19,9 @@ public class StockService {
 
     public Stock findStockByIdOrThrow(long id) {
         return stockRepository.findById(id).orElseThrow(() -> new BadRequestException("Stock with id " + id + " not found!"));
+    }
+
+    public List<Stock> findAll() {
+        return stockRepository.findAll();
     }
 }
