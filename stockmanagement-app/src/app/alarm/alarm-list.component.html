@@ -1,0 +1,16 @@
+<mat-menu #appMenu="matMenu">
+    <ng-container *ngFor="let alarm of alarms">
+        <mat-divider *ngIf="alarm != alarms[0]"></mat-divider>
+        <button [routerLink]="['/stocks/stock-details', alarm.stock.id]">Preis
+            von {{alarm.stock.name}} ist
+            mit {{alarm.stock.price | number : '1.2-2'}} {{alarm.stock.currency}} {{alarm.alarmType === 'UNDER' ? 'unter' : 'über'}} {{alarm.price | number : '1.2-2'}} {{alarm.stock.currency}} {{alarm.alarmType === 'UNDER' ? 'gefallen' : 'gestiegen'}}
+            !
+        </button>
+    </ng-container>
+</mat-menu>
+
+<button [disabled]="getAlarmsCount() == 0" [matMenuTriggerFor]="appMenu" mat-icon-button>
+    <mat-icon [matBadgeHidden]="getAlarmsCount() == 0" [matBadge]="getAlarmsCount()"
+              class="md-light md-24" matBadgeColor="warn" matBadgePosition="above after">notification_important
+    </mat-icon>
+</button>

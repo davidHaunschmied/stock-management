@@ -8,7 +8,7 @@ import {StockPurchaseComponent} from "../stock-purchase/stock-purchase.component
 import {TransactionService} from "../../services/transaction/transaction.service";
 import {IDepot} from "../../model/IDepot";
 import {DepotService} from "../../services/depot/depot.service";
-import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
+import {AlarmCreateDialogComponent} from "../../alarm/alarm-create-dialog/alarm-create-dialog.component";
 
 @Component({
   selector: 'app-stock-list',

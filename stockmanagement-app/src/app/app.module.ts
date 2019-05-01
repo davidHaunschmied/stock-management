@@ -16,8 +16,8 @@ import {DepotOverviewComponent} from './depots/depot-overview/depot-overview.com
 import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component';
 import {StockSellComponent} from './stock/stock-sell/stock-sell.component';
 import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.component';
-import {AlarmCreateDialogComponent} from "./alert/alert-create-dialog/alarm-create-dialog.component";
-import {AlertListComponent} from "./alert/alert-list.component";
+import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-create-dialog.component";
+import {AlarmListComponent} from "./alarm/alarm-list.component";
 
 @NgModule({
   declarations: [
@@ -32,9 +32,9 @@ import {AlertListComponent} from "./alert/alert-list.component";
     DepotOverviewComponent,
     DepotStocksComponent,
     StockSellComponent,
-    StockPurchaseComponent
+    StockPurchaseComponent,
     DepotStocksComponent,
-    AlertListComponent
+    AlarmListComponent
   ],
   imports: [
     CoreModule,
