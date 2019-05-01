@@ -3,12 +3,12 @@ import {StockService} from 'src/app/services/stock/stock.service';
 import {IStock} from '../../model/IStock';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatDialog, MatPaginator, MatSort} from "@angular/material";
-import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
 import {AlarmService} from "../../services/alarm/alarm.service";
 import {StockPurchaseComponent} from "../stock-purchase/stock-purchase.component";
 import {TransactionService} from "../../services/transaction/transaction.service";
 import {IDepot} from "../../model/IDepot";
 import {DepotService} from "../../services/depot/depot.service";
+import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-create-dialog.component";
 
 @Component({
   selector: 'app-stock-list',
