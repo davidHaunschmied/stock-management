@@ -16,7 +16,7 @@ import {AlarmCreateDialogComponent} from "../../alert/alert-create-dialog/alarm-
   styleUrls: ['./stock-list.component.scss']
 })
 export class StockListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'market', 'price', 'change1d', 'buy', 'alert'];
+  displayedColumns: string[] = ['name', 'market', 'price', 'day_change', 'buy', 'alert'];
   //stocks: IStock[] | undefined;
   dataSource: MatTableDataSource<IStock>;
   private currentDepot: IDepot;
@@ -64,14 +64,13 @@ export class StockListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      console.log('The dialog was closed');/*
-      this.alarmService.createAlarm(data, data.alarmPrice).subscribe(
-        data => {
-          console.log('Added alarm of data: ' + data);
+      this.alarmService.createAlarm(data.stock, data.alarmPrice).subscribe(
+        alarm => {
+          console.log('Added alarm of data: ' + JSON.stringify(alarm));
         }, error => {
-          console.log('Error: ' + error);
+          console.log('Error: ' + error.message);
         }
-      );*/
+      );
     });
   }
 

@@ -7,11 +7,10 @@ import org.springframework.stereotype.Component;
 import pr.se.stockdataservice.AlarmNotifier;
 import pr.se.stockdataservice.StockDataUpdater;
 import pr.se.stockdataservice.scheduler.JobScheduler;
-import pr.se.stockmanagementapi.model.Depot;
-import pr.se.stockmanagementapi.model.Holding;
-import pr.se.stockmanagementapi.model.Stock;
-import pr.se.stockmanagementapi.model.Transaction;
+import pr.se.stockmanagementapi.model.*;
+import pr.se.stockmanagementapi.model.enums.AlarmType;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
+import pr.se.stockmanagementapi.respository.AlarmRepository;
 import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
@@ -26,16 +25,18 @@ public class Initializer implements ApplicationRunner {
     private final DepotRepository depotRepository;
     private final HoldingRepository holdingRepository;
     private final StockRepository stockRepository;
+    private final AlarmRepository alarmRepository;
 
     private final StockDataUpdater stockDataUpdater;
     private final AlarmNotifier alarmNotifier;
 
     @Autowired
-    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmNotifier alarmNotifier) {
+    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmRepository alarmRepository, AlarmNotifier alarmNotifier) {
         this.depotRepository = depotRepository;
         this.stockDataUpdater = stockDataUpdater;
         this.holdingRepository = holdingRepository;
         this.stockRepository = stockRepository;
+        this.alarmRepository = alarmRepository;
         this.alarmNotifier = alarmNotifier;
     }
 
@@ -61,8 +62,17 @@ public class Initializer implements ApplicationRunner {
         Stock stockVoe = stockRepository.findBySymbol("VOE.VI").orElseThrow(() -> new IllegalStateException("VOE.VI not available!"));
         Stock stockPost = stockRepository.findBySymbol("POST.VI").orElseThrow(() -> new IllegalStateException("POST.VI not available!"));
 
+        insertInstantAlarm(stockVoe);
+
         insertHoldingsForVoest(depot, stockVoe);
         insertHoldingsForPost(depot, stockPost);
+    }
+
+    private void insertInstantAlarm(Stock stock) {
+        Alarm alarm = new Alarm(stock, AlarmType.UNDER, stock.getPrice() + 2);
+        if (!alarmRepository.findAll().contains(alarm)) {
+            alarmRepository.save(alarm);
+        }
     }
 
     private void insertHoldingsForPost(Depot depot, Stock stockPost) throws ParseException {

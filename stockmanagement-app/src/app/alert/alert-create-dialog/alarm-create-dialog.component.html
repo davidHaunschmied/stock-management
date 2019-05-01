@@ -13,12 +13,12 @@
             <p>Das ist der aktuelle Preis.</p>
         </ng-container>
         <ng-container>
-            <mat-label>$</mat-label>
-            <input matInput id="val" type="number" [(ngModel)]="data.alarmPrice">
+            <mat-label>{{data.stock.currency}}</mat-label>
+            <input [(ngModel)]="data.alarmPrice" class="input-field" matInput type="number">
         </ng-container>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>
     <button mat-button (click)="onNoClick()">Abbrechen</button>
-    <button [mat-dialog-close]="data.name" class="mat-primary" mat-raised-button>Erstellen</button>
+    <button [mat-dialog-close]="data" class="mat-primary" mat-raised-button>Erstellen</button>
 </div>
