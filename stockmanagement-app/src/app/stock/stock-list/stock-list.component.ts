@@ -78,7 +78,7 @@ export class StockListComponent implements OnInit {
 
   openBuyStockDialog(stock: any) {
     const dialogRef = this.purchaseStockDialog.open(StockPurchaseComponent, {
-      width: '250px',
+      width: '300px',
       data: {stock: stock, amount: 1, totalPrice: stock.price},
     });
 

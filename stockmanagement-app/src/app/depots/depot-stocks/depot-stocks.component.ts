@@ -43,7 +43,7 @@ export class DepotStocksComponent implements OnInit {
 
   openSellStockDialog(holding: IHolding): void {
     const dialogRef = this.sellStockDialog.open(StockSellComponent, {
-      width: '250px',
+      width: '300px',
       data: {holding: holding, amount: 1, price: holding.stock.price},
     });
 
