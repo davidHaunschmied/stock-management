@@ -7,6 +7,10 @@
         <ng-container matColumnDef="amount">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Menge</th>
             <td *matCellDef="let element" mat-cell>{{element.amount}}</td>
+            <div>
+                <label for="val">Menge</label>
+                <input matInput id="val" type="number" [(ngModel)]="amount">
+            </div>
         </ng-container>
         <ng-container matColumnDef="totalPrice">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>

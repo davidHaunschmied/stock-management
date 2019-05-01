@@ -47,4 +47,6 @@ export class DepotStocksComponent implements OnInit {
       this.transactionService.createTransaction(t);
     });
   }
+
+
 }
