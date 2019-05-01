@@ -42,7 +42,7 @@ public class JobScheduler {
                 .withIdentity("StockDataUpdateTrigger")
                 .startNow()
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                    .withIntervalInMinutes(INTERVAL_IN_MINUTES)
+                    .withIntervalInSeconds(20)
                     .repeatForever())
                 .build();
             scheduler.scheduleJob(job, trigger);
