@@ -11,6 +11,7 @@ import pr.se.stockmanagementapi.payload.StockTransactionRequest;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
 import pr.se.stockmanagementapi.respository.TransactionRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,7 +43,7 @@ public class TransactionService {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
         final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
         Transaction transaction = new Transaction(stockTransactionRequest.getAmount(), stockTransactionRequest.getPrice(),
-            stockTransactionRequest.getDate(), transactionType);
+            new Date(), transactionType);
         Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
         holding.addTransaction(transaction);
         return holdingRepository.save(holding);

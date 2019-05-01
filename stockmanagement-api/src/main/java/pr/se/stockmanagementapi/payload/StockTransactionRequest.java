@@ -1,13 +1,10 @@
 package pr.se.stockmanagementapi.payload;
 
-import java.util.Date;
-
 public class StockTransactionRequest {
     private Long depotId;
     private Long stockId;
     private int amount;
     private double price;
-    private Date date;
 
     public Long getDepotId() {
         return depotId;
@@ -41,11 +38,4 @@ public class StockTransactionRequest {
         this.price = price;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

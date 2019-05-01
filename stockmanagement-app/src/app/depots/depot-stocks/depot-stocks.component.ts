@@ -14,6 +14,7 @@ import {TransactionService} from "../../services/transaction/transaction.service
 export class DepotStocksComponent implements OnInit {
   displayedColumns: string[] = ['stock.name', 'amount', 'totalPrice', 'alert'];
   dataSource: MatTableDataSource<IHolding>;
+  currentDepot: IDepot;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -25,6 +26,9 @@ export class DepotStocksComponent implements OnInit {
 
   ngOnInit() {
     this.getHoldings();
+    this.depotService.currentDepot.subscribe((depot: IDepot) => {
+      this.currentDepot = depot;
+    });
   }
 
   getHoldings() {
@@ -40,11 +44,17 @@ export class DepotStocksComponent implements OnInit {
   openSellStockDialog(holding: IHolding): void {
     const dialogRef = this.sellStockDialog.open(StockSellComponent, {
       width: '250px',
-      data: {holding: holding},
+      data: {holding: holding, amount: 1, price: holding.stock.price},
     });
 
-    dialogRef.afterClosed().subscribe(t => {
-      this.transactionService.createTransaction(t);
+    dialogRef.afterClosed().subscribe(data => {
+      this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount, data.price).subscribe(
+        holding => {
+          this.getHoldings()
+        }, error => {
+          console.log('Error: ' + error.message);
+        }
+      );
     });
   }
 
