@@ -28,3 +28,7 @@ dependencies {
     testImplementation 'org.assertj:assertj-core:3.11.1'
     testImplementation 'io.projectreactor:reactor-test'
 }
+
+tasks.test {
+    systemProperty 'stockApiToken', System.getProperty('stockApiToken')
+}
