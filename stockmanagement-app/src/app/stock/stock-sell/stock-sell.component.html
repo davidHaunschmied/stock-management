@@ -2,16 +2,18 @@
 <div mat-dialog-content>
     <p>Aktie: {{data.holding.stock.name}}</p>
     Menge:
-    <mat-slider [(ngModel)]="data.amount" max="{{data.holding.amount}}" min="1" step="1"></mat-slider>
+    <mat-slider (valueChange)="calculateTotalPrice()" [(ngModel)]="data.amount" max="{{data.holding.amount}}" min="1"
+                step="1"></mat-slider>
     <mat-form-field>
         <label>
-            <input [(ngModel)]="data.amount" cdkFocusInitial matInput max="{{data.holding.amount}}" min="1"
+            <input (input)="calculateTotalPrice()" [(ngModel)]="data.amount" cdkFocusInitial matInput
+                   max="{{data.holding.amount}}" min="1"
                    type="number">
         </label>
     </mat-form-field>
     <mat-form-field>
         <label>
-            Preis:
+            Gesamtpreis:
             <input [(ngModel)]="data.price" cdkFocusInitial matInput>
         </label>
     </mat-form-field>

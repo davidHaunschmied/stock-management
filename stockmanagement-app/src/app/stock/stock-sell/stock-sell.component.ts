@@ -8,10 +8,12 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 })
 export class StockSellComponent implements OnInit {
   value = 0;
+  readonly initialPrice: number;
 
   constructor(
     public dialogRef: MatDialogRef<StockSellComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.initialPrice = data.price;
   }
 
   onNoClick(): void {
@@ -22,4 +24,7 @@ export class StockSellComponent implements OnInit {
   ngOnInit() {
   }
 
+  calculateTotalPrice() {
+    this.data.price = this.data.amount * this.initialPrice;
+  }
 }

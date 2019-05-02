@@ -16,17 +16,15 @@ export class TransactionService {
   }
 
   sellStock(stock: IStock, depot: IDepot, amount: number, price: number): Observable<IHolding> {
-    return this.http.post<IHolding>(this.endpoint + '/sell',
-      {
-        'stockId': stock.id,
-        'depotId': depot.id,
-        'amount': amount,
-        'price': price
-      }, AppSettings.HTTP_OPTIONS);
+    return this.newTransaction(stock, depot, amount, price, '/sell');
   }
 
   purchaseStock(stock: IStock, depot: IDepot, amount: number, price: number): Observable<IHolding> {
-    return this.http.post<IHolding>(this.endpoint + '/purchase',
+    return this.newTransaction(stock, depot, amount, price, '/purchase');
+  }
+
+  private newTransaction(stock: IStock, depot: IDepot, amount: number, price: number, subPath: string): Observable<IHolding> {
+    return this.http.post<IHolding>(this.endpoint + subPath,
       {
         'stockId': stock.id,
         'depotId': depot.id,
