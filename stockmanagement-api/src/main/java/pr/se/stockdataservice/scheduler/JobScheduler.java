@@ -12,7 +12,7 @@ import pr.se.stockdataservice.scheduler.job.StockDataUpdateJob;
 
 @Component
 public class JobScheduler {
-    private static final Logger log = LoggerFactory.getLogger(JobScheduler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JobScheduler.class);
     private static final int INTERVAL_IN_MINUTES = 3;
     private StockDataUpdater stockDataUpdater;
     private AlarmNotifier alarmNotifier;
@@ -45,9 +45,14 @@ public class JobScheduler {
                     .withIntervalInMinutes(INTERVAL_IN_MINUTES)
                     .repeatForever())
                 .build();
+
+            // https://stackoverflow.com/a/51724460
+            if (scheduler.checkExists(job.getKey())) {
+                scheduler.deleteJob(job.getKey());
+            }
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
-            log.error("Job could not be started!", e);
+            LOGGER.error("Job could not be started!", e);
         }
     }
 }
