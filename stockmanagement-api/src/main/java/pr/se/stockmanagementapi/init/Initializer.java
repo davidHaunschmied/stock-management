@@ -1,5 +1,7 @@
 package pr.se.stockmanagementapi.init;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -21,6 +23,7 @@ import java.text.SimpleDateFormat;
 @Component
 public class Initializer implements ApplicationRunner {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private static final Logger LOGGER = LoggerFactory.getLogger(Initializer.class);
 
     private final DepotRepository depotRepository;
     private final HoldingRepository holdingRepository;
@@ -41,10 +44,14 @@ public class Initializer implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         insertDepotsIfNotExist("Risikodepot", "Sicherheitsdepot");
         stockDataUpdater.updateStockData();
-        generateHoldingsAndTransactions("Risikodepot");
+        try {
+            generateHoldingsAndTransactions("Risikodepot");
+        } catch (Exception e) {
+            LOGGER.error("Error while generating test holdings and transactions");
+        }
         JobScheduler jobScheduler = new JobScheduler(stockDataUpdater, alarmNotifier);
         jobScheduler.run();
     }
