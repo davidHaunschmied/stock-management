@@ -1,5 +1,7 @@
 package pr.se.stockdataservice;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pr.se.stockdataservice.stockapiclient.request.SearchRequest;
@@ -19,6 +21,7 @@ import java.util.Optional;
 
 @Component
 public class StockDataUpdater {
+    private static final Logger LOGGER = LoggerFactory.getLogger(StockDataUpdater.class);
     private List<StockExchange> availableStockExchanges;
 
     private final StockRepository stockRepository;
@@ -45,19 +48,24 @@ public class StockDataUpdater {
 
 
     public void updateStockData() {
-        SearchRequest searchRequest = new SearchRequest();
-        searchRequest.getStockExchanges().addAll(availableStockExchanges);
+        try {
+            SearchRequest searchRequest = new SearchRequest();
+            searchRequest.getStockExchanges().addAll(availableStockExchanges);
 
-        saveAllStockExchanges(availableStockExchanges);
-        SearchResponse response = searchRequest.getData();
+            saveAllStockExchanges(availableStockExchanges);
+            SearchResponse response = searchRequest.getData();
 
-        int i = 1;
-        do {
-            loadStockDetail(response.getData());
-            i++;
-            searchRequest.setPage(i);
-            response = searchRequest.getData();
-        } while (i <= response.getTotal_pages());
+            int i = 1;
+            do {
+                loadStockDetail(response.getData());
+                i++;
+                searchRequest.setPage(i);
+                response = searchRequest.getData();
+            } while (i <= response.getTotal_pages());
+        } catch (Exception e) {
+            LOGGER.error("Could not update stock data!", e);
+        }
+
     }
 
     private void loadStockDetail(StockData[] stockDataList) {
