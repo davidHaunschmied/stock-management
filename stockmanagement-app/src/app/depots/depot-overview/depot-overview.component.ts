@@ -49,7 +49,9 @@ export class DepotOverviewComponent implements OnInit {
   calculateTotalEarnings() {
     let totalEarnings = 0;
     this.holdings.forEach(holding => {
-      totalEarnings += holding.earning;
+      holding.earnings.forEach(earning => {
+        totalEarnings += earning.earnings;
+      })
     });
     this.totalEarnings = totalEarnings;
   }
