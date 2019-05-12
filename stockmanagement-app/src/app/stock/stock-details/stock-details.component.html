@@ -9,3 +9,11 @@
 <p>
     <button (click)="onBack()">Back</button>
 </p>
+
+<highcharts-chart
+    [Highcharts]="Highcharts"
+    [options]="chartOptions"
+    constructorType="stockChart"
+
+    style="width: 100%; height: 400px; display: block;"
+></highcharts-chart>
