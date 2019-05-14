@@ -31,6 +31,6 @@ public class DepotService {
     }
 
     public List<Holding> allCurrentHoldings(long depotId) {
-        return holdingRepository.findByDepot(findDepotByIdOrThrow(depotId)).stream().filter(holding -> holding.getAmount() > 0).collect(Collectors.toList());
+        return holdingRepository.findByDepot(findDepotByIdOrThrow(depotId));
     }
 }
