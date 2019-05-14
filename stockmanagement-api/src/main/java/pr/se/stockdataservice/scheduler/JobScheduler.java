@@ -13,7 +13,7 @@ import pr.se.stockdataservice.scheduler.job.StockDataUpdateJob;
 @Component
 public class JobScheduler {
     private static final Logger LOGGER = LoggerFactory.getLogger(JobScheduler.class);
-    private static final int INTERVAL_IN_MINUTES = 3;
+    private static final int INTERVAL_IN_MINUTES = 5;
     private StockDataUpdater stockDataUpdater;
     private AlarmNotifier alarmNotifier;
 
