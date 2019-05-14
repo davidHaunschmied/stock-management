@@ -6,21 +6,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pr.se.stockmanagementapi.model.StockHistory;
-import pr.se.stockmanagementapi.respository.StockHistoryRepository;
+import pr.se.stockmanagementapi.services.StockHistoryService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/stockhistory")
 public class StockHistoryController {
-    StockHistoryRepository stockHistoryRepository;
+    private final StockHistoryService stockHistoryService;
 
-    public StockHistoryController(StockHistoryRepository stockHistoryRepository) {
-        this.stockHistoryRepository = stockHistoryRepository;
+    public StockHistoryController(StockHistoryService stockHistoryService) {
+        this.stockHistoryService = stockHistoryService;
     }
 
     @GetMapping("/{stockId}")
     public ResponseEntity<List<StockHistory>> getStockHistoryByStockId(@PathVariable long stockId) {
-        return ResponseEntity.ok(stockHistoryRepository.findByStockId(stockId));
+        return ResponseEntity.ok(stockHistoryService.findByStockIdSorted(stockId));
     }
 }
