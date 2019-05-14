@@ -1,5 +1,6 @@
 package pr.se.stockmanagementapi.model.audit;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -19,10 +20,12 @@ import java.time.Instant;
 public class DateAudit {
 
     @CreatedDate
+    @JsonIgnore
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
     @LastModifiedDate
+    @JsonIgnore
     @Column(nullable = false)
     private Instant updatedAt;
 
