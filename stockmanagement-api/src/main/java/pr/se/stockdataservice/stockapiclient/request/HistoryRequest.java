@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HistoryRequest extends StockAPIRequest<HistoryResponse> {
-    public final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
     private String symbol;
     private Date dateFrom;
