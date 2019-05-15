@@ -39,7 +39,9 @@ public class StockHistoryDataUpdater {
         try {
             HistoryRequest request = new HistoryRequest(stock.getSymbol());
             request.setDateFrom(getLatestHistoryDate(stock));
-            if (request.getDateFrom().before(new Date())) {
+            Calendar yesterday = Calendar.getInstance();
+            yesterday.add(Calendar.DATE, -2); // -2 because  time of getDateFrom() is 00:00:00 and yesterday has current time
+            if (request.getDateFrom().before(yesterday.getTime())) {
                 HistoryResponse response = request.getData();
                 saveHistoryResponse(stock, response);
             }
