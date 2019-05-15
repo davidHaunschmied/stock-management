@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pr.se.stockmanagementapi.exceptions.BadRequestException;
 import pr.se.stockmanagementapi.model.Depot;
+import pr.se.stockmanagementapi.model.Earning;
 import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
@@ -23,7 +24,7 @@ public class DepotService {
     }
 
     public double calculateEarnings(long depotId) {
-        return allCurrentHoldings(depotId).stream().mapToDouble(Holding::getEarning).sum();
+        return allCurrentHoldings(depotId).stream().map(Holding::getEarnings).mapToDouble(earning -> earning.stream().mapToDouble(Earning::getEarnings).sum()).sum();
     }
 
     public Depot findDepotByIdOrThrow(long id) {
