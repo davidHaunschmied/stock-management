@@ -35,13 +35,14 @@ public class Holding extends DateAudit {
     @Column(nullable = false)
     private double totalPrice;
 
-    @Column(nullable = false)
-    private double earning;
-
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "holding_id")
     @JsonIgnore
     private List<Transaction> transactions;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "holding_id")
+    private List<Earning> earnings;
 
 
     public Holding() {
@@ -52,8 +53,8 @@ public class Holding extends DateAudit {
         this.stock = stock;
         this.amount = 0;
         this.totalPrice = 0;
-        this.earning = 0;
         this.transactions = new ArrayList<>();
+        this.earnings = new ArrayList<>();
     }
 
     public Depot getDepot() {
@@ -72,25 +73,26 @@ public class Holding extends DateAudit {
         return totalPrice;
     }
 
-    public double getEarning() {
-        return earning;
-    }
-
     public List<Transaction> getTransactions() {
         return transactions;
     }
 
+    public List<Earning> getEarnings() {
+        return earnings;
+    }
+    
     public void addTransaction(Transaction transaction) {
         if (transaction.getTransactionType() == TransactionType.PURCHASE) {
-            amount += transaction.getAmount();
-            totalPrice += transaction.getPrice();
+            this.amount += transaction.getAmount();
+            this.totalPrice += transaction.getPrice();
         } else if (transaction.getTransactionType() == TransactionType.SALE) {
-            Preconditions.checkArgument(transaction.getAmount() <= amount, "Transaction amount must not be greater than amount of holding!");
-            final double investedPrice = transaction.getAmount() * (totalPrice / amount);
-            earning += transaction.getPrice() - investedPrice;
-            amount -= transaction.getAmount();
-            totalPrice -= investedPrice;
-            totalPrice = totalPrice > 0 ? totalPrice : 0;
+            Preconditions.checkArgument(transaction.getAmount() <= this.amount, "Transaction amount must not be greater than amount of holding!");
+            final double investedPrice = transaction.getAmount() * (this.totalPrice / this.amount);
+            this.amount -= transaction.getAmount();
+            this.totalPrice -= investedPrice;
+            final Earning earning = new Earning(transaction.getDate());
+            earning.setEarnings(transaction.getPrice() - investedPrice);
+            earnings.add(earning);
         } else {
             throw new UnsupportedOperationException(TransactionType.class.getSimpleName() + " " + transaction.getTransactionType().name() + " unknown");
         }
@@ -105,10 +107,5 @@ public class Holding extends DateAudit {
     @VisibleForTesting
     void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-    }
-
-    @VisibleForTesting
-    void setEarning(double earning) {
-        this.earning = earning;
     }
 }
