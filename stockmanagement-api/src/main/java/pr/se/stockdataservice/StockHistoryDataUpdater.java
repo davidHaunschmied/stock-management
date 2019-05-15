@@ -63,10 +63,10 @@ public class StockHistoryDataUpdater {
     }
 
     private void saveHistoryResponse(Stock stock, HistoryResponse response) {
-        for (String yearString : response.getHistory().keySet()) {
+        for (String dateString : response.getHistory().keySet()) {
             try {
-                long dateMillis = HistoryRequest.formatter.parse(yearString).getTime();
-                StockHistory stockHistory = new StockHistory(stock, dateMillis, response.getHistory().get(yearString).getClose());
+                long dateMillis = HistoryRequest.formatter.parse(dateString).getTime();
+                StockHistory stockHistory = new StockHistory(stock, dateMillis, response.getHistory().get(dateString).getClose());
                 stockHistoryRepository.save(stockHistory);
             } catch (ParseException e) {
                 LOGGER.error(String.format("Could not save stock history for stock %s (%s) ", stock.getName(), stock.getSymbol()), e);
