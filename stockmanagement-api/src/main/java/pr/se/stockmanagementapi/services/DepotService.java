@@ -8,29 +8,24 @@ import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 public class DepotService {
     private final DepotRepository depotRepository;
     private final HoldingRepository holdingRepository;
+    private final HoldingService holdingService;
 
     @Autowired
-    public DepotService(DepotRepository depotRepository, HoldingRepository holdingRepository) {
+    public DepotService(DepotRepository depotRepository, HoldingRepository holdingRepository, HoldingService holdingService) {
         this.depotRepository = depotRepository;
         this.holdingRepository = holdingRepository;
+        this.holdingService = holdingService;
     }
 
     public double calculateEarnings(long depotId) {
-        return allCurrentHoldings(depotId).stream().mapToDouble(Holding::getEarning).sum();
+        return holdingService.allCurrentHoldings(depotId).stream().mapToDouble(Holding::getEarning).sum();
     }
 
     public Depot findDepotByIdOrThrow(long id) {
         return depotRepository.findById(id).orElseThrow(() -> new BadRequestException("Depot with id " + id + " not found!"));
-    }
-
-    public List<Holding> allCurrentHoldings(long depotId) {
-        return holdingRepository.findByDepot(findDepotByIdOrThrow(depotId)).stream().filter(holding -> holding.getAmount() > 0).collect(Collectors.toList());
     }
 }

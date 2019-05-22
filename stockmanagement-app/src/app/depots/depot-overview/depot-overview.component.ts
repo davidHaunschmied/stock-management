@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {DepotService} from "../../services/depot/depot.service";
 import {IDepot} from "../../model/IDepot";
 import {IHolding} from "../../model/IHolding";
+import {HoldingService} from "../../services/holding/holding.service";
 
 @Component({
   selector: 'app-depot-overview',
@@ -15,12 +16,12 @@ export class DepotOverviewComponent implements OnInit {
   relativeChange: number;
   totalEarnings: number;
 
-  constructor(private depotService: DepotService) {
+  constructor(private depotService: DepotService, private holdingService: HoldingService) {
   }
 
   ngOnInit() {
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.depotService.getAllHoldings(depot.id).subscribe(data => {
+      this.holdingService.getAllHoldings(depot.id).subscribe(data => {
         this.holdings = data;
         this.calculateAbsoluteChange();
         this.calculateRelativeChange();

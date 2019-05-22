@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pr.se.stockmanagementapi.model.Depot;
-import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.lightweights.DepotIdAndName;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.payload.DepotCreationRequest;
@@ -58,8 +57,5 @@ public class DepotController {
         return depotService.calculateEarnings(depotId);
     }
 
-    @GetMapping("/{depotId}/holdings")
-    public List<Holding> getHoldings(@PathVariable long depotId) {
-        return depotService.allCurrentHoldings(depotId);
-    }
+
 }

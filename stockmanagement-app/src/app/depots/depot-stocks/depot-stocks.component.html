@@ -13,7 +13,7 @@
             <td *matCellDef="let element" mat-cell>{{element.totalPrice | currency : "$"}}</td>
         </ng-container>
         <ng-container matColumnDef="sell">
-            <th *matHeaderCellDef mat-header-cell>Sell</th>
+            <th *matHeaderCellDef mat-header-cell>Verkaufen</th>
             <td *matCellDef="let element" class="mat-cell cdk-column-alert mat-column-alert">
                 <span>
                     <button (click)="openSellStockDialog(element)">

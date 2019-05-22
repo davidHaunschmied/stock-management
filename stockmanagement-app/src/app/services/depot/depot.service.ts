@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {IDepot} from "../../model/IDepot";
 import {AppSettings} from "../../app-settings";
-import {IHolding} from "../../model/IHolding";
 
 @Injectable({
   providedIn: 'root'
@@ -21,10 +20,6 @@ export class DepotService {
 
   getAllDepots(): Observable<IDepot[]> {
     return this.http.get<IDepot[]>(this.endpoint + '/all', AppSettings.HTTP_OPTIONS);
-  }
-
-  getAllHoldings(depotId: number): Observable<IHolding[]> {
-    return this.http.get<IHolding[]>(this.endpoint + '/' + depotId + '/holdings/', AppSettings.HTTP_OPTIONS);
   }
 
   createDepot(name: string): Observable<IDepot> {

@@ -5,6 +5,7 @@ import {IDepot} from "../../model/IDepot";
 import {IHolding} from "../../model/IHolding";
 import {StockSellComponent} from "../../stock/stock-sell/stock-sell.component";
 import {TransactionService} from "../../services/transaction/transaction.service";
+import {HoldingService} from "../../services/holding/holding.service";
 
 @Component({
   selector: 'app-depot-stocks',
@@ -20,6 +21,7 @@ export class DepotStocksComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private depotService: DepotService,
+              private holdingService: HoldingService,
               private transactionService: TransactionService,
               private sellStockDialog: MatDialog) {
   }
@@ -33,7 +35,7 @@ export class DepotStocksComponent implements OnInit {
 
   getHoldings() {
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.depotService.getAllHoldings(depot.id).subscribe(data => {
+      this.holdingService.getAllHoldings(depot.id).subscribe(data => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
