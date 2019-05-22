@@ -36,6 +36,9 @@ export class DepotStocksComponent implements OnInit {
   getHoldings() {
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
       this.holdingService.getAllHoldings(depot.id).subscribe(data => {
+        data = data.filter(holding => {
+          return holding.amount > 0
+        });
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;

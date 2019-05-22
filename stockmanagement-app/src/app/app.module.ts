@@ -18,6 +18,7 @@ import {StockSellComponent} from './stock/stock-sell/stock-sell.component';
 import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.component';
 import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-create-dialog.component";
 import {AlarmListComponent} from "./alarm/alarm-list.component";
+import {HighchartsChartModule} from 'highcharts-angular';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import {AlarmListComponent} from "./alarm/alarm-list.component";
     AlarmListComponent
   ],
   imports: [
+    HighchartsChartModule,
     CoreModule,
     FormsModule,
     ReactiveFormsModule,

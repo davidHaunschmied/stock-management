@@ -8,6 +8,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import pr.se.stockdataservice.AlarmNotifier;
 import pr.se.stockdataservice.StockDataUpdater;
+import pr.se.stockdataservice.StockHistoryDataUpdater;
 import pr.se.stockdataservice.scheduler.JobScheduler;
 import pr.se.stockmanagementapi.model.*;
 import pr.se.stockmanagementapi.model.enums.AlarmType;
@@ -31,12 +32,14 @@ public class Initializer implements ApplicationRunner {
     private final AlarmRepository alarmRepository;
 
     private final StockDataUpdater stockDataUpdater;
+    private final StockHistoryDataUpdater stockHistoryDataUpdater;
     private final AlarmNotifier alarmNotifier;
 
     @Autowired
-    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmRepository alarmRepository, AlarmNotifier alarmNotifier) {
+    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, StockHistoryDataUpdater stockHistoryDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmRepository alarmRepository, AlarmNotifier alarmNotifier) {
         this.depotRepository = depotRepository;
         this.stockDataUpdater = stockDataUpdater;
+        this.stockHistoryDataUpdater = stockHistoryDataUpdater;
         this.holdingRepository = holdingRepository;
         this.stockRepository = stockRepository;
         this.alarmRepository = alarmRepository;
@@ -52,7 +55,7 @@ public class Initializer implements ApplicationRunner {
         } catch (Exception e) {
             LOGGER.error("Error while generating test holdings and transactions");
         }
-        JobScheduler jobScheduler = new JobScheduler(stockDataUpdater, alarmNotifier);
+        JobScheduler jobScheduler = new JobScheduler(stockDataUpdater, alarmNotifier, stockHistoryDataUpdater);
         jobScheduler.run();
     }
 
