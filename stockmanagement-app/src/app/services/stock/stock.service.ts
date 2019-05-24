@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {IStock} from '../../model/IStock';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {catchError, tap, map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {AppSettings} from "../../app-settings";
+import {IHistoryPoint} from "../../model/IHistoryPoint";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,11 @@ export class StockService {
   }
 
   getStockDetails(id: number): Observable<IStock> {
-    return this.http.get<IStock>(this.endpoint + '/stock-detail/' + id, AppSettings.HTTP_OPTIONS);
+    return this.http.get<IStock>(this.endpoint + '/detail/' + id, AppSettings.HTTP_OPTIONS);
+  }
+
+  getStockHistory(id: number): Observable<IHistoryPoint []> {
+    return this.http.get<IHistoryPoint []>(this.endpoint + '/history/' + id, AppSettings.HTTP_OPTIONS);
   }
 
   // Copy & Paste of DeborahK

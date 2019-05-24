@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Alarm")
+@Table(name = "Alarm", uniqueConstraints = @UniqueConstraint(columnNames = {"stock_id", "alarmType"}))
 public class Alarm extends DateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
