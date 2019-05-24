@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface HoldingRepository extends JpaRepository<Holding, Long> {
     Optional<Holding> findByDepotAndStock(Depot depot, Stock stock);
-
+    Optional<Holding> findByDepotIdAndStockId(Long depotId, Long stockId);
     List<Holding> findByDepot(Depot depot);
 }

@@ -65,4 +65,5 @@ speed-measure-plugin.json
 .history/*
 
 #H2 file based db data
-data/*
+data/
+/data

@@ -10,7 +10,7 @@
     <button (click)="onBack()">Back</button>
 </p>
 
-<highcharts-chart
+<highcharts-chart *ngIf="stockHistory"
     [Highcharts]="Highcharts"
     [options]="chartOptions"
     constructorType="stockChart"
