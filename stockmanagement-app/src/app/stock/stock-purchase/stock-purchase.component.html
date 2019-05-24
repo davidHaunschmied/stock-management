@@ -1,17 +1,13 @@
 <h1 mat-dialog-title>Aktien kaufen: </h1>
 <div mat-dialog-content>
     <p>Aktie: {{data.stock.name}}</p>
-    <mat-form-field>
-        <label>
-            Menge:
-            <input (input)="calculateTotalPrice()" [(ngModel)]="data.amount" cdkFocusInitial matInput>
-        </label>
+    <mat-form-field class="width">
+        <label>Menge:</label>
+        <input (input)="calculateTotalPrice()" [(ngModel)]="data.amount" cdkFocusInitial matInput type="number">
     </mat-form-field>
-    <mat-form-field>
-        <label>
-            Gesamtpreis:
-            <input [(ngModel)]="data.totalPrice" matInput>
-        </label>
+    <mat-form-field class="width">
+        <label>Gesamtpreis:</label>
+        <input [(ngModel)]="data.totalPrice" matInput type="number">
     </mat-form-field>
 
 </div>
