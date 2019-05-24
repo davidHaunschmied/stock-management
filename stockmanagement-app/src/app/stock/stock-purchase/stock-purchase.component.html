@@ -10,7 +10,7 @@
     <mat-form-field>
         <label>
             Gesamtpreis:
-            <input [(ngModel)]="data.totalPrice" matInput>
+            <input (ngModelChange)="data.totalPrice = $event" [ngModel]="data.totalPrice | number : '1.2-2'" matInput>
         </label>
     </mat-form-field>
 
