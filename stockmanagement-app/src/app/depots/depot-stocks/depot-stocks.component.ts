@@ -14,7 +14,7 @@ import {IHolding} from "../../model/IHolding";
   styleUrls: ['./depot-stocks.component.scss']
 })
 export class DepotStocksComponent implements OnInit {
-  displayedColumns: string[] = ['stock.name', 'stock.symbol', 'amount', 'totalPrice', 'currentTotalPrice', 'absoluteChange', 'relativeChange', 'sell'];
+  displayedColumns: string[] = ['stock.name', 'stock.symbol', 'stock.stockExchange', 'amount', 'price', 'currentPrice', 'totalPrice', 'currentTotalPrice', 'absoluteChange', 'relativeChange', 'sell'];
   holdings: IHoldingDetail[];
   dataSource: MatTableDataSource<IHoldingDetail>;
   currentDepot: IDepot;
