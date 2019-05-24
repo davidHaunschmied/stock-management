@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {DepotService} from "../../services/depot/depot.service";
 import {IDepot} from "../../model/IDepot";
 import {IHolding} from "../../model/IHolding";
+import {IHistoryPoint} from "../../model/IHistoryPoint";
 import {HoldingService} from "../../services/holding/holding.service";
+import * as Highcharts from "highcharts/highstock";
 
 @Component({
   selector: 'app-depot-overview',
@@ -15,18 +17,45 @@ export class DepotOverviewComponent implements OnInit {
   absoluteChange: number;
   relativeChange: number;
   totalEarnings: number;
+  depotHistory: IHistoryPoint[];
+  Highcharts = Highcharts;
+  chartOptions: Object;
+  private depot: IDepot;
 
   constructor(private depotService: DepotService, private holdingService: HoldingService) {
   }
 
   ngOnInit() {
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.holdingService.getAllHoldings(depot.id).subscribe(data => {
-        this.holdings = data;
-        this.calculateAbsoluteChange();
-        this.calculateRelativeChange();
-        this.calculateTotalEarnings();
-      });
+      this.depot = depot;
+      this.initData();
+      this.initChart();
+    });
+  }
+
+  private initChart() {
+    this.depotService.getHistory(this.depot.id).subscribe(data => {
+      this.depotHistory = data;
+      this.chartOptions = {
+        series: [{
+          name: this.depot.name,
+          data: this.depotHistory.map(function (day) {
+            return [day.dateMillis, day.price];
+          }),
+          tooltip: {
+            valueDecimals: 2
+          }
+        }]
+      };
+    });
+  }
+
+  private initData() {
+    this.holdingService.getAllHoldings(this.depot.id).subscribe(data => {
+      this.holdings = data;
+      this.calculateAbsoluteChange();
+      this.calculateRelativeChange();
+      this.calculateTotalEarnings();
     });
   }
 

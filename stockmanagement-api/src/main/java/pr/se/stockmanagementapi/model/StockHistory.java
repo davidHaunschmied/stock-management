@@ -21,15 +21,15 @@ public class StockHistory extends DateAudit {
     private long dateMillis;
 
     @Column(nullable = false)
-    private double close;
+    private double price;
 
     public StockHistory() {
     }
 
-    public StockHistory(Stock stock, long dateMillis, double close) {
+    public StockHistory(Stock stock, long dateMillis, double price) {
         this.stock = stock;
         this.dateMillis = dateMillis;
-        this.close = close;
+        this.price = price;
     }
 
     public Stock getStock() {
@@ -48,12 +48,12 @@ public class StockHistory extends DateAudit {
         this.dateMillis = dateMillis;
     }
 
-    public double getClose() {
-        return close;
+    public double getPrice() {
+        return price;
     }
 
-    public void setClose(double close) {
-        this.close = close;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     // needed because of composite id

@@ -3,12 +3,14 @@ package pr.se.stockmanagementapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import org.hibernate.annotations.SortComparator;
 import pr.se.stockmanagementapi.model.audit.DateAudit;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
+import pr.se.stockmanagementapi.util.TransactionComparator;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "Holding",
@@ -38,7 +40,8 @@ public class Holding extends DateAudit {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "holding_id")
     @JsonIgnore
-    private List<Transaction> transactions;
+    @SortComparator(TransactionComparator.class)
+    private SortedSet<Transaction> transactions;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "holding_id")
@@ -53,7 +56,7 @@ public class Holding extends DateAudit {
         this.stock = stock;
         this.amount = 0;
         this.totalPrice = 0;
-        this.transactions = new ArrayList<>();
+        this.transactions = new TreeSet<>(new TransactionComparator());
         this.earnings = new ArrayList<>();
     }
 
@@ -73,14 +76,14 @@ public class Holding extends DateAudit {
         return totalPrice;
     }
 
-    public List<Transaction> getTransactions() {
+    public SortedSet<Transaction> getTransactions() {
         return transactions;
     }
 
     public List<Earning> getEarnings() {
         return earnings;
     }
-    
+
     public void addTransaction(Transaction transaction) {
         if (transaction.getTransactionType() == TransactionType.PURCHASE) {
             this.amount += transaction.getAmount();
@@ -107,5 +110,34 @@ public class Holding extends DateAudit {
     @VisibleForTesting
     void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public int getAmountAt(double dateMillis) {
+        return getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.PURCHASE).mapToInt(Transaction::getAmount).sum()
+            - getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.SALE).mapToInt(Transaction::getAmount).sum();
+    }
+
+    public double getTotalPriceAt(double dateMillis) {
+        return getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.PURCHASE).mapToDouble(Transaction::getPrice).sum()
+            - getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.SALE).mapToDouble(Transaction::getPrice).sum();
+    }
+
+    public double getPricePerStockAt(double dateMillis) {
+        return getTotalPriceAt(dateMillis) / getAmountAt(dateMillis);
+    }
+
+    private Stream<Transaction> getTransactionsStreamBefore(double dateMillis) {
+        return transactions.stream().filter(transaction -> transaction.getDate().getTime() < dateMillis);
+    }
+
+    public double getEarningsAt(long dateMillis) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(dateMillis);
+        return earnings.stream().filter(earning -> {
+            Calendar earningCal = Calendar.getInstance();
+            earningCal.setTime(earning.getDate());
+            return calendar.get(Calendar.DAY_OF_YEAR) == earningCal.get(Calendar.DAY_OF_YEAR) &&
+                calendar.get(Calendar.YEAR) == earningCal.get(Calendar.YEAR);
+        }).mapToDouble(Earning::getEarnings).sum();
     }
 }

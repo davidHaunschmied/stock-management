@@ -14,4 +14,8 @@ public interface HoldingRepository extends JpaRepository<Holding, Long> {
     Optional<Holding> findByDepotAndStock(Depot depot, Stock stock);
 
     List<Holding> findByDepotId(long depotId);
+
+    Optional<Holding> findByDepotIdAndStockId(Long depotId, Long stockId);
+
+    List<Holding> findByDepot(Depot depot);
 }

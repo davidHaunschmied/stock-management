@@ -17,3 +17,11 @@
         <h3 class="mat-h3">Es befinden sich keine Aktien in diesem Depot!</h3>
     </div>
 </mat-card>
+<mat-divider></mat-divider>
+<highcharts-chart *ngIf="depotHistory"
+                  [Highcharts]="Highcharts"
+                  [options]="chartOptions"
+                  constructorType="stockChart"
+
+                  style="width: 100%; height: 400px; display: block;"
+></highcharts-chart>
