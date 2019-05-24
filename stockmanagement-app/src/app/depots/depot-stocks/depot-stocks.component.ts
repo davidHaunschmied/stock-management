@@ -2,10 +2,11 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatDialog, MatPaginator, MatSort, MatTableDataSource} from "@angular/material";
 import {DepotService} from "../../services/depot/depot.service";
 import {IDepot} from "../../model/IDepot";
-import {IHolding} from "../../model/IHolding";
 import {StockSellComponent} from "../../stock/stock-sell/stock-sell.component";
 import {TransactionService} from "../../services/transaction/transaction.service";
 import {HoldingService} from "../../services/holding/holding.service";
+import {IHoldingDetail} from "../../model/IHoldingDetail";
+import {IHolding} from "../../model/IHolding";
 
 @Component({
   selector: 'app-depot-stocks',
@@ -13,8 +14,9 @@ import {HoldingService} from "../../services/holding/holding.service";
   styleUrls: ['./depot-stocks.component.scss']
 })
 export class DepotStocksComponent implements OnInit {
-  displayedColumns: string[] = ['stock.name', 'amount', 'totalPrice', 'sell'];
-  dataSource: MatTableDataSource<IHolding>;
+  displayedColumns: string[] = ['stock.name', 'stock.symbol', 'amount', 'totalPrice', 'currentTotalPrice', 'absoluteChange', 'relativeChange', 'sell'];
+  holdings: IHoldingDetail[];
+  dataSource: MatTableDataSource<IHoldingDetail>;
   currentDepot: IDepot;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -39,7 +41,8 @@ export class DepotStocksComponent implements OnInit {
         data = data.filter(holding => {
           return holding.amount > 0
         });
-        this.dataSource = new MatTableDataSource(data);
+        this.holdings = this.initHoldingDetail(data);
+        this.dataSource = new MatTableDataSource(this.holdings);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
       });
@@ -63,5 +66,22 @@ export class DepotStocksComponent implements OnInit {
     });
   }
 
+  private initHoldingDetail(holdings: IHolding[]): IHoldingDetail[] {
+    let details: IHoldingDetail[] = [];
 
+    holdings.forEach(holding => {
+      let detail = {
+        amount: holding.amount,
+        id: holding.id,
+        stock: holding.stock,
+        totalPrice: holding.totalPrice,
+        earnings: holding.earnings,
+        absoluteChange: holding.amount * holding.stock.price - holding.totalPrice,
+        relativeChange: (holding.amount * holding.stock.price - holding.totalPrice) / holding.totalPrice * 100,
+        currentTotalPrice: holding.stock.price * holding.amount
+      };
+      details.push(detail)
+    });
+    return details;
+  }
 }

@@ -4,13 +4,38 @@
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Aktie</th>
             <td *matCellDef="let element" mat-cell>{{element.stock.name}}</td>
         </ng-container>
+        <ng-container matColumnDef="stock.symbol">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Symbol</th>
+            <td *matCellDef="let element" mat-cell>{{element.stock.symbol}}</td>
+        </ng-container>
         <ng-container matColumnDef="amount">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Menge</th>
             <td *matCellDef="let element" mat-cell>{{element.amount}}</td>
         </ng-container>
         <ng-container matColumnDef="totalPrice">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>
-            <td *matCellDef="let element" mat-cell>{{element.totalPrice | currency : "$"}}</td>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Kaufpreis</th>
+            <td *matCellDef="let element" mat-cell>{{element.totalPrice | currency : "€"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="currentTotalPrice">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>aktueller Preis</th>
+            <td *matCellDef="let element" mat-cell>{{element.currentTotalPrice | currency : "€"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="absoluteChange">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Veränderung</th>
+            <td *matCellDef="let element" mat-cell>
+                <span
+                    [ngClass]="element.absoluteChange > 0 ? 'positive-number' : element.absoluteChange < 0 ? 'negative-number' : ''"
+                    class="padding-left">{{element.absoluteChange | number : '1.2-2' | currency : "€"}}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="relativeChange">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>%</th>
+            <td *matCellDef="let element" mat-cell>
+                <span
+                    [ngClass]="element.relativeChange > 0 ? 'positive-number' : element.relativeChange < 0 ? 'negative-number' : ''"
+                >{{element.relativeChange | number : '1.2-2'}} %</span>
+            </td>
         </ng-container>
         <ng-container matColumnDef="sell">
             <th *matHeaderCellDef mat-header-cell>Verkaufen</th>
