@@ -36,7 +36,6 @@ export class AlarmListComponent implements OnInit {
   }
 
   toggleShowAlarms() {
-    console.log("clicked");
     this.showAlarms = !this.showAlarms;
   }
 }

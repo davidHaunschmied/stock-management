@@ -18,7 +18,6 @@ export class AlarmCreateDialogComponent implements OnInit {
   }
 
   onNoClick(): void {
-    console.log(this.data);
     this.dialogRef.close();
   }
 
