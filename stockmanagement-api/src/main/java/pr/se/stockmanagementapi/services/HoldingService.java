@@ -25,6 +25,10 @@ public class HoldingService {
         this.stockHistoryService = stockHistoryService;
     }
 
+    public List<Holding> allCurrentHoldings(long depotId) {
+        return holdingRepository.findByDepotId(depotId).stream().filter(holding -> holding.getAmount() > 0).collect(Collectors.toList());
+    }
+
     public Map<Long, Double> getHoldingHistory(Holding holding) {
         Map<Long, Double> result = new TreeMap<>();
         Calendar calendar = Calendar.getInstance();

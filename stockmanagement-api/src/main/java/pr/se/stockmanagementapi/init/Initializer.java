@@ -81,7 +81,7 @@ public class Initializer implements ApplicationRunner {
         Stock stockVoe = stockRepository.findBySymbol("VOE.VI").orElseThrow(() -> new IllegalStateException("VOE.VI not available!"));
         Stock stockPost = stockRepository.findBySymbol("POST.VI").orElseThrow(() -> new IllegalStateException("POST.VI not available!"));
 
-        if (holdingExists(depot, stockBhd) || holdingExists(depot, stockVoe) || holdingExists(depot, stockPost)){
+        if (holdingExists(depot, stockBhd) || holdingExists(depot, stockVoe) || holdingExists(depot, stockPost)) {
             return;
         }
 

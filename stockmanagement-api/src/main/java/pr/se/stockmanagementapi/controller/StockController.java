@@ -28,7 +28,9 @@ public class StockController {
     }
 
     @GetMapping("/all")
-    public List<Stock> getAllStocks() { return stockRepository.findAll();}
+    public List<Stock> getAllStocks() {
+        return stockRepository.findAll();
+    }
 
     @GetMapping("/detail/{stockId}")
     public ResponseEntity<Optional<Stock>> getStock(@PathVariable long stockId) {
