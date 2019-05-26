@@ -2,21 +2,59 @@
     <table [dataSource]="dataSource" mat-table matSort>
         <ng-container matColumnDef="stock.name">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Aktie</th>
-            <td *matCellDef="let element" mat-cell>{{element.stock.name}}</td>
+            <td *matCellDef="let holding" mat-cell><a
+                [routerLink]="['/stocks/stock-details', holding.stock.id]">{{holding.stock.name}}</a></td>
+        </ng-container>
+        <ng-container matColumnDef="stock.symbol">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Symbol</th>
+            <td *matCellDef="let holding" mat-cell>{{holding.stock.symbol}}</td>
+        </ng-container>
+        <ng-container matColumnDef="stock.stockExchange">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Börse</th>
+            <td *matCellDef="let holding" mat-cell>{{holding.stock.stockExchange.shortName}}</td>
         </ng-container>
         <ng-container matColumnDef="amount">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Menge</th>
-            <td *matCellDef="let element" mat-cell>{{element.amount}}</td>
+            <td *matCellDef="let holding" mat-cell>{{holding.amount}}</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Kaufpreis/Stk</th>
+            <td *matCellDef="let holding" mat-cell>{{(holding.totalPrice / holding.amount) | currency : "€"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="currentPrice">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>aktueller Preis/Stk</th>
+            <td *matCellDef="let holding" mat-cell>{{holding.stock.price | currency : "€"}}</td>
         </ng-container>
         <ng-container matColumnDef="totalPrice">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>
-            <td *matCellDef="let element" mat-cell>{{element.totalPrice | currency : "$"}}</td>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Kaufpreis</th>
+            <td *matCellDef="let holding" mat-cell>{{holding.totalPrice | currency : "€"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="currentTotalPrice">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>aktueller Preis</th>
+            <td *matCellDef="let holding" mat-cell>{{holding.currentTotalPrice | currency : "€"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="absoluteChange">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Veränderung</th>
+            <td *matCellDef="let holding" mat-cell>
+                <span
+                    [ngClass]="holding.absoluteChange > 0 ? 'positive-number' : holding.absoluteChange < 0 ? 'negative-number' : ''"
+                    class="padding-left">{{holding.absoluteChange | number : '1.2-2' | currency : "€"}}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="relativeChange">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>%</th>
+            <td *matCellDef="let holding" mat-cell>
+                <span
+                    [ngClass]="holding.relativeChange > 0 ? 'positive-number' : holding.relativeChange < 0 ? 'negative-number' : ''"
+                >{{holding.relativeChange | number : '1.2-2'}} %</span>
+            </td>
         </ng-container>
         <ng-container matColumnDef="sell">
-            <th *matHeaderCellDef mat-header-cell>Sell</th>
-            <td *matCellDef="let element" class="mat-cell cdk-column-alert mat-column-alert">
+            <th *matHeaderCellDef mat-header-cell>Verkaufen</th>
+            <td *matCellDef="let holding" class="mat-cell cdk-column-alert mat-column-alert">
                 <span>
-                    <button (click)="openSellStockDialog(element)">
+                    <button (click)="openSellStockDialog(holding)">
                         <i class="material-icons">gavel</i>
                     </button>
                 </span>

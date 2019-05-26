@@ -3,6 +3,7 @@ import {DepotService} from "../../services/depot/depot.service";
 import {IDepot} from "../../model/IDepot";
 import {IHolding} from "../../model/IHolding";
 import {IHistoryPoint} from "../../model/IHistoryPoint";
+import {HoldingService} from "../../services/holding/holding.service";
 import * as Highcharts from "highcharts/highstock";
 
 @Component({
@@ -21,7 +22,7 @@ export class DepotOverviewComponent implements OnInit {
   chartOptions: Object;
   private depot: IDepot;
 
-  constructor(private depotService: DepotService) {
+  constructor(private depotService: DepotService, private holdingService: HoldingService) {
   }
 
   ngOnInit() {
@@ -50,7 +51,7 @@ export class DepotOverviewComponent implements OnInit {
   }
 
   private initData() {
-    this.depotService.getAllHoldings(this.depot.id).subscribe(data => {
+    this.holdingService.getAllHoldings(this.depot.id).subscribe(data => {
       this.holdings = data;
       this.calculateAbsoluteChange();
       this.calculateRelativeChange();

@@ -32,28 +32,25 @@ public class DepotService {
     }
 
     public double calculateEarnings(long depotId) {
-        return allCurrentHoldings(depotId).stream().map(Holding::getEarnings).mapToDouble(earning -> earning.stream().mapToDouble(Earning::getEarnings).sum()).sum();
+        return holdingService.allCurrentHoldings(depotId).stream().map(Holding::getEarnings).mapToDouble(earning -> earning.stream().mapToDouble(Earning::getEarnings).sum()).sum();
     }
 
     public Depot findDepotByIdOrThrow(long id) {
         return depotRepository.findById(id).orElseThrow(() -> new BadRequestException("Depot with id " + id + " not found!"));
     }
 
-    public List<Holding> allCurrentHoldings(long depotId) {
-        return holdingRepository.findByDepot(findDepotByIdOrThrow(depotId));
-    }
 
     public Map<Long, Double> getDepotHistory(long depotId) {
         Map<Long, Double> result = new TreeMap<>();
-        for (Holding holding : allCurrentHoldings(depotId)) {
+        for (Holding holding : holdingService.allCurrentHoldings(depotId)) {
             Map<Long, Double> holdingResult = holdingService.getHoldingHistory(holding);
-            for (Map.Entry<Long, Double> entry : result.entrySet()){
-                if (holdingResult.containsKey(entry.getKey())){
+            for (Map.Entry<Long, Double> entry : result.entrySet()) {
+                if (holdingResult.containsKey(entry.getKey())) {
                     double currentPrice = result.get(entry.getKey());
                     result.put(entry.getKey(), holdingResult.get(entry.getKey()) + currentPrice);
                     holdingResult.remove(entry.getKey());
-        }
                 }
+            }
             result.putAll(holdingResult);
         }
         return result;
