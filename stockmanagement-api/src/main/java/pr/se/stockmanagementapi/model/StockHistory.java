@@ -60,5 +60,24 @@ public class StockHistory extends DateAudit {
     public static class StockHistoryId implements Serializable {
         private long stock;
         private long dateMillis;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            StockHistoryId that = (StockHistoryId) o;
+
+            if (stock != that.stock) return false;
+            return dateMillis == that.dateMillis;
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = (int) (stock ^ (stock >>> 32));
+            result = 31 * result + (int) (dateMillis ^ (dateMillis >>> 32));
+            return result;
+        }
     }
 }

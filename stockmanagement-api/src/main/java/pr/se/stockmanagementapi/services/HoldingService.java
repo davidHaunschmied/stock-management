@@ -7,7 +7,6 @@ import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.StockHistory;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
-import pr.se.stockmanagementapi.respository.StockHistoryRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,13 +14,11 @@ import java.util.stream.Collectors;
 @Service
 public class HoldingService {
     private final HoldingRepository holdingRepository;
-    private final StockHistoryRepository stockHistoryRepository;
     private final StockHistoryService stockHistoryService;
 
     @Autowired
-    public HoldingService(HoldingRepository holdingRepository, StockHistoryRepository stockHistoryRepository, StockHistoryService stockHistoryService) {
+    public HoldingService(HoldingRepository holdingRepository, StockHistoryService stockHistoryService) {
         this.holdingRepository = holdingRepository;
-        this.stockHistoryRepository = stockHistoryRepository;
         this.stockHistoryService = stockHistoryService;
     }
 

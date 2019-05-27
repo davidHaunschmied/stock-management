@@ -13,7 +13,6 @@ export class StockPurchaseComponent implements OnInit {
     public dialogRef: MatDialogRef<StockPurchaseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.initialTotalPrice = this.data.totalPrice;
-    console.log(data);
   }
 
   ngOnInit() {
