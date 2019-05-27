@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Earning")
-public class Earning {
+public class Earning implements HasDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

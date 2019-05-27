@@ -6,18 +6,20 @@ import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
+
 public class HistoryRequest extends StockAPIRequest<HistoryResponse> {
-    public static final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private String symbol;
     private Date dateFrom;
     private Date dateTo;
-
-    public HistoryRequest() {
-    }
+    private SimpleDateFormat formatter;
 
     public HistoryRequest(String symbol) {
         this.symbol = symbol;
+        this.formatter = new SimpleDateFormat(DATE_FORMAT);
+        this.formatter.setTimeZone(TIME_ZONE);
     }
 
     @Override

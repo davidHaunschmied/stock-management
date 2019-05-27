@@ -77,35 +77,27 @@ public class Initializer implements ApplicationRunner {
     }
 
     private void insertHoldings(Depot depot) throws ParseException {
-        Stock stockBhd = stockRepository.findBySymbol("BHD.VI").orElseThrow(() -> new IllegalStateException("BHD.VI not available!"));
+        Stock stockAnd = stockRepository.findBySymbol("ANDR.VI").orElseThrow(() -> new IllegalStateException("ANDR.VI not available!"));
         Stock stockVoe = stockRepository.findBySymbol("VOE.VI").orElseThrow(() -> new IllegalStateException("VOE.VI not available!"));
-        Stock stockPost = stockRepository.findBySymbol("POST.VI").orElseThrow(() -> new IllegalStateException("POST.VI not available!"));
 
-        if (holdingExists(depot, stockBhd) || holdingExists(depot, stockVoe) || holdingExists(depot, stockPost)) {
+        if (holdingExists(depot, stockAnd) || holdingExists(depot, stockVoe)){
             return;
         }
 
-        Holding holdingBhd = holdingRepository.findByDepotAndStock(depot, stockPost).orElse(new Holding(depot, stockBhd));
-        Holding holdingVoe = holdingRepository.findByDepotAndStock(depot, stockPost).orElse(new Holding(depot, stockVoe));
-        Holding holdingPost = holdingRepository.findByDepotAndStock(depot, stockPost).orElse(new Holding(depot, stockPost));
+        Holding holdingAnd = holdingRepository.findByDepotAndStock(depot, stockAnd).orElse(new Holding(depot, stockAnd));
+        Holding holdingVoe = holdingRepository.findByDepotAndStock(depot, stockVoe).orElse(new Holding(depot, stockVoe));
 
-        Transaction transactionBhd1 = new Transaction(10, 76 * 10, dateFormat.parse("12.07.2018 19:56:37"), TransactionType.PURCHASE);
-        Transaction transactionBhd2 = new Transaction(5, 76 * 5, dateFormat.parse("04.10.2018 09:15:47"), TransactionType.SALE);
-        Transaction transactionPost1 = new Transaction(10, 33.1 * 10, dateFormat.parse("15.02.2019 19:56:37"), TransactionType.PURCHASE);
-        Transaction transactionPost2 = new Transaction(6, 34.6 * 6, dateFormat.parse("09.04.2019 20:38:41"), TransactionType.SALE);
-        Transaction transactionVoe1 = new Transaction(12, 27.53 * 12, dateFormat.parse("02.01.2019 12:10:57"), TransactionType.PURCHASE);
-        Transaction transactionVoe2 = new Transaction(12, 29.67 * 12, dateFormat.parse("27.03.2019 10:01:33"), TransactionType.SALE);
+        Transaction transactionAnd1 = new Transaction(200, 43.52 * 200, dateFormat.parse("12.06.2018 19:56:37"), TransactionType.PURCHASE);
+        Transaction transactionAnd2 = new Transaction(200, 44.88 * 200, dateFormat.parse("23.10.2018 09:15:47"), TransactionType.SALE);
 
-        holdingBhd.addTransaction(transactionBhd1);
-        holdingBhd.addTransaction(transactionBhd2);
+        Transaction transactionVoe1 = new Transaction(100, 25.9 * 100, dateFormat.parse("02.01.2019 12:10:57"), TransactionType.PURCHASE);
+
+        holdingAnd.addTransaction(transactionAnd1);
+        holdingAnd.addTransaction(transactionAnd2);
         holdingVoe.addTransaction(transactionVoe1);
-        holdingVoe.addTransaction(transactionVoe2);
-        holdingPost.addTransaction(transactionPost1);
-        holdingPost.addTransaction(transactionPost2);
 
-        holdingRepository.save(holdingBhd);
+        holdingRepository.save(holdingAnd);
         holdingRepository.save(holdingVoe);
-        holdingRepository.save(holdingPost);
     }
 
     private void insertInstantAlarm(Stock stock, Stock stock2) {

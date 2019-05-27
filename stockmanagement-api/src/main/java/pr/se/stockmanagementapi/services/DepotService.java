@@ -1,7 +1,5 @@
 package pr.se.stockmanagementapi.services;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pr.se.stockmanagementapi.exceptions.BadRequestException;
@@ -10,7 +8,6 @@ import pr.se.stockmanagementapi.model.Earning;
 import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.DepotRepository;
-import pr.se.stockmanagementapi.respository.HoldingRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -19,15 +16,12 @@ import java.util.stream.Collectors;
 
 @Service
 public class DepotService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DepotService.class);
     private final DepotRepository depotRepository;
-    private final HoldingRepository holdingRepository;
     private final HoldingService holdingService;
 
     @Autowired
-    public DepotService(DepotRepository depotRepository, HoldingRepository holdingRepository, HoldingService holdingService) {
+    public DepotService(DepotRepository depotRepository, HoldingService holdingService) {
         this.depotRepository = depotRepository;
-        this.holdingRepository = holdingRepository;
         this.holdingService = holdingService;
     }
 
@@ -46,8 +40,7 @@ public class DepotService {
             Map<Long, Double> holdingResult = holdingService.getHoldingHistory(holding);
             for (Map.Entry<Long, Double> entry : result.entrySet()) {
                 if (holdingResult.containsKey(entry.getKey())) {
-                    double currentPrice = result.get(entry.getKey());
-                    result.put(entry.getKey(), holdingResult.get(entry.getKey()) + currentPrice);
+                    result.put(entry.getKey(), result.get(entry.getKey()) + holdingResult.get(entry.getKey()));
                     holdingResult.remove(entry.getKey());
                 }
             }
@@ -60,5 +53,4 @@ public class DepotService {
         return getDepotHistory(depotId).entrySet().stream().sorted(Map.Entry.comparingByKey())
             .map(e -> new HistoryPoint(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
-
 }

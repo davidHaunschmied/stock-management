@@ -11,8 +11,12 @@ import pr.se.stockdataservice.stockapiclient.response.StockResponse;
 import pr.se.stockmanagementapi.model.StockExchange;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-public class StockApiClient { 
+import static pr.se.stockdataservice.stockapiclient.request.HistoryRequest.DATE_FORMAT;
+import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
+
+public class StockApiClient {
     private static final Logger log = LoggerFactory.getLogger(StockApiClient.class);
 
     public static void main(String[] args) {
@@ -31,8 +35,10 @@ public class StockApiClient {
 
     private static void historyRequest() {
         HistoryRequest historyRequest = new HistoryRequest("VOE.VI");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        formatter.setTimeZone(TIME_ZONE);
         try {
-            historyRequest.setDateFrom(historyRequest.formatter.parse("2019-01-01"));
+            historyRequest.setDateFrom(formatter.parse("2019-01-01"));
         } catch (ParseException e) {
             log.error(e.getMessage(), e);
         }
