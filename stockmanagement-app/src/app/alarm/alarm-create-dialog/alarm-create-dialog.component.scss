@@ -1,4 +1,13 @@
 .input-field {
-  width: 130px;
+  width: 210px;
   padding-left: 10px;
+}
+
+
+.width{
+  width: 252px;
+}
+
+.mat-dialog-actions .mat-button+.mat-button, .mat-dialog-actions .mat-button+.mat-raised-button, .mat-dialog-actions .mat-raised-button+.mat-button, .mat-dialog-actions .mat-raised-button+.mat-raised-button {
+  margin-left: 60px;
 }
