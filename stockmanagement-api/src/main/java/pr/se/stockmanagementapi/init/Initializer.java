@@ -89,8 +89,8 @@ public class Initializer implements ApplicationRunner {
         Holding holdingVoe = holdingRepository.findByDepotAndStock(depot, stockPost).orElse(new Holding(depot, stockVoe));
         Holding holdingPost = holdingRepository.findByDepotAndStock(depot, stockPost).orElse(new Holding(depot, stockPost));
 
-        Transaction transactionBhd1 = new Transaction(10, 76 * 10, dateFormat.parse("12.07.2018 19:56:37"), TransactionType.PURCHASE);
-        Transaction transactionBhd2 = new Transaction(5, 76 * 5, dateFormat.parse("04.10.2018 09:15:47"), TransactionType.SALE);
+        Transaction transactionBhd1 = new Transaction(10, 76d * 10, dateFormat.parse("12.07.2018 19:56:37"), TransactionType.PURCHASE);
+        Transaction transactionBhd2 = new Transaction(5, 76d * 5, dateFormat.parse("04.10.2018 09:15:47"), TransactionType.SALE);
         Transaction transactionPost1 = new Transaction(10, 33.1 * 10, dateFormat.parse("15.02.2019 19:56:37"), TransactionType.PURCHASE);
         Transaction transactionPost2 = new Transaction(6, 34.6 * 6, dateFormat.parse("09.04.2019 20:38:41"), TransactionType.SALE);
         Transaction transactionVoe1 = new Transaction(12, 27.53 * 12, dateFormat.parse("02.01.2019 12:10:57"), TransactionType.PURCHASE);

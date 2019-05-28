@@ -64,6 +64,8 @@ export class StockListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
+      if (data == null)
+        return;
       this.alarmService.createAlarm(data.stock, data.alarmPrice).subscribe(
         alarm => {
           console.log('Added alarm of data: ' + JSON.stringify(alarm));
@@ -82,7 +84,8 @@ export class StockListComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      console.log(data);
+      if (data == null)
+        return;
       this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount, data.totalPrice).subscribe(
         holding => {
           this.getStocks()

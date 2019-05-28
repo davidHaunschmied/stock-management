@@ -41,6 +41,8 @@ export class DepotSwitchCreateComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(name => {
+      if (name == null)
+        return;
       this.depotService.createDepot(name).subscribe(
         depot => {
           this.depots.push(depot);

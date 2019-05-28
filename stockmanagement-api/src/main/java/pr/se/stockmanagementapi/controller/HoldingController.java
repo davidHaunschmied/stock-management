@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pr.se.stockmanagementapi.model.Holding;
-import pr.se.stockmanagementapi.respository.HoldingRepository;
 import pr.se.stockmanagementapi.services.HoldingService;
 
 import java.util.List;
@@ -14,13 +13,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/holdings")
 public class HoldingController {
-    private final HoldingRepository holdingRepository;
     private final HoldingService holdingService;
 
 
     @Autowired
-    public HoldingController(HoldingService holdingService, HoldingRepository holdingRepository) {
-        this.holdingRepository = holdingRepository;
+    public HoldingController(HoldingService holdingService) {
         this.holdingService = holdingService;
     }
 

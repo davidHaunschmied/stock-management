@@ -14,7 +14,7 @@
     <mat-form-field class="width">
         <label>
             Gesamtpreis:
-            <input [(ngModel)]="data.price" cdkFocusInitial matInput>
+            <input (ngModelChange)="data.price = $event" [ngModel]="data.price | number : '1.2-2'" matInput>
         </label>
     </mat-form-field>
 </div>
