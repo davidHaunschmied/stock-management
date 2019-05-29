@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 import {IAlarm} from "../model/IAlarm";
+import {AppSettings} from "../app-settings";
+import {AlarmService} from "../services/alarm/alarm.service";
 
 @Component({
   selector: 'app-alert-list',
@@ -14,12 +16,14 @@ export class AlarmListComponent implements OnInit {
   showAlarms: boolean;
   private stompClient;
 
-  constructor() {
+  constructor(private alarmService: AlarmService) {
   }
 
   ngOnInit() {
-    const ws = new SockJS('http://localhost:8080/alarms');
-    this.stompClient = Stomp.over(ws);
+    this.alarmService.getAllAlarmsToFire().subscribe(data => {
+      this.alarms = data;
+    });
+    this.stompClient = Stomp.over(new SockJS(AppSettings.ENDPOINT + '/alarms'));
     let that = this;
     this.stompClient.connect({}, function () {
       that.stompClient.subscribe("/topic/alarm/notify", (message) => {

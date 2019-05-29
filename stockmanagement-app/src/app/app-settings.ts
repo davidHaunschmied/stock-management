@@ -2,7 +2,8 @@ import {HttpHeaders} from '@angular/common/http';
 
 export class AppSettings {
   //  public static API_ENDPOINT = 'mockapi';
- public static API_ENDPOINT = 'http://localhost:8080/api';
+  public static ENDPOINT = 'http://localhost:8080';
+  public static API_ENDPOINT = AppSettings.ENDPOINT + '/api';
 
   public static HTTP_OPTIONS = {
     headers: new HttpHeaders({
