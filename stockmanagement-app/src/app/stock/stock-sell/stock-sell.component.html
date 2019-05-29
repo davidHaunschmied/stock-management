@@ -3,18 +3,18 @@
     <p>Aktie: {{data.holding.stock.name}}</p>
     Menge:
     <mat-slider (valueChange)="calculateTotalPrice()" [(ngModel)]="data.amount" max="{{data.holding.amount}}" min="1"
-                step="1"></mat-slider>
-    <mat-form-field>
+                step="1" class="width"></mat-slider>
+    <mat-form-field class="width">
         <label>
             <input (input)="calculateTotalPrice()" [(ngModel)]="data.amount" cdkFocusInitial matInput
                    max="{{data.holding.amount}}" min="1"
                    type="number">
         </label>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field class="width">
         <label>
             Gesamtpreis:
-            <input [(ngModel)]="data.price" cdkFocusInitial matInput>
+            <input (ngModelChange)="data.price = $event" [ngModel]="data.price | number : '1.2-2'" matInput>
         </label>
     </mat-form-field>
 </div>
