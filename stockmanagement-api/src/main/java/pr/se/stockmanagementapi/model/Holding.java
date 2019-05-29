@@ -6,10 +6,11 @@ import com.google.common.base.Preconditions;
 import org.hibernate.annotations.SortComparator;
 import pr.se.stockmanagementapi.model.audit.DateAudit;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
-import pr.se.stockmanagementapi.util.TransactionComparator;
+import pr.se.stockmanagementapi.util.DateComparator;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 @Entity
@@ -40,12 +41,13 @@ public class Holding extends DateAudit {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "holding_id")
     @JsonIgnore
-    @SortComparator(TransactionComparator.class)
+    @SortComparator(DateComparator.class)
     private SortedSet<Transaction> transactions;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "holding_id")
-    private List<Earning> earnings;
+    @SortComparator(DateComparator.class)
+    private SortedSet<Earning> earnings;
 
 
     public Holding() {
@@ -56,8 +58,8 @@ public class Holding extends DateAudit {
         this.stock = stock;
         this.amount = 0;
         this.totalPrice = 0;
-        this.transactions = new TreeSet<>(new TransactionComparator());
-        this.earnings = new ArrayList<>();
+        this.transactions = new TreeSet<>(new DateComparator());
+        this.earnings = new TreeSet<>(new DateComparator());
     }
 
     public Depot getDepot() {
@@ -80,7 +82,7 @@ public class Holding extends DateAudit {
         return transactions;
     }
 
-    public List<Earning> getEarnings() {
+    public SortedSet<Earning> getEarnings() {
         return earnings;
     }
 
@@ -112,32 +114,56 @@ public class Holding extends DateAudit {
         this.totalPrice = totalPrice;
     }
 
-    public int getAmountAt(double dateMillis) {
-        return getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.PURCHASE).mapToInt(Transaction::getAmount).sum()
-            - getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.SALE).mapToInt(Transaction::getAmount).sum();
+    public int getAmountAt(long dateMillis) {
+        int amount = 0;
+        for (Transaction transaction : transactions) {
+            if (transaction.getDate().getTime() <= dateMillis) {
+                if (transaction.getTransactionType() == TransactionType.PURCHASE) {
+                    amount += transaction.getAmount();
+                } else if (transaction.getTransactionType() == TransactionType.SALE) {
+                    amount -= transaction.getAmount();
+                } else {
+                    throw new UnsupportedOperationException("TransactionType " + transaction.getTransactionType() + "not supported!");
+                }
+            } else {
+                return amount;
+            }
+        }
+        return amount;
     }
 
-    public double getTotalPriceAt(double dateMillis) {
-        return getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.PURCHASE).mapToDouble(Transaction::getPrice).sum()
-            - getTransactionsStreamBefore(dateMillis).filter(transaction -> transaction.getTransactionType() == TransactionType.SALE).mapToDouble(Transaction::getPrice).sum();
+    public double getTotalPriceAt(long dateMillis) {
+        double totalPrice = 0;
+        for (Transaction transaction : transactions) {
+            if (transaction.getDate().getTime() <= dateMillis) {
+                if (transaction.getTransactionType() == TransactionType.PURCHASE) {
+                    totalPrice += transaction.getPrice();
+                } else if (transaction.getTransactionType() == TransactionType.SALE) {
+                    totalPrice -= transaction.getPrice();
+                    totalPrice = totalPrice > 0 ? totalPrice : 0;
+                } else {
+                    throw new UnsupportedOperationException("TransactionType " + transaction.getTransactionType() + "not supported!");
+                }
+            } else {
+                return totalPrice;
+            }
+        }
+        return totalPrice;
     }
 
-    public double getPricePerStockAt(double dateMillis) {
+    public double getPricePerStockAt(long dateMillis) {
         return getTotalPriceAt(dateMillis) / getAmountAt(dateMillis);
     }
 
-    private Stream<Transaction> getTransactionsStreamBefore(double dateMillis) {
-        return transactions.stream().filter(transaction -> transaction.getDate().getTime() < dateMillis);
-    }
-
     public double getEarningsAt(long dateMillis) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(dateMillis);
-        return earnings.stream().filter(earning -> {
-            Calendar earningCal = Calendar.getInstance();
-            earningCal.setTime(earning.getDate());
-            return calendar.get(Calendar.DAY_OF_YEAR) == earningCal.get(Calendar.DAY_OF_YEAR) &&
-                calendar.get(Calendar.YEAR) == earningCal.get(Calendar.YEAR);
-        }).mapToDouble(Earning::getEarnings).sum();
+        double earnings = 0;
+        for (Earning earning : this.earnings) {
+            if (earning.getDate().getTime() <= dateMillis) {
+                earnings += earning.getEarnings();
+            } else {
+                return earnings;
+            }
+        }
+        return earnings;
     }
 }

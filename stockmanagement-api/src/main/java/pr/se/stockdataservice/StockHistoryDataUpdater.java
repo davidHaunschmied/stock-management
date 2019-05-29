@@ -12,7 +12,11 @@ import pr.se.stockmanagementapi.respository.StockHistoryRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static pr.se.stockdataservice.stockapiclient.request.HistoryRequest.DATE_FORMAT;
+import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
 
 @Component
 public class StockHistoryDataUpdater {
@@ -21,12 +25,16 @@ public class StockHistoryDataUpdater {
 
     private final StockRepository stockRepository;
     private final StockHistoryRepository stockHistoryRepository;
+    private final SimpleDateFormat formatter;
 
 
     @Autowired
     public StockHistoryDataUpdater(StockRepository stockRepository, StockHistoryRepository stockHistoryRepository) {
         this.stockRepository = stockRepository;
         this.stockHistoryRepository = stockHistoryRepository;
+
+        this.formatter = new SimpleDateFormat(DATE_FORMAT);
+        this.formatter.setTimeZone(TIME_ZONE);
     }
 
     public void updateStockHistoryData() {
@@ -65,7 +73,7 @@ public class StockHistoryDataUpdater {
     private void saveHistoryResponse(Stock stock, HistoryResponse response) {
         for (String dateString : response.getHistory().keySet()) {
             try {
-                long dateMillis = HistoryRequest.formatter.parse(dateString).getTime();
+                long dateMillis = formatter.parse(dateString).getTime();
                 StockHistory stockHistory = new StockHistory(stock, dateMillis, response.getHistory().get(dateString).getClose());
                 stockHistoryRepository.save(stockHistory);
             } catch (ParseException e) {

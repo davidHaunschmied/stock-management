@@ -85,4 +85,8 @@ export class DepotOverviewComponent implements OnInit {
     });
     this.totalEarnings = totalEarnings;
   }
+
+  getTotalDevelopment(){
+    return this.totalEarnings + this.absoluteChange;
+  }
 }
