@@ -11,7 +11,6 @@ import pr.se.stockmanagementapi.util.DateComparator;
 import javax.persistence.*;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Stream;
 
 @Entity
 @Table(name = "Holding",
