@@ -26,6 +26,11 @@ export class NavigationComponent implements OnInit {
         label: 'Alle Aktien',
         link: './stocks',
         index: 2
+      },
+      {
+        label: 'Einstellungen',
+        link: './settings',
+        index: 3
       }
     ];
   }

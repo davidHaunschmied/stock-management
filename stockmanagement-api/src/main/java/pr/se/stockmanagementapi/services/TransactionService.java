@@ -15,14 +15,14 @@ import java.util.List;
 public class TransactionService {
 
     private final HoldingRepository holdingRepository;
-    private final Settings settings;
+    private final SettingsService settingsService;
     private final TransactionRepository transactionRepository;
     private final DepotService depotService;
     private final StockService stockService;
 
     public TransactionService(HoldingRepository holdingRepository, SettingsService settingsService, TransactionRepository transactionRepository, DepotService depotService, StockService stockService) {
         this.holdingRepository = holdingRepository;
-        this.settings = settingsService.getSettings();
+        this.settingsService = settingsService;
         this.transactionRepository = transactionRepository;
         this.depotService = depotService;
         this.stockService = stockService;
@@ -49,6 +49,7 @@ public class TransactionService {
     }
 
     private double getCharges(TransactionType transactionType, double price) {
+        Settings settings = settingsService.getSettings();
         if (transactionType == TransactionType.SALE) {
             return settings.getFlatSellCharges() + settings.getRelativeSellCharges() * price;
         } else if (transactionType == TransactionType.PURCHASE) {
