@@ -7,8 +7,8 @@
     <table mat-table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Aktie</th>
-            <td mat-cell *matCellDef="let element"><a
-                [routerLink]="['/stocks/stock-details', element.id]">{{element.name}}</a></td>
+            <td mat-cell *matCellDef="let element">
+                <a [routerLink]="['/stocks/stock-details', element.id]">{{element.name}}</a></td>
         </ng-container>
         <ng-container matColumnDef="market">
             <th *matHeaderCellDef mat-header-cell>Börse</th>
@@ -20,7 +20,11 @@
         </ng-container>
         <ng-container matColumnDef="day_change">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tagesschwankung</th>
-            <td *matCellDef="let element" mat-cell>{{element.day_change | number : '1.2-2'}} %</td>
+            <td *matCellDef="let element" mat-cell>
+                <span [ngClass]="element.day_change > 0 ? 'positive-number' : element.day_change < 0 ? 'negative-number' : ''">
+                {{element.day_change | number : '1.2-2'}} %
+                </span>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="buy">

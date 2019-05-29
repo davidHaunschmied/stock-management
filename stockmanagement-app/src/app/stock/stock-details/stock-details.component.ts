@@ -42,10 +42,6 @@ export class StockDetailsComponent implements OnInit {
     );
   }
 
-  onBack(): void {
-    this.router.navigate(['/stocks']);
-  }
-
   private getStockHistory(id: number) {
     this.stockService.getStockHistory(id).subscribe(data => {
         this.stockHistory = data;
