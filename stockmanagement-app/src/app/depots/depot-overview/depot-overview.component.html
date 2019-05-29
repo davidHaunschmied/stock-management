@@ -20,7 +20,7 @@
     </div>
 </mat-card>
 <mat-divider></mat-divider>
-<highcharts-chart *ngIf="depotHistory"
+<highcharts-chart *ngIf="depotHistory && holdings && holdings.length > 0"
                   [Highcharts]="Highcharts"
                   [options]="chartOptions"
                   constructorType="stockChart"
