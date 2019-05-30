@@ -21,6 +21,10 @@ export class AlarmCreateDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  isPriceValid() {
+    return this.data.alarmPrice > 0;
+  }
+
 }
 
 export interface AlarmCreateData {

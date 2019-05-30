@@ -1,9 +1,13 @@
 package pr.se.stockmanagementapi.payload;
 
+import javax.validation.constraints.Positive;
+
 public class StockTransactionRequest {
     private Long depotId;
     private Long stockId;
+    @Positive
     private int amount;
+    @Positive
     private double price;
 
     public Long getDepotId() {

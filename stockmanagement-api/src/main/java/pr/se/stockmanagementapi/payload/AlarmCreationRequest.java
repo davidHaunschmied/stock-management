@@ -2,9 +2,12 @@ package pr.se.stockmanagementapi.payload;
 
 import pr.se.stockmanagementapi.model.enums.AlarmType;
 
+import javax.validation.constraints.Positive;
+
 public class AlarmCreationRequest {
     private long stockId;
     private AlarmType alarmType;
+    @Positive
     private double price;
 
     public long getStockId() {
