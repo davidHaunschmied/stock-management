@@ -1,4 +1,4 @@
-<div>
+<div class="floatleft">
     <mat-list *ngIf="stock">
         <mat-list-item>
             <span><h2>{{stock.name}}</h2></span>
@@ -7,14 +7,19 @@
             <span>{{stock.stockExchange.name}}</span>
         </mat-list-item>
         <mat-list-item><span>Aktueller Kurs: </span><span class="padding-left">
-            <b>{{stock.price | number : '1.2-2'}} &euro; </b></span>
+            <b>{{stock.price | currency : stock.currency + " "}}</b></span>
         </mat-list-item>
         <mat-list-item><span>Relative Veränderung:</span><span
             [ngClass]="stock.day_change > 0 ? 'positive-number' : stock.day_change < 0 ? 'negative-number' : ''"
             class="padding-left">{{stock.day_change | number : '1.2-2'}} %</span>
         </mat-list-item>
     </mat-list>
-
+</div>
+<div class="floatright margin">
+    <button class="padding alarmbutton" (click)="openCreateAlarmDialog()">
+        <i class="material-icons">add_alert</i>
+        <p>Alarm erstellen</p>
+    </button>
 </div>
 
 <highcharts-chart *ngIf="stockHistory && stock"

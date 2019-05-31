@@ -2,3 +2,33 @@
   text-align: right;
   margin-right: 15%;
 }
+
+.floatleft{
+  float: left;
+}
+
+.floatright{
+  float: right;
+}
+
+.margin{
+  margin: 30px 40px;
+}
+.padding{
+  padding: 15px;
+}
+
+.alarmbutton{
+  border: 2px solid black;
+  border-radius: 5px;
+  -webkit-transition-duration: 0.4s;
+}
+
+.alarmbutton:hover{
+  background-color: hsl(0, 0%, 47%);
+  color: white;
+}
+
+i{
+  padding-top: 10px;
+}
