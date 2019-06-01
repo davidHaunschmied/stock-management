@@ -73,6 +73,7 @@ export class DepotStocksComponent implements OnInit {
 
     holdings.forEach(holding => {
       let detail = {
+        depot: holding.depot,
         amount: holding.amount,
         id: holding.id,
         stock: holding.stock,

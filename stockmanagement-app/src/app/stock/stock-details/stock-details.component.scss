@@ -12,19 +12,20 @@
 }
 
 .margin{
-  margin: 30px 40px;
+  margin: 30px 30px;
 }
 .padding{
   padding: 15px;
 }
 
-.alarmbutton{
+.detailsbutton{
+  margin: 10px;
   border: 2px solid black;
   border-radius: 5px;
   -webkit-transition-duration: 0.4s;
 }
 
-.alarmbutton:hover{
+.detailsbutton:hover{
   background-color: hsl(0, 0%, 47%);
   color: white;
 }

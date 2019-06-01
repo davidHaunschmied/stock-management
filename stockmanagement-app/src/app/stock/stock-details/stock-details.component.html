@@ -16,12 +16,25 @@
     </mat-list>
 </div>
 <div class="floatright margin">
-    <button class="padding alarmbutton" (click)="openCreateAlarmDialog()">
-        <i class="material-icons">add_alert</i>
-        <p>Alarm erstellen</p>
-    </button>
+    <div class="floatright">
+        <button class="padding detailsbutton" (click)="openCreateAlarmDialog()">
+            <i class="material-icons">add_alert</i>
+            <p>Alarm erstellen</p>
+        </button>
+    </div>
+    <div class="floatright">
+        <button class="padding detailsbutton" (click)="openSellStockDialog()">
+            <i class="material-icons">gavel</i>
+            <p>Aktie verkaufen</p>
+        </button>
+    </div>
+    <div class="floatright">
+        <button class="padding detailsbutton" (click)="openBuyStockDialog()">
+            <i class="material-icons">gavel</i>
+            <p>Aktie kaufen</p>
+        </button>
+    </div>
 </div>
-
 <highcharts-chart *ngIf="stockHistory && stock"
                   [Highcharts]="Highcharts"
                   [options]="chartOptions"
