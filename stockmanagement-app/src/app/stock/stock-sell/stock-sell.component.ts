@@ -24,6 +24,10 @@ export class StockSellComponent implements OnInit {
   ngOnInit() {
   }
 
+  isAmountValid(): boolean {
+    return (this.data.amount > 0);
+  }
+
   calculateTotalPrice() {
     this.data.price = this.data.amount * this.initialPrice;
   }

@@ -24,14 +24,17 @@ export class StockDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    const param = this.route.snapshot.paramMap.get('id');
-    if (param) {
-      const id = +param;
-      this.getStockDetails(id);
-      this.getStockHistory(id);
-    }
+    // https://stackoverflow.com/a/48446698
+    this.route.params.subscribe(
+      params => {
+        const id = +params['id'];
+        if (id) {
+          this.getStockDetails(id);
+          this.getStockHistory(id);
+        }
+      }
+    );
   }
-
 
   getStockDetails(id: number) {
     this.stockService.getStockDetails(id).subscribe(data => {
