@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Transaction")
-public class Transaction extends DateAudit {
+public class Transaction extends DateAudit implements HasDate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

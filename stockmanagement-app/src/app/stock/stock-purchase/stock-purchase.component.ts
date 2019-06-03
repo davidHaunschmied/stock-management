@@ -23,6 +23,10 @@ export class StockPurchaseComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  isAmountValid(): boolean {
+    return (this.data.amount > 0);
+  }
+
   calculateTotalPrice() {
     this.data.totalPrice = this.initialTotalPrice * this.data.amount;
   }

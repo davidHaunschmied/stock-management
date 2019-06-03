@@ -43,19 +43,22 @@ export class StockDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    const param = this.route.snapshot.paramMap.get('id');
-    if (param) {
-      const id = +param;
-      this.getStockDetails(id);
-      this.getStockHistory(id);
+    // https://stackoverflow.com/a/48446698
+    this.route.params.subscribe(
+      params => {
+        const id = +params['id'];
+        if (id) {
+          this.getStockDetails(id);
+          this.getStockHistory(id);
       //this.getDepotsOfHolding();
-    }
-    this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.currentDepot = depot;
-    });
+        }
+        this.depotService.currentDepot.subscribe((depot: IDepot) => {
+          this.currentDepot = depot;
+        });
 
+      }
+    );
   }
-
 
   getStockDetails(id: number) {
     this.stockService.getStockDetails(id).subscribe(data => {
@@ -67,7 +70,6 @@ export class StockDetailsComponent implements OnInit {
         this.holdings = data;
       });
       this.stock = data;
-
       }, error => {
         console.log(error);
       }

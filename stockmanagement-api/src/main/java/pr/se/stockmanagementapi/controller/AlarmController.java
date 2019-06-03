@@ -8,6 +8,7 @@ import pr.se.stockmanagementapi.model.Alarm;
 import pr.se.stockmanagementapi.payload.AlarmCreationRequest;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.respository.AlarmRepository;
+import pr.se.stockmanagementapi.services.AlarmService;
 import pr.se.stockmanagementapi.services.StockService;
 
 import javax.validation.Valid;
@@ -17,17 +18,25 @@ import java.util.List;
 @RequestMapping("/api/alarms")
 public class AlarmController {
     private final AlarmRepository alarmRepository;
+    private final AlarmService alarmService;
     private final StockService stockService;
 
     @Autowired
-    public AlarmController(AlarmRepository alarmRepository, StockService stockService) {
+    public AlarmController(AlarmRepository alarmRepository, AlarmService alarmService, StockService stockService) {
         this.alarmRepository = alarmRepository;
+        this.alarmService = alarmService;
         this.stockService = stockService;
     }
 
     @GetMapping("/all")
     public List<Alarm> getAllAlarms() {
         return alarmRepository.findAll();
+    }
+
+
+    @GetMapping("/allfired")
+    public List<Alarm> getAllAlarmsToFire() {
+        return alarmService.findAllAlarmsToFire();
     }
 
     @PostMapping("/new")

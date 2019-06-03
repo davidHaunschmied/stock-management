@@ -13,5 +13,6 @@
 </div>
 <div mat-dialog-actions>
     <button (click)="onNoClick()" mat-button>Abbrechen</button>
-    <button [mat-dialog-close]="data" class="mat-primary" mat-raised-button>Kaufen</button>
+    <button [disabled]="!isAmountValid()" [mat-dialog-close]="data" class="mat-primary" mat-raised-button>Kaufen
+    </button>
 </div>

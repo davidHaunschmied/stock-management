@@ -40,8 +40,7 @@ public class DepotService {
             Map<Long, Double> holdingResult = holdingService.getHoldingHistory(holding);
             for (Map.Entry<Long, Double> entry : result.entrySet()) {
                 if (holdingResult.containsKey(entry.getKey())) {
-                    double currentPrice = result.get(entry.getKey());
-                    result.put(entry.getKey(), holdingResult.get(entry.getKey()) + currentPrice);
+                    result.put(entry.getKey(), result.get(entry.getKey()) + holdingResult.get(entry.getKey()));
                     holdingResult.remove(entry.getKey());
                 }
             }
@@ -54,5 +53,4 @@ public class DepotService {
         return getDepotHistory(depotId).entrySet().stream().sorted(Map.Entry.comparingByKey())
             .map(e -> new HistoryPoint(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
-
 }
