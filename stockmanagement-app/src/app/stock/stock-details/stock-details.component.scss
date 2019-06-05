@@ -25,7 +25,11 @@
   -webkit-transition-duration: 0.4s;
 }
 
-.detailsbutton:hover{
+.detailsbutton:disabled {
+  border: 2px solid grey;
+}
+
+.detailsbutton:hover:enabled {
   background-color: hsl(0, 0%, 47%);
   color: white;
 }

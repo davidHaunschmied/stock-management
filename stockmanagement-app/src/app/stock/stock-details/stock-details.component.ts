@@ -6,7 +6,7 @@ import * as Highcharts from 'highcharts/highstock';
 import {IHistoryPoint} from "../../model/IHistoryPoint";
 import {AlarmCreateDialogComponent} from "../../alarm/alarm-create-dialog/alarm-create-dialog.component";
 import {AlarmService} from "../../services/alarm/alarm.service";
-import {MatDialog, MatTableDataSource} from "@angular/material";
+import {MatDialog} from "@angular/material";
 import {StockPurchaseComponent} from "../stock-purchase/stock-purchase.component";
 import {TransactionService} from "../../services/transaction/transaction.service";
 import {IDepot} from "../../model/IDepot";
@@ -21,7 +21,6 @@ import {HoldingService} from "../../services/holding/holding.service";
   styleUrls: ['./stock-details.component.scss']
 })
 export class StockDetailsComponent implements OnInit {
-
   stock: IStock;
   stockHistory: IHistoryPoint [];
   Highcharts = Highcharts;
@@ -50,12 +49,12 @@ export class StockDetailsComponent implements OnInit {
         if (id) {
           this.getStockDetails(id);
           this.getStockHistory(id);
-      //this.getDepotsOfHolding();
+
         }
         this.depotService.currentDepot.subscribe((depot: IDepot) => {
           this.currentDepot = depot;
+          this.getDepotsOfHolding(id);
         });
-
       }
     );
   }
@@ -64,7 +63,6 @@ export class StockDetailsComponent implements OnInit {
     this.stockService.getStockDetails(id).subscribe(data => {
       this.holdingService.getAllHoldingsByStock(data.id).subscribe(data => {
         data = data.filter(holding => {
-          console.log(holding.depot);
           return holding.amount > 0
         });
         this.holdings = data;
@@ -126,6 +124,7 @@ export class StockDetailsComponent implements OnInit {
         return;
       this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount, data.totalPrice).subscribe(
         holding => {
+          this.holding = holding;
         }, error => {
           console.log('Error: ' + error.message);
         }
@@ -144,7 +143,7 @@ export class StockDetailsComponent implements OnInit {
         return;
       this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount, data.price).subscribe(
         holding => {
-          this.getDepotsOfHolding();
+          this.holding = holding;
         }, error => {
           console.log('Error: ' + error.message);
         }
@@ -152,20 +151,21 @@ export class StockDetailsComponent implements OnInit {
     });
   }
 
-  getDepotsOfHolding() {
-      this.holdingService.getAllHoldingsByStock(this.stock.id).subscribe(data => {
+  getDepotsOfHolding(id: number) {
+    this.holdingService.getAllHoldings(this.currentDepot.id).subscribe(data => {
         data = data.filter(holding => {
-
           return holding.amount > 0
         });
         this.holdings = data;
         this.holdings.forEach(holding => {
-          if(holding.depot.id === this.currentDepot.id)
+          if (holding.stock.id === id)
             this.holding = holding;
-          console.log('test');
         })
       });
-
   }
 
+
+  hasHolding() {
+    return this.holding && this.holding.amount > 0;
+  }
 }

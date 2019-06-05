@@ -23,7 +23,7 @@
         </button>
     </div>
     <div class="floatright">
-        <button class="padding detailsbutton" (click)="openSellStockDialog()">
+        <button (click)="openSellStockDialog()" [disabled]="!hasHolding()" class="padding detailsbutton">
             <i class="material-icons">gavel</i>
             <p>Aktie verkaufen</p>
         </button>
