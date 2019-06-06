@@ -3,6 +3,7 @@ table {
 }
 
 mat-form-field { // NOSONAR
+  text-align: center;
   width: 60%;
   padding: 0 20% 0 20%;
 }
@@ -10,10 +11,6 @@ mat-form-field { // NOSONAR
 div {
   margin-top: 10px;
   margin-bottom: 10px;
-}
-
-mat-form-field { // NOSONAR
-  text-align: center;
 }
 
 button {
