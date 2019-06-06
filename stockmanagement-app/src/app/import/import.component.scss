@@ -2,7 +2,11 @@
   float: right;
 }
 
-.detailsbutton{
+.padding{
+  padding: 10px;
+}
+
+.detailsbutton {
   margin: 10px;
   border: 2px solid white;
   border-radius: 5px;
@@ -11,4 +15,8 @@
 
 .floatleft{
   float: left;
+}
+
+.material-icons{
+  color: white;
 }
