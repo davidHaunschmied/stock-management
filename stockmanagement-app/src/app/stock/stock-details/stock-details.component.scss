@@ -1,0 +1,39 @@
+.price{
+  text-align: right;
+  margin-right: 15%;
+}
+
+.floatleft{
+  float: left;
+}
+
+.floatright{
+  float: right;
+}
+
+.margin{
+  margin: 30px 30px;
+}
+.padding{
+  padding: 15px;
+}
+
+.detailsbutton{
+  margin: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  -webkit-transition-duration: 0.4s;
+}
+
+.detailsbutton:disabled {
+  border: 2px solid grey;
+}
+
+.detailsbutton:hover:enabled {
+  background-color: hsl(0, 0%, 47%);
+  color: white;
+}
+
+i{
+  padding-top: 10px;
+}
