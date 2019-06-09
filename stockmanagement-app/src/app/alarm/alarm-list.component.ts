@@ -42,4 +42,10 @@ export class AlarmListComponent implements OnInit {
   toggleShowAlarms() {
     this.showAlarms = !this.showAlarms;
   }
+
+  deleteAlarm(alarm: IAlarm) {
+    this.alarmService.deleteAlarm(alarm.id).subscribe(alarms => {
+      this.alarms = alarms;
+    });
+  }
 }

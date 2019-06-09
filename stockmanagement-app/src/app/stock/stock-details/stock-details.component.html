@@ -7,11 +7,11 @@
             <span>{{stock.stockExchange.name}}</span>
         </mat-list-item>
         <mat-list-item><span>Aktueller Kurs: </span><span class="padding-left">
-            <b>{{stock.price | currency : stock.currency + " "}}</b></span>
+            <strong>{{stock.price | currency : stock.currency + " "}}</strong></span>
         </mat-list-item>
-        <mat-list-item><span>Relative Veränderung:</span><span
+        <mat-list-item><span>Tagesschwankung:</span><span
             [ngClass]="stock.day_change > 0 ? 'positive-number' : stock.day_change < 0 ? 'negative-number' : ''"
-            class="padding-left">{{stock.day_change | number : '1.2-2'}} %</span>
+            class="padding-left"><strong>{{stock.day_change | number : '1.2-2'}} %</strong></span>
         </mat-list-item>
     </mat-list>
 </div>

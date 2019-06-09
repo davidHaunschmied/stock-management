@@ -74,6 +74,9 @@ export class DepotOverviewComponent implements OnInit {
       holdingValue += holding.totalPrice;
     });
     this.relativeChange = this.absoluteChange / holdingValue * 100;
+    if (!this.relativeChange){
+      this.relativeChange = 0;
+    }
   }
 
   calculateTotalEarnings() {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.ResourceAccessException;
 import pr.se.stockmanagementapi.model.Alarm;
 import pr.se.stockmanagementapi.payload.AlarmCreationRequest;
 import pr.se.stockmanagementapi.payload.ApiResponse;
@@ -31,6 +32,13 @@ public class AlarmController {
     @GetMapping("/all")
     public List<Alarm> getAllAlarms() {
         return alarmRepository.findAll();
+    }
+
+    @DeleteMapping("/delete/{alarmId}")
+    public List<Alarm> deleteAlarm(@PathVariable Long alarmId) {
+        Alarm alarm = alarmRepository.findById(alarmId).orElseThrow(() -> new ResourceAccessException("Alarm does not exist!"));
+        alarmRepository.delete(alarm);
+        return getAllAlarmsToFire();
     }
 
 
