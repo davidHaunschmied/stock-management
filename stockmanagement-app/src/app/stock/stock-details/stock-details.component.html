@@ -35,7 +35,7 @@
         </button>
     </div>
 </div>
-<highcharts-chart *ngIf="stockHistory && stock"
+<highcharts-chart *ngIf="stockHistory && stock && alarms"
                   [Highcharts]="Highcharts"
                   [options]="chartOptions"
                   constructorType="stockChart"

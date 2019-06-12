@@ -34,6 +34,11 @@ public class AlarmController {
         return alarmRepository.findAll();
     }
 
+    @GetMapping("/stock/{stockId}")
+    public List<Alarm> getAllAlarmsByStockId(@PathVariable long stockId) {
+        return alarmRepository.findAllByStockId(stockId);
+    }
+
     @DeleteMapping("/delete/{alarmId}")
     public List<Alarm> deleteAlarm(@PathVariable Long alarmId) {
         Alarm alarm = alarmRepository.findById(alarmId).orElseThrow(() -> new ResourceAccessException("Alarm does not exist!"));

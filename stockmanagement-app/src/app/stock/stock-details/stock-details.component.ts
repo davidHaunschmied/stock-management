@@ -14,6 +14,7 @@ import {DepotService} from "../../services/depot/depot.service";
 import {IHolding} from "../../model/IHolding";
 import {StockSellComponent} from "../stock-sell/stock-sell.component";
 import {HoldingService} from "../../services/holding/holding.service";
+import {IAlarm} from "../../model/IAlarm";
 
 @Component({
   selector: 'app-stock-details',
@@ -28,6 +29,7 @@ export class StockDetailsComponent implements OnInit {
   currentDepot: IDepot;
   holding: IHolding;
   holdings: IHolding[];
+  private alarms: IAlarm [];
 
   constructor(private stockService: StockService,
               private route: ActivatedRoute,
@@ -48,8 +50,7 @@ export class StockDetailsComponent implements OnInit {
         const id = +params['id'];
         if (id) {
           this.getStockDetails(id);
-          this.getStockHistory(id);
-
+          this.renderChart(id);
         }
         this.depotService.currentDepot.subscribe((depot: IDepot) => {
           this.currentDepot = depot;
@@ -74,10 +75,23 @@ export class StockDetailsComponent implements OnInit {
     );
   }
 
-  private getStockHistory(id: number) {
+  private renderChart(id: number) {
     this.stockService.getStockHistory(id).subscribe(data => {
+      this.alarmService.getAllAlarmsByStockId(id).subscribe(alarms => {
+        this.alarms = alarms;
         this.stockHistory = data;
         this.chartOptions = {
+          xAxis: {
+            title: {
+              text: 'Zeit'
+            }
+          },
+          yAxis: {
+            title: {
+              text: 'Aktueller Wert'
+            },
+            plotLines: this.getPlotLines()
+          },
           series: [{
             name: this.stock.symbol,
             data: this.stockHistory.map(function (day) {
@@ -92,6 +106,7 @@ export class StockDetailsComponent implements OnInit {
         console.log(error);
       }
     );
+    });
   }
 
   openCreateAlarmDialog(): void {
@@ -106,6 +121,7 @@ export class StockDetailsComponent implements OnInit {
       this.alarmService.createAlarm(data.stock, data.alarmPrice).subscribe(
         alarm => {
           console.log('Added alarm of data: ' + JSON.stringify(alarm));
+          this.renderChart(this.stock.id);
         }, error => {
           console.log('Error: ' + error.message);
         }
@@ -167,5 +183,38 @@ export class StockDetailsComponent implements OnInit {
 
   hasHolding() {
     return this.holding && this.holding.amount > 0;
+  }
+
+  private getPlotLines() {
+    const plotLines = [];
+    const alarmUnder = this.alarms.find(alarm => {
+      return alarm.alarmType == 'UNDER'
+    });
+    const alarmOver = this.alarms.find(alarm => {
+      return alarm.alarmType == 'OVER'
+    });
+    if (alarmUnder) {
+      plotLines.push({
+        value: alarmUnder.price,
+        color: 'red',
+        dashStyle: 'shortdash',
+        width: 2,
+        label: {
+          text: 'Alarm ' + alarmUnder.price + ' ' + this.stock.currency
+        }
+      });
+    }
+    if (alarmOver) {
+      plotLines.push({
+        value: alarmOver.price,
+        color: 'green',
+        dashStyle: 'shortdash',
+        width: 2,
+        label: {
+          text: 'Alarm ' + alarmOver.price + ' ' + this.stock.currency
+        }
+      });
+    }
+    return plotLines;
   }
 }
