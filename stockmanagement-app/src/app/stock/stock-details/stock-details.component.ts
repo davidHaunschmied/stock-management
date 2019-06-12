@@ -197,8 +197,8 @@ export class StockDetailsComponent implements OnInit {
       plotLines.push({
         value: alarmUnder.price,
         color: 'red',
-        dashStyle: 'shortdash',
-        width: 2,
+        dashStyle: 'longdash',
+        width: 1,
         label: {
           text: 'Alarm ' + alarmUnder.price + ' ' + this.stock.currency
         }
@@ -208,8 +208,8 @@ export class StockDetailsComponent implements OnInit {
       plotLines.push({
         value: alarmOver.price,
         color: 'green',
-        dashStyle: 'shortdash',
-        width: 2,
+        dashStyle: 'longdash',
+        width: 1,
         label: {
           text: 'Alarm ' + alarmOver.price + ' ' + this.stock.currency
         }
