@@ -13,6 +13,7 @@ import pr.se.stockmanagementapi.respository.TransactionRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -30,14 +31,6 @@ public class TransactionService {
         this.stockService = stockService;
     }
 
-    public List<Transaction> getAllPurchases() {
-        return transactionRepository.findAllByTransactionType(TransactionType.PURCHASE);
-    }
-
-    public List<Transaction> getAllSales() {
-        return transactionRepository.findAllByTransactionType(TransactionType.SALE);
-    }
-
     @Transactional
     public Holding newTransaction(StockTransactionRequest stockTransactionRequest, TransactionType transactionType) {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
@@ -47,5 +40,9 @@ public class TransactionService {
         Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
         holding.addTransaction(transaction);
         return holdingRepository.save(holding);
+    }
+
+    public List<Transaction> getAllByDepotId(long depotId) {
+        return transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
     }
 }
