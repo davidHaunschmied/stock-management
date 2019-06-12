@@ -13,6 +13,7 @@ import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.services.DepotService;
 import pr.se.stockmanagementapi.services.HoldingService;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -69,6 +70,13 @@ public class DepotController {
     @GetMapping("/{depotId}/history")
     public List<HistoryPoint> getHistory(@PathVariable long depotId) {
         return depotService.getDepotHistorySorted(depotId);
+    }
+
+    @GetMapping("/export/{depotid}")
+    public void exportCSV(HttpServletResponse response, @PathVariable long depotId) throws Exception {
+
+        this.depotService.exportCSV(response, depotId);
+
     }
 
 
