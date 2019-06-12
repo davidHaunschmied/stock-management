@@ -5,15 +5,20 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pr.se.stockmanagementapi.exceptions.BadRequestException;
 import pr.se.stockmanagementapi.model.Depot;
 import pr.se.stockmanagementapi.model.Earning;
 import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.Transaction;
 import pr.se.stockmanagementapi.model.export.TransactionCsv;
+import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.DepotRepository;
+import pr.se.stockmanagementapi.util.CSVUtils;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -84,4 +89,16 @@ public class DepotService {
     }
 
 
+    public ResponseEntity importCSV(MultipartFile file) throws Exception {
+        String depotName = file.getName().replace(".csv", "");
+        List<TransactionCsv> transactionCsv = CSVUtils.read(TransactionCsv.class, file.getInputStream());
+        if (depotRepository.findDepotByName(depotName).isPresent()) {
+
+            return new ResponseEntity<>(new ApiResponse(false, "Depot name already taken!"), HttpStatus.BAD_REQUEST);
+        }
+        Depot depot = new Depot(depotName);
+        this.depotRepository.save(depot);
+
+        return new ResponseEntity<>(depot, HttpStatus.CREATED);
+    }
 }

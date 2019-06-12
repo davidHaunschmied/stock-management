@@ -38,4 +38,12 @@ export class DepotService {
   getHistory(depotId: number): Observable<IHistoryPoint[]> {
     return this.http.get<IHistoryPoint[]>(this.endpoint + '/' + depotId + '/history/', AppSettings.HTTP_OPTIONS);
   }
+
+  importDepot(file: any): Observable<IDepot> {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    return this.http
+      .post<IDepot>(this.endpoint + '/import', formData, AppSettings.HTTP_IMPORT);
+  }
+
 }

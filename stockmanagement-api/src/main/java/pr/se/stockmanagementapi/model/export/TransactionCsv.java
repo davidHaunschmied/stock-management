@@ -3,19 +3,19 @@ package pr.se.stockmanagementapi.model.export;
 import pr.se.stockmanagementapi.model.Transaction;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class TransactionCsv {
     private int amount;
     private double price;
-    private Date date;
+    private String date;
     private String symbol;
     private TransactionType transactionType;
 
     public TransactionCsv(Transaction transaction) {
         this.amount = transaction.getAmount();
         this.price = transaction.getPrice();
-        this.date = transaction.getDate();
+        this.date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(transaction.getDate());
         this.symbol = transaction.getHolding().getStock().getSymbol();
         this.transactionType = transaction.getTransactionType();
     }
@@ -39,11 +39,11 @@ public class TransactionCsv {
         this.price = price;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

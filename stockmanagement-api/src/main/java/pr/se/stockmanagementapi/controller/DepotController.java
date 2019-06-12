@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pr.se.stockmanagementapi.model.Depot;
 import pr.se.stockmanagementapi.model.Transaction;
 import pr.se.stockmanagementapi.model.lightweights.DepotIdAndName;
@@ -83,8 +84,11 @@ public class DepotController {
         List<Transaction> transactions = transactionService.getAllByDepotId(depotId);
         this.depotService.exportCSV(response, depotName, transactions);
 
-
     }
 
+    @PostMapping(value = "/import", consumes = "multipart/form-data")
+    public ResponseEntity uploadMultipart(@RequestParam("file") MultipartFile file) throws Exception {
+        return depotService.importCSV(file);
+    }
 
 }
