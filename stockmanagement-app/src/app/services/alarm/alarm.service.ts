@@ -23,6 +23,10 @@ export class AlarmService {
     return this.http.get<IAlarm[]>(this.endpoint + '/allfired', AppSettings.HTTP_OPTIONS);
   }
 
+  deleteAlarm(alarmId : number): Observable<IAlarm[]> {
+    return this.http.delete<IAlarm[]>(this.endpoint + '/delete/' + alarmId, AppSettings.HTTP_OPTIONS);
+  }
+
   createAlarm(stock: IStock, alarmPrice: number): Observable<IAlarm> {
     return this.http.post<IAlarm>(this.endpoint + '/new',
       {
