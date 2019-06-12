@@ -92,4 +92,8 @@ export class DepotOverviewComponent implements OnInit {
   getTotalDevelopment(){
     return this.totalEarnings + this.absoluteChange;
   }
+
+  getExportLink() {
+    return 'http://localhost:8080/api/depots/export/' + this.depot.id;
+  }
 }

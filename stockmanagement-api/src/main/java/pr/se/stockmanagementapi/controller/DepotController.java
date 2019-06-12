@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pr.se.stockmanagementapi.model.Depot;
+import pr.se.stockmanagementapi.model.Transaction;
 import pr.se.stockmanagementapi.model.lightweights.DepotIdAndName;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.payload.DepotCreationRequest;
@@ -12,6 +13,7 @@ import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.services.DepotService;
 import pr.se.stockmanagementapi.services.HoldingService;
+import pr.se.stockmanagementapi.services.TransactionService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -25,12 +27,14 @@ public class DepotController {
     private final DepotRepository depotRepository;
     private final DepotService depotService;
     private final HoldingService holdingService;
+    private final TransactionService transactionService;
 
     @Autowired
-    public DepotController(DepotRepository depotRepository, DepotService depotService, HoldingService holdingService) {
+    public DepotController(DepotRepository depotRepository, DepotService depotService, HoldingService holdingService, TransactionService transactionService) {
         this.depotRepository = depotRepository;
         this.depotService = depotService;
         this.holdingService = holdingService;
+        this.transactionService = transactionService;
     }
 
     @GetMapping("/all")
@@ -72,10 +76,13 @@ public class DepotController {
         return depotService.getDepotHistorySorted(depotId);
     }
 
-    @GetMapping("/export/{depotid}")
+    @GetMapping("/export/{depotId}")
     public void exportCSV(HttpServletResponse response, @PathVariable long depotId) throws Exception {
 
-        this.depotService.exportCSV(response, depotId);
+        String depotName = this.depotService.findDepotByIdOrThrow(depotId).getName();
+        List<Transaction> transactions = transactionService.getAllByDepotId(depotId);
+        this.depotService.exportCSV(response, depotName, transactions);
+
 
     }
 

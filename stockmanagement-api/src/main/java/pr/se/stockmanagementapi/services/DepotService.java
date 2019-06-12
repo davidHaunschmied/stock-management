@@ -11,11 +11,11 @@ import pr.se.stockmanagementapi.model.Depot;
 import pr.se.stockmanagementapi.model.Earning;
 import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.Transaction;
+import pr.se.stockmanagementapi.model.export.TransactionCsv;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.DepotRepository;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -61,25 +61,27 @@ public class DepotService {
             .map(e -> new HistoryPoint(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
 
-    public void exportCSV(HttpServletResponse response, long depotId) throws IOException {
+    public void exportCSV(HttpServletResponse response, String depotName, List<Transaction> transactions) throws Exception {
 
+        List<TransactionCsv> transactionsCsv = transactions.stream().map(TransactionCsv::new).collect(Collectors.toList());
         //set file name and content type
-        String filename = "users.csv";
+        String filename = depotName + ".csv";
 
         response.setContentType("text/csv");
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
             "attachment; filename=\"" + filename + "\"");
 
         //create a csv writer
-        StatefulBeanToCsv<Transaction> writer = new StatefulBeanToCsvBuilder<Transaction>(response.getWriter())
+        StatefulBeanToCsv<TransactionCsv> writer = new StatefulBeanToCsvBuilder<TransactionCsv>(response.getWriter())
             .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
             .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
             .withOrderedResults(false)
             .build();
 
         //write all users to csv file
-        //TODO
-        //writer.write(transactionService.listUsers());
+        writer.write(transactionsCsv);
 
     }
+
+
 }
