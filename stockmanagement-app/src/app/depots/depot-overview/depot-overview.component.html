@@ -24,13 +24,6 @@
     <div *ngIf="!holdings || holdings.length == 0">
         <h3 class="mat-h3">Es befinden sich keine Aktien in diesem Depot!</h3>
     </div>
-    <div class="form-group">
-        <label for="file">Choose File</label>
-        <input (change)="changeFile($event.target.files)"
-               id="file"
-               type="file">
-        <button (click)="uploadFile()">Submit</button>
-    </div>
 <mat-divider></mat-divider>
 <highcharts-chart *ngIf="depotHistory && holdings && holdings.length > 0"
                   [Highcharts]="Highcharts"

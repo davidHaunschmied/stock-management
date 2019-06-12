@@ -10,17 +10,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pr.se.stockmanagementapi.exceptions.BadRequestException;
-import pr.se.stockmanagementapi.model.Depot;
-import pr.se.stockmanagementapi.model.Earning;
-import pr.se.stockmanagementapi.model.Holding;
-import pr.se.stockmanagementapi.model.Transaction;
+import pr.se.stockmanagementapi.model.*;
 import pr.se.stockmanagementapi.model.export.TransactionCsv;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.DepotRepository;
+import pr.se.stockmanagementapi.respository.HoldingRepository;
+import pr.se.stockmanagementapi.respository.StockRepository;
 import pr.se.stockmanagementapi.util.CSVUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -28,13 +28,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class DepotService {
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     private final DepotRepository depotRepository;
     private final HoldingService holdingService;
+    private final HoldingRepository holdingRepository;
+    private final StockRepository stockRepository;
 
     @Autowired
-    public DepotService(DepotRepository depotRepository, HoldingService holdingService) {
+    public DepotService(DepotRepository depotRepository, HoldingService holdingService, HoldingRepository holdingRepository, StockRepository stockRepository) {
         this.depotRepository = depotRepository;
         this.holdingService = holdingService;
+        this.holdingRepository = holdingRepository;
+        this.stockRepository = stockRepository;
     }
 
     public double calculateEarnings(long depotId) {
@@ -89,8 +94,7 @@ public class DepotService {
     }
 
 
-    public ResponseEntity importCSV(MultipartFile file) throws Exception {
-        String depotName = file.getName().replace(".csv", "");
+    public ResponseEntity importCSV(String depotName, MultipartFile file) throws Exception {
         List<TransactionCsv> transactionCsv = CSVUtils.read(TransactionCsv.class, file.getInputStream());
         if (depotRepository.findDepotByName(depotName).isPresent()) {
 
@@ -99,6 +103,15 @@ public class DepotService {
         Depot depot = new Depot(depotName);
         this.depotRepository.save(depot);
 
+        for (TransactionCsv t : transactionCsv) {
+            Stock stock = stockRepository.findBySymbol(t.getSymbol()).orElseThrow(() -> new BadRequestException("Stocksymbol not in CSV-File: " + t.getSymbol()));
+            Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
+
+            Transaction transaction = t.createTransaction();
+            holding.addTransaction(transaction);
+            holdingRepository.save(holding);
+        }
+        
         return new ResponseEntity<>(depot, HttpStatus.CREATED);
     }
 }

@@ -87,8 +87,8 @@ public class DepotController {
     }
 
     @PostMapping(value = "/import", consumes = "multipart/form-data")
-    public ResponseEntity uploadMultipart(@RequestParam("file") MultipartFile file) throws Exception {
-        return depotService.importCSV(file);
+    public ResponseEntity uploadMultipart(@RequestParam("depotName") String depotName, @RequestParam("data") MultipartFile file) throws Exception {
+        return depotService.importCSV(depotName, file);
     }
 
 }

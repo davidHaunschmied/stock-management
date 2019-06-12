@@ -1,11 +1,15 @@
 package pr.se.stockmanagementapi.model.export;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import pr.se.stockmanagementapi.model.Transaction;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionCsv {
+    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     private int amount;
     private double price;
     private String date;
@@ -15,7 +19,7 @@ public class TransactionCsv {
     public TransactionCsv(Transaction transaction) {
         this.amount = transaction.getAmount();
         this.price = transaction.getPrice();
-        this.date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").format(transaction.getDate());
+        this.date = dateFormat.format(transaction.getDate());
         this.symbol = transaction.getHolding().getStock().getSymbol();
         this.transactionType = transaction.getTransactionType();
     }
@@ -61,5 +65,9 @@ public class TransactionCsv {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public Transaction createTransaction() throws ParseException {
+        return new Transaction(this.amount, this.price, dateFormat.parse(this.date), this.transactionType);
     }
 }

@@ -22,6 +22,7 @@ export class DepotOverviewComponent implements OnInit {
   chartOptions: Object;
   private depot: IDepot;
   private file: File;
+  newDepotName: string;
 
   constructor(private depotService: DepotService, private holdingService: HoldingService) {
   }
@@ -96,16 +97,5 @@ export class DepotOverviewComponent implements OnInit {
 
   getExportLink() {
     return 'http://localhost:8080/api/depots/export/' + this.depot.id;
-  }
-
-  uploadFile() {
-    this.depotService.importDepot(this.file).subscribe(data => {
-        console.log(data);
-      }
-    )
-  }
-
-  changeFile(files: FileList) {
-    this.file = files.item(0);
   }
 }
