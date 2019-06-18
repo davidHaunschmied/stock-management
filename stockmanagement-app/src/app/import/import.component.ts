@@ -22,7 +22,7 @@ export class ImportComponent implements OnInit {
 
   openImportDialog(): void {
     const dialogRef = this.importDepotDialog.open(DepotImportDialogComponent, {
-      width: '250px',
+      width: '350px',
       data: {name: ''}
     });
 
