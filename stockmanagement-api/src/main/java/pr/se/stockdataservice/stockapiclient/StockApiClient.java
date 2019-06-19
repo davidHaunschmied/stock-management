@@ -2,14 +2,8 @@ package pr.se.stockdataservice.stockapiclient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pr.se.stockdataservice.stockapiclient.request.ForexHistoryRequest;
-import pr.se.stockdataservice.stockapiclient.request.SearchRequest;
-import pr.se.stockdataservice.stockapiclient.request.StockHistoryRequest;
-import pr.se.stockdataservice.stockapiclient.request.StockRequest;
-import pr.se.stockdataservice.stockapiclient.response.ForexHistoryResponse;
-import pr.se.stockdataservice.stockapiclient.response.SearchResponse;
-import pr.se.stockdataservice.stockapiclient.response.StockHistoryResponse;
-import pr.se.stockdataservice.stockapiclient.response.StockResponse;
+import pr.se.stockdataservice.stockapiclient.request.*;
+import pr.se.stockdataservice.stockapiclient.response.*;
 import pr.se.stockmanagementapi.model.StockExchange;
 
 import java.text.ParseException;
@@ -23,6 +17,7 @@ public class StockApiClient {
 
     public static void main(String[] args) {
         stockRequest();
+        forexRequest();
         historyRequest();
         searchRequest();
         forexHistoryRequest();
@@ -62,6 +57,12 @@ public class StockApiClient {
         stockRequest.addSymbol("VOE.VI");
         stockRequest.addSymbol("AAPL");
         StockResponse response = stockRequest.getData();
+        log.info(response.toString());
+    }
+
+    private static void forexRequest() {
+        ForexRequest forexRequest = new ForexRequest("EUR");
+        ForexResponse response = forexRequest.getData();
         log.info(response.toString());
     }
 }

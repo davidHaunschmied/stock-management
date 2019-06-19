@@ -3,22 +3,13 @@ package pr.se.stockdataservice.stockapiclient.request;
 import org.springframework.web.client.RestTemplate;
 import pr.se.stockdataservice.stockapiclient.response.ForexHistoryResponse;
 
-import java.text.SimpleDateFormat;
-
-import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
-
 public class ForexHistoryRequest extends StockAPIRequest<ForexHistoryResponse> {
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
-
     private String base;
     private String convertTo;
-    private SimpleDateFormat formatter;
 
     public ForexHistoryRequest(String base, String convertTo) {
         this.base = base;
         this.convertTo = convertTo;
-        this.formatter = new SimpleDateFormat(DATE_FORMAT);
-        this.formatter.setTimeZone(TIME_ZONE);
     }
 
     @Override

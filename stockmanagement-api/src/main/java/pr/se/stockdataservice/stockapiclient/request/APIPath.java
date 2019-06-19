@@ -5,6 +5,7 @@ public enum APIPath {
     STOCK_HISTORY("/history"),
     SEARCH("/stock_search"),
     STOCK("/stock"),
+    FOREX("/forex"),
     FOREX_HISTORY("/forex_history");
 
     private String path;
