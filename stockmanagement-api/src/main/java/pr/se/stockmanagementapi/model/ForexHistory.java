@@ -7,6 +7,8 @@ import java.io.Serializable;
 @IdClass(ForexHistory.ForexHistoryId.class)
 @Table(name = "ForexHistory")
 public class ForexHistory {
+    public static final long CURRENT_TIMESTAMP = 0;
+
     @Id
     @Column(nullable = false)
     private String base;

@@ -31,6 +31,7 @@ public class StockDataUpdateJob implements Job {
         this.forexDataUpdater = (ForexDataUpdater) context.getJobDetail().getJobDataMap().get(FOREX_UPDATER_ID);
         updateStockData();
         updateHistoryData();
+        updateForexData();
         checkAlarms();
     }
 

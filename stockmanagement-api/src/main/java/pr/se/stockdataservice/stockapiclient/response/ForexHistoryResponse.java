@@ -7,19 +7,23 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ForexHistoryResponse extends StockAPIResponse {
-    private String symbols;
+    private String symbol;
     private Map<String, Double> history;
 
     public ForexHistoryResponse() {
         this.history = new HashMap<>();
     }
 
-    public String getSymbols() {
-        return symbols;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
-    public void setSymbols(String symbols) {
-        this.symbols = symbols;
+    public String getBaseSymbol() {
+        return this.symbol.substring(0, 3);
+    }
+
+    public String getConvertToSymbol() {
+        return this.symbol.substring(3, 6);
     }
 
     public Map<String, Double> getHistory() {
@@ -33,7 +37,7 @@ public class ForexHistoryResponse extends StockAPIResponse {
     @Override
     public String toString() {
         return "StockHistoryResponse{" +
-            "symbols='" + symbols + '\'' +
+            "symbol='" + symbol + '\'' +
             ", history=" + history +
             '}';
     }
