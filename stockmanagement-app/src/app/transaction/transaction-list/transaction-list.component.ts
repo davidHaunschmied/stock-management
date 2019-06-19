@@ -41,6 +41,14 @@ export class TransactionListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sortingDataAccessor = (item, property) => {
+          switch (property) {
+            case 'date':
+              return new Date(item.date);
+            default:
+              return item[property];
+          }
+        };
       },
       error => console.log(error)
     );
