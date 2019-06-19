@@ -1,10 +1,11 @@
 package pr.se.stockdataservice.stockapiclient.request;
 
 public enum APIPath {
-    BASE_PATH("https://www.worldtradingdata.com/api/v1"),
-    HISTORY("/history"),
+    BASE_PATH("https://api.worldtradingdata.com/api/v1"),
+    STOCK_HISTORY("/history"),
     SEARCH("/stock_search"),
-    STOCK("/stock");
+    STOCK("/stock"),
+    FOREX_HISTORY("/forex_history");
 
     private String path;
 

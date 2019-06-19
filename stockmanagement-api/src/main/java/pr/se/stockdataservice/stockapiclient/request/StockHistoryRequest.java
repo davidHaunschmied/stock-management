@@ -1,14 +1,14 @@
 package pr.se.stockdataservice.stockapiclient.request;
 
 import org.springframework.web.client.RestTemplate;
-import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
+import pr.se.stockdataservice.stockapiclient.response.StockHistoryResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
 
-public class HistoryRequest extends StockAPIRequest<HistoryResponse> {
+public class StockHistoryRequest extends StockAPIRequest<StockHistoryResponse> {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     private String symbol;
@@ -16,20 +16,20 @@ public class HistoryRequest extends StockAPIRequest<HistoryResponse> {
     private Date dateTo;
     private SimpleDateFormat formatter;
 
-    public HistoryRequest(String symbol) {
+    public StockHistoryRequest(String symbol) {
         this.symbol = symbol;
         this.formatter = new SimpleDateFormat(DATE_FORMAT);
         this.formatter.setTimeZone(TIME_ZONE);
     }
 
     @Override
-    protected HistoryResponse sendRequest() {
+    protected StockHistoryResponse sendRequest() {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(getRequestUrl(), HistoryResponse.class);
+        return restTemplate.getForObject(getRequestUrl(), StockHistoryResponse.class);
     }
 
     private String getRequestUrl() {
-        String requestUrl = "" + APIPath.BASE_PATH + APIPath.HISTORY;
+        String requestUrl = "" + APIPath.BASE_PATH + APIPath.STOCK_HISTORY;
         requestUrl += "?symbol=" + symbol;
         requestUrl += "&api_token=" + this.apiKey;
         if (dateFrom != null) {
