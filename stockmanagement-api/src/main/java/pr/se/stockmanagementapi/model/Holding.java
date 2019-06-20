@@ -114,40 +114,40 @@ public class Holding extends DateAudit {
     }
 
     public int getAmountAt(long dateMillis) {
-        int amount = 0;
+        int amountAt = 0;
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getTime() <= dateMillis) {
                 if (transaction.getTransactionType() == TransactionType.PURCHASE) {
-                    amount += transaction.getAmount();
+                    amountAt += transaction.getAmount();
                 } else if (transaction.getTransactionType() == TransactionType.SALE) {
-                    amount -= transaction.getAmount();
+                    amountAt -= transaction.getAmount();
                 } else {
                     throw new UnsupportedOperationException("TransactionType " + transaction.getTransactionType() + "not supported!");
                 }
             } else {
-                return amount;
+                return amountAt;
             }
         }
-        return amount;
+        return amountAt;
     }
 
     public double getTotalPriceAt(long dateMillis) {
-        double totalPrice = 0;
+        double totalPriceAt = 0;
         for (Transaction transaction : transactions) {
             if (transaction.getDate().getTime() <= dateMillis) {
                 if (transaction.getTransactionType() == TransactionType.PURCHASE) {
-                    totalPrice += transaction.getPrice();
+                    totalPriceAt += transaction.getPrice();
                 } else if (transaction.getTransactionType() == TransactionType.SALE) {
-                    totalPrice -= transaction.getPrice();
-                    totalPrice = totalPrice > 0 ? totalPrice : 0;
+                    totalPriceAt -= transaction.getPrice();
+                    totalPriceAt = totalPriceAt > 0 ? totalPriceAt : 0;
                 } else {
                     throw new UnsupportedOperationException("TransactionType " + transaction.getTransactionType() + "not supported!");
                 }
             } else {
-                return totalPrice;
+                return totalPriceAt;
             }
         }
-        return totalPrice;
+        return totalPriceAt;
     }
 
     public double getPricePerStockAt(long dateMillis) {
@@ -155,14 +155,14 @@ public class Holding extends DateAudit {
     }
 
     public double getEarningsAt(long dateMillis) {
-        double earnings = 0;
+        double earningsAt = 0;
         for (Earning earning : this.earnings) {
             if (earning.getDate().getTime() <= dateMillis) {
-                earnings += earning.getEarnings();
+                earningsAt += earning.getEarnings();
             } else {
-                return earnings;
+                return earningsAt;
             }
         }
-        return earnings;
+        return earningsAt;
     }
 }

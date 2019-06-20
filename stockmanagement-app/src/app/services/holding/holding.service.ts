@@ -22,4 +22,9 @@ export class HoldingService {
   getAllHoldings(depotId: number): Observable<IHolding[]> {
     return this.http.get<IHolding[]>(this.endpoint + '/' + depotId + '/', AppSettings.HTTP_OPTIONS);
   }
+
+  getAllHoldingsByStock(stockId: number): Observable<IHolding[]>{
+    return this.http.get<IHolding[]>(this.endpoint + '/byStock/' + stockId + '/', AppSettings.HTTP_OPTIONS);
+  }
+
 }

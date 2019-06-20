@@ -1,5 +1,9 @@
 @import "styles/material-icons";
 
+*{
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 button {
   background-color: Transparent;
   background-repeat: no-repeat;
@@ -7,4 +11,49 @@ button {
   cursor: pointer;
   overflow: hidden;
   outline: none;
+}
+
+//Links
+td a:link {
+  color: hsl(0, 0%, 0%);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+td a:visited {
+  color: hsl(0, 0%, 0%);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+td a:hover {
+  color: hsl(0, 0%, 47%);
+  background-color: transparent;
+  text-decoration: underline;
+}
+
+td a:active {
+  color: hsl(0, 0%, 47%);
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.negative-number {
+  color: red;
+}
+
+.positive-number {
+  color: green;
+}
+
+.padding-left {
+  padding-left: 20px;
+}
+
+.floatright{
+  float: right;
+}
+
+.floatleft{
+  float: left;
 }

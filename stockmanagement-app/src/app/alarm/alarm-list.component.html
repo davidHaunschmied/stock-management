@@ -1,11 +1,15 @@
 <mat-menu #appMenu="matMenu">
-    <ng-container *ngFor="let alarm of alarms">
+    <ng-container *ngFor="let alarm of alarms" class="ngcont">
         <mat-divider *ngIf="alarm != alarms[0]"></mat-divider>
-        <button [routerLink]="['/stocks/stock-details', alarm.stock.id]">Preis
-            von {{alarm.stock.name}} ist
-            mit {{alarm.stock.price | number : '1.2-2'}} {{alarm.stock.currency}} {{alarm.alarmType === 'UNDER' ? 'unter' : 'über'}} {{alarm.price | number : '1.2-2'}} {{alarm.stock.currency}} {{alarm.alarmType === 'UNDER' ? 'gefallen' : 'gestiegen'}}
-            !
+        <button class="btn1" (click)="deleteAlarm(alarm)" [routerLink]="['/stocks/stock-details', alarm.stock.id]"><strong>{{alarm.stock.name}}</strong> ist
+            {{alarm.alarmType === 'UNDER' ? 'unter' : 'über'}} <strong>{{alarm.price | number : '1.2-2'}} {{alarm.stock.currency}}</strong> {{alarm.alarmType === 'UNDER' ? 'gefallen' : 'gestiegen'}}!
         </button>
+        <span class="">
+            <button class="btn2" (click)="deleteAlarm(alarm)">
+            <i class="material-icons">
+                delete_forever
+            </i>
+        </button></span>
     </ng-container>
 </mat-menu>
 

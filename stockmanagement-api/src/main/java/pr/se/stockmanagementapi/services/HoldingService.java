@@ -69,4 +69,8 @@ public class HoldingService {
         return getHoldingHistory(holding).entrySet().stream().sorted(Map.Entry.comparingByKey())
             .map(e -> new HistoryPoint(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
+
+    public List<Holding> getAllByStockId(long stockId){
+        return holdingRepository.findAllByStockId(stockId);
+    }
 }
