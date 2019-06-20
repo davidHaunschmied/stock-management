@@ -15,7 +15,7 @@
         </mat-list-item>
     </mat-list>
 </div>
-<div class="floatright margin">
+<div class="floatright margin" *ngIf="stock">
     <div class="floatright">
         <button class="padding detailsbutton" (click)="openCreateAlarmDialog()">
             <i class="material-icons">add_alert</i>
