@@ -20,6 +20,7 @@ import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-crea
 import {AlarmListComponent} from "./alarm/alarm-list.component";
 import {HighchartsChartModule} from 'highcharts-angular';
 import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
+import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,8 @@ import {TransactionListComponent} from './transaction/transaction-list/transacti
     StockSellComponent,
     StockPurchaseComponent,
     DepotStocksComponent,
+    AlarmListComponent,
+    DepotDeleteDialogComponent,
     AlarmListComponent,
     TransactionListComponent
   ],
@@ -54,7 +57,8 @@ import {TransactionListComponent} from './transaction/transaction-list/transacti
     DepotCreateDialogComponent,
     AlarmCreateDialogComponent,
     StockSellComponent,
-    StockPurchaseComponent
+    StockPurchaseComponent,
+    DepotDeleteDialogComponent
   ]
 })
 export class AppModule {

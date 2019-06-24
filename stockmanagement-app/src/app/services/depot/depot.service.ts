@@ -38,4 +38,8 @@ export class DepotService {
   getHistory(depotId: number): Observable<IHistoryPoint[]> {
     return this.http.get<IHistoryPoint[]>(this.endpoint + '/' + depotId + '/history/', AppSettings.HTTP_OPTIONS);
   }
+
+  deleteDepot(depot: IDepot) {
+    return this.http.delete<any>(this.endpoint + '/delete/' + depot.id, AppSettings.HTTP_OPTIONS);
+  }
 }
