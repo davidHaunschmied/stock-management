@@ -22,14 +22,9 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @GetMapping("/purchases")
-    public List<Transaction> getAllPurchases() {
-        return transactionService.getAllPurchases();
-    }
-
-    @GetMapping("/sales")
-    public List<Transaction> getAllSales() {
-        return transactionService.getAllSales();
+    @GetMapping("/{depotId}")
+    public List<Transaction> getAllByDepotId(@PathVariable long depotId) {
+        return transactionService.getAllByDepotId(depotId);
     }
 
     @PostMapping("/purchase")

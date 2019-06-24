@@ -4,7 +4,7 @@ export interface ITransaction {
   id: number;
   amount: number;
   price: number;
-  data: Date;
+  date: Date;
   holding: IHolding;
   transactionType: TransactionType;
 }

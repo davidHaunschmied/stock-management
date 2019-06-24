@@ -5,6 +5,7 @@ import {IStock} from "../../model/IStock";
 import {Observable} from "rxjs";
 import {IDepot} from "../../model/IDepot";
 import {IHolding} from "../../model/IHolding";
+import {ITransaction} from "../../model/ITransaction";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,10 @@ export class TransactionService {
   readonly endpoint = AppSettings.API_ENDPOINT + '/transactions';
 
   constructor(private http: HttpClient) {
+  }
+
+  getAllTransactionsByDepot(depotId: number): Observable<ITransaction[]> {
+    return this.http.get<ITransaction[]>(this.endpoint + '/' + depotId, AppSettings.HTTP_OPTIONS);
   }
 
   sellStock(stock: IStock, depot: IDepot, amount: number, price: number): Observable<IHolding> {
