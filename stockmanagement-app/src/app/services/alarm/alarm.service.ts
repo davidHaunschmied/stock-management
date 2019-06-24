@@ -35,4 +35,8 @@ export class AlarmService {
         'alarmType': stock.price > alarmPrice ? 'UNDER' : 'OVER'
       }, AppSettings.HTTP_OPTIONS);
   }
+
+  getAllAlarmsByStockId(stockId: number) {
+    return this.http.get<IAlarm[]>(this.endpoint + '/stock/' + stockId, AppSettings.HTTP_OPTIONS);
+  }
 }
