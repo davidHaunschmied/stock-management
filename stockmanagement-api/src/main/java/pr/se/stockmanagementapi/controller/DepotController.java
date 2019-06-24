@@ -51,7 +51,7 @@ public class DepotController {
         return new ResponseEntity<>(depotRepository.save(depot), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{depotId}")
+    @DeleteMapping("/delete/{depotId}")
     public void deleteDepot(@PathVariable long depotId) {
         depotRepository.deleteById(depotId);
     }

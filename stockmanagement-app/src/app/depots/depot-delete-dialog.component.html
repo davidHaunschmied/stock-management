@@ -1,0 +1,9 @@
+<h1 mat-dialog-title>Löschen bestätigen</h1>
+<div mat-dialog-content>
+    <p>Wollen Sie wirklich das Aktiendepot '{{depotName}}' sowie alle darin befindlichen Aktienbesitze
+        löschen?</p>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="dialogRef.close(false)">Abbrechen</button>
+    <button mat-raised-button class="mat-warn" (click)="dialogRef.close(true)">Löschen</button>
+</div>
