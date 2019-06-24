@@ -11,7 +11,7 @@
                 <a [routerLink]="['/stocks/stock-details', element.id]">{{element.name}}</a></td>
         </ng-container>
         <ng-container matColumnDef="market">
-            <th *matHeaderCellDef mat-header-cell>Börse</th>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Börse</th>
             <td mat-cell *matCellDef="let element">{{element.stockExchange.name + " (" + element.stockExchange.shortName + ")"}}</td>
         </ng-container>
         <ng-container matColumnDef="price">
