@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pr.se.stockdataservice.AlarmNotifier;
+import pr.se.stockdataservice.ForexDataUpdater;
 import pr.se.stockdataservice.StockDataUpdater;
 import pr.se.stockdataservice.StockHistoryDataUpdater;
 import pr.se.stockdataservice.scheduler.job.StockDataUpdateJob;
@@ -18,12 +19,14 @@ public class JobScheduler {
     private StockDataUpdater stockDataUpdater;
     private AlarmNotifier alarmNotifier;
     private StockHistoryDataUpdater stockHistoryDataUpdater;
+    private ForexDataUpdater forexDataUpdater;
 
     @Autowired
-    public JobScheduler(StockDataUpdater stockDataUpdater, AlarmNotifier alarmNotifier, StockHistoryDataUpdater stockHistoryDataUpdater) {
+    public JobScheduler(StockDataUpdater stockDataUpdater, AlarmNotifier alarmNotifier, StockHistoryDataUpdater stockHistoryDataUpdater, ForexDataUpdater forexDataUpdater) {
         this.stockDataUpdater = stockDataUpdater;
         this.alarmNotifier = alarmNotifier;
         this.stockHistoryDataUpdater = stockHistoryDataUpdater;
+        this.forexDataUpdater = forexDataUpdater;
     }
 
     public void run() {
@@ -36,6 +39,7 @@ public class JobScheduler {
             data.put(StockDataUpdateJob.UPDATER_ID, stockDataUpdater);
             data.put(StockDataUpdateJob.ALARM_CHECKER_ID, alarmNotifier);
             data.put(StockDataUpdateJob.HISTORY_UPDATER_ID, stockHistoryDataUpdater);
+            data.put(StockDataUpdateJob.FOREX_UPDATER_ID, forexDataUpdater);
 
             JobDetail job = JobBuilder.newJob(StockDataUpdateJob.class)
                 .withIdentity("StockDataUpdateJob")

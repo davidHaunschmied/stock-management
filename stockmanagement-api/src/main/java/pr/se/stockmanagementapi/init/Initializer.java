@@ -7,6 +7,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import pr.se.stockdataservice.AlarmNotifier;
+import pr.se.stockdataservice.ForexDataUpdater;
 import pr.se.stockdataservice.StockDataUpdater;
 import pr.se.stockdataservice.StockHistoryDataUpdater;
 import pr.se.stockdataservice.scheduler.JobScheduler;
@@ -34,9 +35,10 @@ public class Initializer implements ApplicationRunner {
     private final StockDataUpdater stockDataUpdater;
     private final StockHistoryDataUpdater stockHistoryDataUpdater;
     private final AlarmNotifier alarmNotifier;
+    private final ForexDataUpdater forexDataUpdater;
 
     @Autowired
-    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, StockHistoryDataUpdater stockHistoryDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmRepository alarmRepository, AlarmNotifier alarmNotifier) {
+    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, StockHistoryDataUpdater stockHistoryDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmRepository alarmRepository, AlarmNotifier alarmNotifier, ForexDataUpdater forexDataUpdater) {
         this.depotRepository = depotRepository;
         this.stockDataUpdater = stockDataUpdater;
         this.stockHistoryDataUpdater = stockHistoryDataUpdater;
@@ -44,6 +46,7 @@ public class Initializer implements ApplicationRunner {
         this.stockRepository = stockRepository;
         this.alarmRepository = alarmRepository;
         this.alarmNotifier = alarmNotifier;
+        this.forexDataUpdater = forexDataUpdater;
     }
 
     @Override
@@ -55,7 +58,7 @@ public class Initializer implements ApplicationRunner {
         } catch (Exception e) {
             LOGGER.error("Error while generating test holdings and transactions");
         }
-        JobScheduler jobScheduler = new JobScheduler(stockDataUpdater, alarmNotifier, stockHistoryDataUpdater);
+        JobScheduler jobScheduler = new JobScheduler(stockDataUpdater, alarmNotifier, stockHistoryDataUpdater, forexDataUpdater);
         jobScheduler.run();
     }
 

@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class HistoryResponse extends StockAPIResponse {
+public class StockHistoryResponse extends StockAPIResponse {
     private String name;
     private Map<String, StockHistoryDetail> history;
 
-    public HistoryResponse() {
+    public StockHistoryResponse() {
         this.history = new HashMap<>();
     }
 
@@ -33,7 +33,7 @@ public class HistoryResponse extends StockAPIResponse {
 
     @Override
     public String toString() {
-        return "HistoryResponse{" +
+        return "StockHistoryResponse{" +
             "name='" + name + '\'' +
             ", history=" + history +
             '}';
