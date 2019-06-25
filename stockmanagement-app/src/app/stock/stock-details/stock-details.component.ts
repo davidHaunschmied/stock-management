@@ -14,6 +14,7 @@ import {IHolding} from "../../model/IHolding";
 import {StockSellComponent} from "../stock-sell/stock-sell.component";
 import {HoldingService} from "../../services/holding/holding.service";
 import {IAlarm} from "../../model/IAlarm";
+import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-stock-details',
@@ -38,7 +39,8 @@ export class StockDetailsComponent implements OnInit {
               private createAlarmDialog: MatDialog,
               private depotService: DepotService,
               private holdingService: HoldingService,
-              private sellStockDialog: MatDialog) {
+              private sellStockDialog: MatDialog,
+              private currencyService: CurrencyService) {
   }
 
   ngOnInit() {
@@ -213,5 +215,9 @@ export class StockDetailsComponent implements OnInit {
       });
     }
     return plotLines;
+  }
+
+  getCurrency() {
+    return this.currencyService.currentCurrency.getValue();
   }
 }

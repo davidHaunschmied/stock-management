@@ -8,6 +8,7 @@ import {StockPurchaseComponent} from "../stock-purchase/stock-purchase.component
 import {TransactionService} from "../../services/transaction/transaction.service";
 import {DepotService} from "../../services/depot/depot.service";
 import {AlarmCreateDialogComponent} from "../../alarm/alarm-create-dialog/alarm-create-dialog.component";
+import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-stock-list',
@@ -25,7 +26,8 @@ export class StockListComponent implements OnInit {
               private createAlarmDialog: MatDialog,
               private purchaseStockDialog: MatDialog,
               private transactionService: TransactionService,
-              private depotService: DepotService) {
+              private depotService: DepotService,
+              private currencyService: CurrencyService) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -90,5 +92,9 @@ export class StockListComponent implements OnInit {
       );
     });
 
+  }
+
+  getCurrency() {
+    return this.currencyService.currentCurrency.getValue();
   }
 }

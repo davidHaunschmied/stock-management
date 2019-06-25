@@ -19,26 +19,27 @@
         </ng-container>
         <ng-container matColumnDef="price">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Kaufpreis/Stk</th>
-            <td *matCellDef="let holding" mat-cell>{{(holding.totalPrice / holding.amount) | currency : "€"}}</td>
+            <td *matCellDef="let holding"
+                mat-cell>{{(holding.totalPrice / holding.amount) | currency : getCurrency()}}</td>
         </ng-container>
         <ng-container matColumnDef="currentPrice">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>aktueller Preis/Stk</th>
-            <td *matCellDef="let holding" mat-cell>{{holding.stock.price | currency : "€"}}</td>
+            <td *matCellDef="let holding" mat-cell>{{holding.stock.price | currency : getCurrency()}}</td>
         </ng-container>
         <ng-container matColumnDef="totalPrice">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Kaufpreis</th>
-            <td *matCellDef="let holding" mat-cell>{{holding.totalPrice | currency : "€"}}</td>
+            <td *matCellDef="let holding" mat-cell>{{holding.totalPrice | currency : getCurrency()}}</td>
         </ng-container>
         <ng-container matColumnDef="currentTotalPrice">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>aktueller Preis</th>
-            <td *matCellDef="let holding" mat-cell>{{holding.currentTotalPrice | currency : "€"}}</td>
+            <td *matCellDef="let holding" mat-cell>{{holding.currentTotalPrice | currency : getCurrency()}}</td>
         </ng-container>
         <ng-container matColumnDef="absoluteChange">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Veränderung</th>
             <td *matCellDef="let holding" mat-cell>
                 <span
                     [ngClass]="holding.absoluteChange > 0 ? 'positive-number' : holding.absoluteChange < 0 ? 'negative-number' : ''"
-                    class="padding-left">{{holding.absoluteChange | number : '1.2-2' | currency : "€"}}
+                    class="padding-left">{{holding.absoluteChange | currency:getCurrency():'symbol':'1.2-2'}}
                 </span>
             </td>
         </ng-container>

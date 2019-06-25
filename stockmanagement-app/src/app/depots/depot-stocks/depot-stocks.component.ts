@@ -7,6 +7,7 @@ import {TransactionService} from "../../services/transaction/transaction.service
 import {HoldingService} from "../../services/holding/holding.service";
 import {IHoldingDetail} from "../../model/IHoldingDetail";
 import {IHolding} from "../../model/IHolding";
+import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-depot-stocks',
@@ -24,7 +25,8 @@ export class DepotStocksComponent implements OnInit {
   constructor(private depotService: DepotService,
               private holdingService: HoldingService,
               private transactionService: TransactionService,
-              private sellStockDialog: MatDialog) {
+              private sellStockDialog: MatDialog,
+              private currencyService: CurrencyService) {
   }
 
   ngOnInit() {
@@ -64,6 +66,11 @@ export class DepotStocksComponent implements OnInit {
     });
   }
 
+  getCurrency() {
+    return this.currencyService.currentCurrency.getValue();
+
+  }
+
   private initHoldingDetail(holdings: IHolding[]): IHoldingDetail[] {
     let details: IHoldingDetail[] = [];
 
@@ -79,7 +86,7 @@ export class DepotStocksComponent implements OnInit {
         relativeChange: (holding.amount * holding.stock.price - holding.totalPrice) / holding.totalPrice * 100,
         currentTotalPrice: holding.stock.price * holding.amount
       };
-      details.push(detail)
+      details.push(detail);
     });
     return details;
   }

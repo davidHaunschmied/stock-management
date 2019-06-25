@@ -3,16 +3,17 @@
         <mat-list>
             <mat-list-item><span>Absolute Veränderung der Aktienbesitze:</span><span
                 [ngClass]="absoluteChange > 0 ? 'positive-number' : absoluteChange < 0 ? 'negative-number' : ''"
-                class="padding-left">{{absoluteChange | number : '1.2-2'}} &euro;</span></mat-list-item>
+                class="padding-left">{{absoluteChange | currency:getCurrency():'symbol':'1.2-2'}}</span></mat-list-item>
             <mat-list-item><span>Relative Veränderung der Aktienbesitze:</span><span
                 [ngClass]="relativeChange > 0 ? 'positive-number' : relativeChange < 0 ? 'negative-number' : ''"
                 class="padding-left">{{relativeChange | number : '1.2-2'}} %</span></mat-list-item>
             <mat-list-item><span>Realisierter Gewinn durch Verkäufe:</span><span
                 [ngClass]="totalEarnings > 0 ? 'positive-number' : totalEarnings < 0 ? 'negative-number' : ''"
-                class="padding-left">{{totalEarnings | number : '1.2-2'}} &euro;</span></mat-list-item>
+                class="padding-left">{{totalEarnings | currency:getCurrency():'symbol':'1.2-2'}}</span></mat-list-item>
             <mat-list-item><span><strong>Gesamtentwicklung des Depots:</strong></span><span
                 [ngClass]="getTotalDevelopment() > 0 ? 'positive-number' : getTotalDevelopment() < 0 ? 'negative-number' : ''"
-                class="padding-left"><strong>{{getTotalDevelopment() | number : '1.2-2'}} &euro;</strong></span></mat-list-item>
+                class="padding-left"><strong>{{getTotalDevelopment() | currency:getCurrency():'symbol':'1.2-2'}}</strong></span>
+            </mat-list-item>
         </mat-list>
     </div>
     <div *ngIf="!holdings || holdings.length == 0">

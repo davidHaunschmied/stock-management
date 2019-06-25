@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -22,6 +22,10 @@ import {HighchartsChartModule} from 'highcharts-angular';
 import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
 import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
 import {CurrencySwitchComponent} from "./topbar/currency/currency-switch.component";
+import {registerLocaleData} from "@angular/common";
+import localeDe from '@angular/common/locales/de';
+
+registerLocaleData(localeDe, 'de'); // moves Currency sign to end of the number
 
 @NgModule({
   declarations: [
@@ -53,7 +57,11 @@ import {CurrencySwitchComponent} from "./topbar/currency/currency-switch.compone
     AppRoutingModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [{
+    provide: LOCALE_ID,
+    useValue: 'de-DE' // 'de-DE' for Germany, 'fr-FR' for France ...
+  },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
@@ -64,4 +72,5 @@ import {CurrencySwitchComponent} from "./topbar/currency/currency-switch.compone
   ]
 })
 export class AppModule {
+
 }

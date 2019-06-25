@@ -7,6 +7,7 @@ import {TransactionService} from "../../services/transaction/transaction.service
 import {IDepot} from "../../model/IDepot";
 import {DepotService} from "../../services/depot/depot.service";
 import {ITransaction} from "../../model/ITransaction";
+import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-transaction-list',
@@ -24,7 +25,8 @@ export class TransactionListComponent implements OnInit {
               private createAlarmDialog: MatDialog,
               private purchaseStockDialog: MatDialog,
               private transactionService: TransactionService,
-              private depotService: DepotService) {
+              private depotService: DepotService,
+              private currencyService: CurrencyService) {
   }
 
   ngOnInit() {
@@ -54,5 +56,9 @@ export class TransactionListComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  getCurrency() {
+    return this.currencyService.currentCurrency.getValue();
   }
 }
