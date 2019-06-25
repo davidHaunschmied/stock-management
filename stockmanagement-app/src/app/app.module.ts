@@ -17,10 +17,11 @@ import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component
 import {StockSellComponent} from './stock/stock-sell/stock-sell.component';
 import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.component';
 import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-create-dialog.component";
-import {AlarmListComponent} from "./alarm/alarm-list.component";
+import {AlarmListComponent} from "./topbar/alarm/alarm-list.component";
 import {HighchartsChartModule} from 'highcharts-angular';
 import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
 import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
+import {CurrencySwitchComponent} from "./topbar/currency/currency-switch.component";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component
     AlarmListComponent,
     DepotDeleteDialogComponent,
     AlarmListComponent,
-    TransactionListComponent
+    TransactionListComponent,
+    CurrencySwitchComponent
   ],
   imports: [
     HighchartsChartModule,
