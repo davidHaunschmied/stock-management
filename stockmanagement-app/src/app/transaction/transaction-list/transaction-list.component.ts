@@ -38,7 +38,7 @@ export class TransactionListComponent implements OnInit {
   }
 
   getTransactions(depotId: number) {
-    this.transactionService.getAllTransactionsByDepot(depotId).subscribe(
+    this.transactionService.getAllTransactionsByDepot(depotId, this.currencyService.currentCurrency.getValue()).subscribe(
       data => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;

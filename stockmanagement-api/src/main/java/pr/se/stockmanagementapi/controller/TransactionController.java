@@ -23,8 +23,8 @@ public class TransactionController {
     }
 
     @GetMapping("/{depotId}")
-    public List<Transaction> getAllByDepotId(@PathVariable long depotId) {
-        return transactionService.getAllByDepotId(depotId);
+    public List<Transaction> getAllByDepotId(@PathVariable long depotId, @RequestParam String currency) {
+        return transactionService.getAllByDepotId(depotId, currency);
     }
 
     @PostMapping("/purchase")

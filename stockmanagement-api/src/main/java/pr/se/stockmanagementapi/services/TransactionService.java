@@ -49,7 +49,13 @@ public class TransactionService {
         return holdingRepository.save(holding);
     }
 
-    public List<Transaction> getAllByDepotId(long depotId) {
-        return transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
+    public List<Transaction> getAllByDepotId(long depotId, String currency) {
+        List<Transaction> transactions = transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
+        if (!currency.equals(Currency.BASE_CURRENCY.getSymbol())) {
+            double exchangeRate = forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), currency);
+            transactions.forEach(t -> t.setPrice(t.getPrice() / exchangeRate));
+        }
+        return transactions;
+
     }
 }

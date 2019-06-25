@@ -16,8 +16,8 @@ export class TransactionService {
   constructor(private http: HttpClient) {
   }
 
-  getAllTransactionsByDepot(depotId: number): Observable<ITransaction[]> {
-    return this.http.get<ITransaction[]>(this.endpoint + '/' + depotId, AppSettings.HTTP_OPTIONS);
+  getAllTransactionsByDepot(depotId: number, currency: string): Observable<ITransaction[]> {
+    return this.http.get<ITransaction[]>(this.endpoint + '/' + depotId + "?currency=" + currency, AppSettings.HTTP_OPTIONS);
   }
 
   sellStock(stock: IStock, depot: IDepot, amount: number, price: number, currency: string): Observable<IHolding> {
