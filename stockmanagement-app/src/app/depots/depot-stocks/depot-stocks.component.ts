@@ -17,7 +17,6 @@ export class DepotStocksComponent implements OnInit {
   displayedColumns: string[] = ['stock.name', 'stock.symbol', 'stock.stockExchange', 'amount', 'price', 'currentPrice', 'totalPrice', 'currentTotalPrice', 'absoluteChange', 'relativeChange', 'sell'];
   holdings: IHoldingDetail[];
   dataSource: MatTableDataSource<IHoldingDetail>;
-  currentDepot: IDepot;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -30,11 +29,6 @@ export class DepotStocksComponent implements OnInit {
 
   ngOnInit() {
     this.getHoldings();
-    this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      if (depot){
-        this.currentDepot = depot;
-      }
-    });
   }
 
   getHoldings() {
@@ -60,7 +54,7 @@ export class DepotStocksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount, data.price).subscribe(
+      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount, data.price).subscribe(
         holding => {
           this.getHoldings()
         }, error => {

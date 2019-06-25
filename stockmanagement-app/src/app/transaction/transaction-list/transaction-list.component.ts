@@ -18,7 +18,6 @@ export class TransactionListComponent implements OnInit {
   dataSource: MatTableDataSource<ITransaction>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  private currentDepot: IDepot;
 
   constructor(private stockService: StockService,
               private alarmService: AlarmService,
@@ -30,13 +29,12 @@ export class TransactionListComponent implements OnInit {
 
   ngOnInit() {
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.currentDepot = depot;
-      this.getTransactions();
+      this.getTransactions(depot.id);
     });
   }
 
-  getTransactions() {
-    this.transactionService.getAllTransactionsByDepot(this.currentDepot.id).subscribe(
+  getTransactions(depotId: number) {
+    this.transactionService.getAllTransactionsByDepot(depotId).subscribe(
       data => {
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.sort = this.sort;

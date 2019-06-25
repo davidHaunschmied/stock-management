@@ -6,7 +6,6 @@ import {MatDialog, MatPaginator, MatSort} from "@angular/material";
 import {AlarmService} from "../../services/alarm/alarm.service";
 import {StockPurchaseComponent} from "../stock-purchase/stock-purchase.component";
 import {TransactionService} from "../../services/transaction/transaction.service";
-import {IDepot} from "../../model/IDepot";
 import {DepotService} from "../../services/depot/depot.service";
 import {AlarmCreateDialogComponent} from "../../alarm/alarm-create-dialog/alarm-create-dialog.component";
 
@@ -19,7 +18,6 @@ export class StockListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'market', 'price', 'day_change', 'buy', 'alert'];
   //stocks: IStock[] | undefined;
   dataSource: MatTableDataSource<IStock>;
-  private currentDepot: IDepot;
 
 
   constructor(private stockService: StockService,
@@ -35,9 +33,6 @@ export class StockListComponent implements OnInit {
 
   ngOnInit() {
     this.getStocks();
-    this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.currentDepot = depot;
-    });
 
   }
 
@@ -86,7 +81,7 @@ export class StockListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount, data.totalPrice).subscribe(
+      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount, data.totalPrice).subscribe(
         holding => {
           this.getStocks()
         }, error => {

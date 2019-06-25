@@ -13,7 +13,7 @@ export class DepotService {
   readonly current_depot_storage = 'CURRENT_DEPOT';
   readonly endpoint = AppSettings.API_ENDPOINT + '/depots';
 
-  public currentDepot;
+  public currentDepot: BehaviorSubject<IDepot>;
 
   constructor(private http: HttpClient) {
     this.currentDepot = new BehaviorSubject<IDepot>(JSON.parse(localStorage.getItem(this.current_depot_storage)));
