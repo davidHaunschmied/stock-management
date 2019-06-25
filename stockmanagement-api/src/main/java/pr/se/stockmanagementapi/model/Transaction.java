@@ -75,4 +75,8 @@ public class Transaction extends DateAudit implements HasDate {
     public TransactionType getTransactionType() {
         return transactionType;
     }
+
+    public Holding getHolding() {
+        return holding;
+    }
 }

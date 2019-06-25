@@ -22,16 +22,22 @@ export class DepotSwitchCreateComponent implements OnInit {
   ngOnInit(): void {
     this.depotService.currentDepot.subscribe(depot => {
       this.filter.setValue(depot);
+      if (!depot){
+        this.reloadDepots();
+      }
     });
+    this.reloadDepots();
+  }
+
+  reloadDepots() {
     this.depotService.getAllDepots().subscribe(
       depots => {
         this.depots = depots;
       },
       error => {
-        console.log('Error1: ' + error.message);
+        console.log('Error: ' + error.message);
       }
     );
-    console.log("Selected depot is: " + JSON.stringify(this.filter.value));
   }
 
   openCreateDepotDialog(): void {

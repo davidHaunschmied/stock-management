@@ -1,0 +1,45 @@
+<div class="mat-elevation-z8">
+    <mat-form-field appearance="outline">
+        <!--<mat-label>Suche</mat-label>-->
+        <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Suche">
+    </mat-form-field>
+
+    <table [dataSource]="dataSource" mat-table matSort>
+        <ng-container matColumnDef="stock">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Aktie</th>
+            <td *matCellDef="let transaction" mat-cell>
+                <a [routerLink]="['/stocks/stock-details', transaction.holding.stock.id]">{{transaction.holding.stock.name}}</a>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="symbol">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Symbol</th>
+            <td *matCellDef="let transaction" mat-cell>{{transaction.holding.stock.symbol}}</td>
+        </ng-container>
+        <ng-container matColumnDef="market">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Börse</th>
+            <td *matCellDef="let transaction"
+                mat-cell>{{transaction.holding.stock.stockExchange.name + " (" + transaction.holding.stock.stockExchange.shortName + ")"}}</td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Menge</th>
+            <td *matCellDef="let transaction" mat-cell>{{transaction.amount}}</td>
+        </ng-container>
+        <ng-container matColumnDef="price">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>
+            <td *matCellDef="let transaction" mat-cell>{{transaction.price}}</td>
+        </ng-container>
+        <ng-container matColumnDef="date">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Datum</th>
+            <td *matCellDef="let transaction" mat-cell>{{transaction.date}}</td>
+        </ng-container>
+        <ng-container matColumnDef="type">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Kauf/Verkauf</th>
+            <td *matCellDef="let transaction" mat-cell>{{transaction.transactionType}}</td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row ; columns: displayedColumns;" mat-row></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 100]" [pageSize]="20" showFirstLastButtons></mat-paginator>
+</div>
+
+

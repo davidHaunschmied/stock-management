@@ -1,0 +1,25 @@
+table {
+  width: 100%;
+}
+
+mat-form-field { // NOSONAR
+  width: 60%;
+  padding: 0 20% 0 20%;
+  text-align: center;
+}
+
+div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  outline: none;
+}
+
+
