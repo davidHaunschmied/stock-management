@@ -34,15 +34,17 @@ export class DepotStocksComponent implements OnInit {
   }
 
   getHoldings() {
-    this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.holdingService.getAllHoldings(depot.id).subscribe(data => {
-        data = data.filter(holding => {
-          return holding.amount > 0
+    this.currencyService.currentCurrency.subscribe(currency => {
+      this.depotService.currentDepot.subscribe((depot: IDepot) => {
+        this.holdingService.getAllHoldings(depot.id).subscribe(data => {
+          data = data.filter(holding => {
+            return holding.amount > 0
+          });
+          this.holdings = this.initHoldingDetail(data);
+          this.dataSource = new MatTableDataSource(this.holdings);
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
         });
-        this.holdings = this.initHoldingDetail(data);
-        this.dataSource = new MatTableDataSource(this.holdings);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
       });
     });
   }

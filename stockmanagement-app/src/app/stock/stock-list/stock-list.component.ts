@@ -17,7 +17,6 @@ import {CurrencyService} from "../../services/currency/currency.service";
 })
 export class StockListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'market', 'price', 'day_change', 'buy', 'alert'];
-  //stocks: IStock[] | undefined;
   dataSource: MatTableDataSource<IStock>;
 
 
@@ -34,8 +33,9 @@ export class StockListComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.getStocks();
-
+    this.currencyService.currentCurrency.subscribe(currency => {
+      this.getStocks();
+    });
   }
 
   getStocks() {

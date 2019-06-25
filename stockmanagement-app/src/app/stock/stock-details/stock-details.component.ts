@@ -44,19 +44,21 @@ export class StockDetailsComponent implements OnInit {
   }
 
   ngOnInit() {
-    // https://stackoverflow.com/a/48446698
-    this.route.params.subscribe(
-      params => {
-        const id = +params['id'];
-        if (id) {
-          this.getStockDetails(id);
-          this.renderChart(id);
+    this.currencyService.currentCurrency.subscribe(currency => {
+      // https://stackoverflow.com/a/48446698
+      this.route.params.subscribe(
+        params => {
+          const id = +params['id'];
+          if (id) {
+            this.getStockDetails(id);
+            this.renderChart(id);
+          }
+          this.depotService.currentDepot.subscribe(() => {
+            this.getDepotsOfHolding(id);
+          });
         }
-        this.depotService.currentDepot.subscribe(() => {
-          this.getDepotsOfHolding(id);
-        });
-      }
-    );
+      );
+    });
   }
 
   getStockDetails(id: number) {

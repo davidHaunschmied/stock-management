@@ -30,8 +30,10 @@ export class TransactionListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.getTransactions(depot.id);
+    this.currencyService.currentCurrency.subscribe(currency => {
+      this.depotService.currentDepot.subscribe((depot: IDepot) => {
+        this.getTransactions(depot.id);
+      });
     });
   }
 
