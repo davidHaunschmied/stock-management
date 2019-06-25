@@ -1,10 +1,13 @@
 package pr.se.stockmanagementapi.payload;
 
+import pr.se.stockmanagementapi.model.enums.Currency;
+
 import javax.validation.constraints.Positive;
 
 public class StockTransactionRequest {
     private Long depotId;
     private Long stockId;
+    private Currency currency;
     @Positive
     private int amount;
     @Positive
@@ -42,4 +45,11 @@ public class StockTransactionRequest {
         this.price = price;
     }
 
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
+    }
 }

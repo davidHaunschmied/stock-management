@@ -58,7 +58,7 @@ export class DepotStocksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount, data.price).subscribe(
+      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount, data.price, this.getCurrency()).subscribe(
         holding => {
           this.getHoldings()
         }, error => {

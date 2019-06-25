@@ -6,6 +6,7 @@ import pr.se.stockmanagementapi.model.Depot;
 import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.Transaction;
+import pr.se.stockmanagementapi.model.enums.Currency;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
 import pr.se.stockmanagementapi.payload.StockTransactionRequest;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
@@ -23,19 +24,25 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final DepotService depotService;
     private final StockService stockService;
+    private final ForexHistoryService forexHistoryService;
 
-    public TransactionService(HoldingRepository holdingRepository, TransactionRepository transactionRepository, DepotService depotService, StockService stockService) {
+    public TransactionService(HoldingRepository holdingRepository, TransactionRepository transactionRepository, DepotService depotService, StockService stockService, ForexHistoryService forexHistoryService) {
         this.holdingRepository = holdingRepository;
         this.transactionRepository = transactionRepository;
         this.depotService = depotService;
         this.stockService = stockService;
+        this.forexHistoryService = forexHistoryService;
     }
 
     @Transactional
     public Holding newTransaction(StockTransactionRequest stockTransactionRequest, TransactionType transactionType) {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
         final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
-        Transaction transaction = new Transaction(stockTransactionRequest.getAmount(), stockTransactionRequest.getPrice(),
+        double price = stockTransactionRequest.getPrice();
+        if (!stockTransactionRequest.getCurrency().getSymbol().equals(Currency.BASE_CURRENCY.getSymbol())) {
+            price /= forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stockTransactionRequest.getCurrency().getSymbol());
+        }
+        Transaction transaction = new Transaction(stockTransactionRequest.getAmount(), price,
             new Date(), transactionType);
         Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
         holding.addTransaction(transaction);
