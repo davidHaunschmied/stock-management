@@ -18,19 +18,19 @@
 <div class="floatright margin" *ngIf="stock">
     <div class="floatright">
         <button class="padding detailsbutton" (click)="openCreateAlarmDialog()">
-            <i class="material-icons">add_alert</i>
+            <mat-icon>add_alert</mat-icon>
             <p>Alarm erstellen</p>
         </button>
     </div>
     <div class="floatright">
         <button (click)="openSellStockDialog()" [disabled]="!hasHolding()" class="padding detailsbutton">
-            <i class="material-icons">gavel</i>
+            <mat-icon>gavel</mat-icon>
             <p>Aktie verkaufen</p>
         </button>
     </div>
     <div class="floatright">
         <button class="padding detailsbutton" (click)="openBuyStockDialog()">
-            <i class="material-icons">gavel</i>
+            <mat-icon>gavel</mat-icon>
             <p>Aktie kaufen</p>
         </button>
     </div>
