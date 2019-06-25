@@ -2,10 +2,7 @@ package pr.se.stockmanagementapi.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pr.se.stockmanagementapi.model.Depot;
-import pr.se.stockmanagementapi.model.Holding;
-import pr.se.stockmanagementapi.model.Stock;
-import pr.se.stockmanagementapi.model.Transaction;
+import pr.se.stockmanagementapi.model.*;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
 import pr.se.stockmanagementapi.payload.StockTransactionRequest;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
