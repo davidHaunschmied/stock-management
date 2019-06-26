@@ -21,6 +21,8 @@ export class DepotOverviewComponent implements OnInit {
   Highcharts = Highcharts;
   chartOptions: Object;
   private depot: IDepot;
+  private file: File;
+  newDepotName: string;
 
   constructor(
     private depotService: DepotService,
@@ -96,5 +98,9 @@ export class DepotOverviewComponent implements OnInit {
 
   getTotalDevelopment(){
     return this.totalEarnings + this.absoluteChange;
+  }
+
+  getExportLink() {
+    return 'http://localhost:8080/api/depots/export/' + this.depot.id;
   }
 }

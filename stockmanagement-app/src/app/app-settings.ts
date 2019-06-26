@@ -11,4 +11,10 @@ export class AppSettings {
       'Content-Type': 'application/json'
     })
   };
+
+  public static HTTP_IMPORT = {
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin': 'http://localhost:8080'
+    })
+  };
 }

@@ -1,5 +1,7 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {ISettings} from "../../model/ISettings";
+import {SettingsService} from "../../services/settings/settings.service";
 
 @Component({
   selector: 'app-stock-purchase',
@@ -7,16 +9,26 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
   styleUrls: ['./stock-purchase.component.scss']
 })
 export class StockPurchaseComponent implements OnInit {
-  readonly initialTotalPrice: number;
+  settings: ISettings;
+  totalPrice: number;
 
   constructor(
     public dialogRef: MatDialogRef<StockPurchaseComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.initialTotalPrice = this.data.totalPrice;
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public settingsService: SettingsService) {
   }
 
   ngOnInit() {
+    this.getSettings();
+  }
 
+  getSettings() {
+    this.settingsService.getSettings().subscribe(
+      data => {
+        this.settings = data;
+        this.calculateTotalPrice();
+      }
+    )
   }
 
   onNoClick(): void {
@@ -28,6 +40,10 @@ export class StockPurchaseComponent implements OnInit {
   }
 
   calculateTotalPrice() {
-    this.data.totalPrice = this.initialTotalPrice * this.data.amount;
+    if (this.data.stock.price * this.data.amount * (1 + this.settings.relativePurchaseCharges / 100) > this.data.stock.price * this.data.amount + this.settings.flatPurchaseCharges) {
+      this.totalPrice = this.data.stock.price * this.data.amount * (1 + this.settings.relativePurchaseCharges / 100);
+    } else {
+      this.totalPrice = this.data.stock.price * this.data.amount + this.settings.flatPurchaseCharges;
+    }
   }
 }

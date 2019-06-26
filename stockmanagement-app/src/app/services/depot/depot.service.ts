@@ -39,6 +39,15 @@ export class DepotService {
     return this.http.get<IHistoryPoint[]>(this.endpoint + '/' + depotId + '/history/', AppSettings.HTTP_OPTIONS);
   }
 
+  importDepot(depotName: string, file: any): Observable<IDepot> {
+    const formData: FormData = new FormData();
+    formData.append('depotName', depotName);
+    formData.append('data', file, file.name);
+    return this.http
+      .post<IDepot>(this.endpoint + '/import', formData, AppSettings.HTTP_IMPORT);
+  }
+
+
   deleteDepot(depot: IDepot) {
     return this.http.delete<any>(this.endpoint + '/delete/' + depot.id, AppSettings.HTTP_OPTIONS);
   }

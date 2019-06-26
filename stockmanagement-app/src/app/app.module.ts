@@ -19,11 +19,13 @@ import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.comp
 import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-create-dialog.component";
 import {AlarmListComponent} from "./topbar/alarm/alarm-list.component";
 import {HighchartsChartModule} from 'highcharts-angular';
+import { SettingsComponent } from './settings/settings.component';
 import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
 import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
 import {CurrencySwitchComponent} from "./topbar/currency/currency-switch.component";
 import {registerLocaleData} from "@angular/common";
 import localeDe from '@angular/common/locales/de';
+import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-import-dialog.component';
 
 registerLocaleData(localeDe, 'de'); // moves Currency sign to end of the number
 
@@ -43,10 +45,13 @@ registerLocaleData(localeDe, 'de'); // moves Currency sign to end of the number
     StockPurchaseComponent,
     DepotStocksComponent,
     AlarmListComponent,
+    DepotImportDialogComponent,
     DepotDeleteDialogComponent,
     AlarmListComponent,
     TransactionListComponent,
     CurrencySwitchComponent
+    TransactionListComponent,
+    SettingsComponent
   ],
   imports: [
     HighchartsChartModule,
@@ -65,6 +70,7 @@ registerLocaleData(localeDe, 'de'); // moves Currency sign to end of the number
   bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
+    DepotImportDialogComponent,
     AlarmCreateDialogComponent,
     StockSellComponent,
     StockPurchaseComponent,

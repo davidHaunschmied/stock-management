@@ -12,10 +12,8 @@
         </label>
     </mat-form-field>
     <mat-form-field class="width">
-        <label>
-            Gesamtpreis:
-            <input (ngModelChange)="data.price = $event" [ngModel]="data.price | number : '1.2-2'" matInput>
-        </label>
+        <label>Gesamtpreis (inklusive Spesen)</label>
+        <input style="margin-top: 0.5rem" disabled="true" [ngModel]="totalPrice | number : '1.2-2'" matInput/>
     </mat-form-field>
 </div>
 <div mat-dialog-actions>

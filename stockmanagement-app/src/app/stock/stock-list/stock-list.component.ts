@@ -73,13 +73,13 @@ export class StockListComponent implements OnInit {
   openBuyStockDialog(stock: any) {
     const dialogRef = this.purchaseStockDialog.open(StockPurchaseComponent, {
       width: '300px',
-      data: {stock: stock, amount: 1, totalPrice: stock.price},
+      data: {stock: stock, amount: 1},
     });
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount, data.totalPrice).subscribe(
+      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount).subscribe(
         holding => {
           this.getStocks()
         }, error => {
