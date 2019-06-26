@@ -1,18 +1,19 @@
 <h1 mat-dialog-title>Import</h1>
 <div mat-dialog-content>
-    <mat-form-field>
-        <p>Name:</p>
-        <label><input [(ngModel)]="data.name" matInput/></label>
-        <label>
-            <label for="file">Choose File</label>
-            <input (change)="changeFile($event.target.files)" class=""
-                   id="file"
-                   type="file"/>
-        </label>
+    <mat-form-field style="width: 80%">
+        <label>Name des neuen Aktiendepots:</label>
+        <input [(ngModel)]="data.name" matInput/>
     </mat-form-field>
+    <br/>
+    <div style="width: 100%">
+        <label for="file">Wähle eine CSV Datei aus:</label>
+        <input (change)="changeFile($event.target.files)" class=""
+               type="file" id="file"/>
+    </div>
 </div>
 <div mat-dialog-actions>
     <button (click)="onNoClick()" mat-button>Abbrechen</button>
-    <button [disabled]="!isNameValid()" [mat-dialog-close]="data" class="mat-primary" mat-raised-button>Importieren
+    <button [disabled]="!isNameValid() || !data.file || !data.file.name.endsWith('.csv')" [mat-dialog-close]="data"
+            class="mat-primary" mat-raised-button>Importieren
     </button>
 </div>
