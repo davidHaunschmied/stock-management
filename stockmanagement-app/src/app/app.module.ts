@@ -19,6 +19,8 @@ import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.comp
 import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-create-dialog.component";
 import {AlarmListComponent} from "./alarm/alarm-list.component";
 import {HighchartsChartModule} from 'highcharts-angular';
+import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
+import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
 import {ImportComponent} from './import/import.component';
 import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-import-dialog.component';
 
@@ -39,7 +41,9 @@ import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-imp
     DepotStocksComponent,
     AlarmListComponent,
     ImportComponent,
-    DepotImportDialogComponent
+    DepotImportDialogComponent,
+    DepotDeleteDialogComponent,
+    TransactionListComponent
   ],
   imports: [
     HighchartsChartModule,
@@ -57,7 +61,8 @@ import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-imp
     DepotImportDialogComponent,
     AlarmCreateDialogComponent,
     StockSellComponent,
-    StockPurchaseComponent
+    StockPurchaseComponent,
+    DepotDeleteDialogComponent
   ]
 })
 export class AppModule {

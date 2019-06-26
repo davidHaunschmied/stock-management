@@ -29,9 +29,11 @@ export class DepotOverviewComponent implements OnInit {
 
   ngOnInit() {
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.depot = depot;
-      this.initData();
-      this.initChart();
+      if (depot){
+        this.depot = depot;
+        this.initData();
+        this.initChart();
+      }
     });
   }
 

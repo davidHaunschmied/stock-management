@@ -4,8 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import pr.se.stockdataservice.stockapiclient.request.HistoryRequest;
-import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
+import pr.se.stockdataservice.stockapiclient.request.StockHistoryRequest;
+import pr.se.stockdataservice.stockapiclient.response.StockHistoryResponse;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.StockHistory;
 import pr.se.stockmanagementapi.respository.StockHistoryRepository;
@@ -15,7 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static pr.se.stockdataservice.stockapiclient.request.HistoryRequest.DATE_FORMAT;
+import static pr.se.stockdataservice.stockapiclient.request.StockHistoryRequest.DATE_FORMAT;
 import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
 
 @Component
@@ -45,12 +45,12 @@ public class StockHistoryDataUpdater {
 
     private void updateStockHistory(Stock stock) {
         try {
-            HistoryRequest request = new HistoryRequest(stock.getSymbol());
+            StockHistoryRequest request = new StockHistoryRequest(stock.getSymbol());
             request.setDateFrom(getLatestHistoryDate(stock));
             Calendar yesterday = Calendar.getInstance();
             yesterday.add(Calendar.DATE, -2); // -2 because  time of getDateFrom() is 00:00:00 and yesterday has current time
             if (request.getDateFrom().before(yesterday.getTime())) {
-                HistoryResponse response = request.getData();
+                StockHistoryResponse response = request.getData();
                 saveHistoryResponse(stock, response);
             }
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class StockHistoryDataUpdater {
         }
     }
 
-    private void saveHistoryResponse(Stock stock, HistoryResponse response) {
+    private void saveHistoryResponse(Stock stock, StockHistoryResponse response) {
         for (String dateString : response.getHistory().keySet()) {
             try {
                 long dateMillis = formatter.parse(dateString).getTime();

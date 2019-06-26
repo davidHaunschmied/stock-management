@@ -22,9 +22,14 @@ export class DepotSwitchCreateComponent implements OnInit {
   ngOnInit(): void {
     this.depotService.currentDepot.subscribe(depot => {
       this.filter.setValue(depot);
+      if (!depot){
+        this.reloadDepots();
+      }
     });
     this.reloadDepots();
   }
+
+
 
   openCreateDepotDialog(): void {
     const dialogRef = this.createDepotDialog.open(DepotCreateDialogComponent, {

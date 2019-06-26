@@ -47,4 +47,8 @@ export class DepotService {
       .post<IDepot>(this.endpoint + '/import', formData, AppSettings.HTTP_IMPORT);
   }
 
+
+  deleteDepot(depot: IDepot) {
+    return this.http.delete<any>(this.endpoint + '/delete/' + depot.id, AppSettings.HTTP_OPTIONS);
+  }
 }

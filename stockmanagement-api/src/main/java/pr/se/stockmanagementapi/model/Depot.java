@@ -17,7 +17,7 @@ public class Depot extends DateAudit {
     @Column(nullable = false, length = 30, unique = true)
     private String name;
 
-    @OneToMany(mappedBy = "depot")
+    @OneToMany(mappedBy = "depot", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Holding> holdings;
 
     public Depot() {

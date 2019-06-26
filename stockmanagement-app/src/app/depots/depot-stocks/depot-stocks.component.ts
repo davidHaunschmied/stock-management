@@ -31,7 +31,9 @@ export class DepotStocksComponent implements OnInit {
   ngOnInit() {
     this.getHoldings();
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      this.currentDepot = depot;
+      if (depot){
+        this.currentDepot = depot;
+      }
     });
   }
 

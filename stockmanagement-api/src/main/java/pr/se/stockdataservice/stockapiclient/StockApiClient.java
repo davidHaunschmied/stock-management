@@ -2,18 +2,14 @@ package pr.se.stockdataservice.stockapiclient;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import pr.se.stockdataservice.stockapiclient.request.HistoryRequest;
-import pr.se.stockdataservice.stockapiclient.request.SearchRequest;
-import pr.se.stockdataservice.stockapiclient.request.StockRequest;
-import pr.se.stockdataservice.stockapiclient.response.HistoryResponse;
-import pr.se.stockdataservice.stockapiclient.response.SearchResponse;
-import pr.se.stockdataservice.stockapiclient.response.StockResponse;
+import pr.se.stockdataservice.stockapiclient.request.*;
+import pr.se.stockdataservice.stockapiclient.response.*;
 import pr.se.stockmanagementapi.model.StockExchange;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import static pr.se.stockdataservice.stockapiclient.request.HistoryRequest.DATE_FORMAT;
+import static pr.se.stockdataservice.stockapiclient.request.StockHistoryRequest.DATE_FORMAT;
 import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
 
 public class StockApiClient {
@@ -21,8 +17,10 @@ public class StockApiClient {
 
     public static void main(String[] args) {
         stockRequest();
+        forexRequest();
         historyRequest();
         searchRequest();
+        forexHistoryRequest();
     }
 
     private static void searchRequest() {
@@ -34,15 +32,23 @@ public class StockApiClient {
     }
 
     private static void historyRequest() {
-        HistoryRequest historyRequest = new HistoryRequest("VOE.VI");
+        StockHistoryRequest stockHistoryRequest = new StockHistoryRequest("VOE.VI");
         SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
         formatter.setTimeZone(TIME_ZONE);
         try {
-            historyRequest.setDateFrom(formatter.parse("2019-01-01"));
+            stockHistoryRequest.setDateFrom(formatter.parse("2019-01-01"));
         } catch (ParseException e) {
             log.error(e.getMessage(), e);
         }
-        HistoryResponse response = historyRequest.getData();
+        StockHistoryResponse response = stockHistoryRequest.getData();
+        log.info(response.toString());
+    }
+
+    private static void forexHistoryRequest() {
+        ForexHistoryRequest forexHistoryRequest = new ForexHistoryRequest("EUR", "USD");
+        SimpleDateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
+        formatter.setTimeZone(TIME_ZONE);
+        ForexHistoryResponse response = forexHistoryRequest.getData();
         log.info(response.toString());
     }
 
@@ -51,6 +57,12 @@ public class StockApiClient {
         stockRequest.addSymbol("VOE.VI");
         stockRequest.addSymbol("AAPL");
         StockResponse response = stockRequest.getData();
+        log.info(response.toString());
+    }
+
+    private static void forexRequest() {
+        ForexRequest forexRequest = new ForexRequest("EUR");
+        ForexResponse response = forexRequest.getData();
         log.info(response.toString());
     }
 }
