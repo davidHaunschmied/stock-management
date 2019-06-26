@@ -14,7 +14,6 @@ import {IHolding} from "../../model/IHolding";
 import {StockSellComponent} from "../stock-sell/stock-sell.component";
 import {HoldingService} from "../../services/holding/holding.service";
 import {IAlarm} from "../../model/IAlarm";
-import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-stock-details',
@@ -39,26 +38,23 @@ export class StockDetailsComponent implements OnInit {
               private createAlarmDialog: MatDialog,
               private depotService: DepotService,
               private holdingService: HoldingService,
-              private sellStockDialog: MatDialog,
-              private currencyService: CurrencyService) {
+              private sellStockDialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.currencyService.currentCurrency.subscribe(currency => {
-      // https://stackoverflow.com/a/48446698
-      this.route.params.subscribe(
-        params => {
-          const id = +params['id'];
-          if (id) {
-            this.getStockDetails(id);
-            this.renderChart(id);
-          }
-          this.depotService.currentDepot.subscribe(() => {
-            this.getDepotsOfHolding(id);
-          });
+    // https://stackoverflow.com/a/48446698
+    this.route.params.subscribe(
+      params => {
+        const id = +params['id'];
+        if (id) {
+          this.getStockDetails(id);
+          this.renderChart(id);
         }
-      );
-    });
+        this.depotService.currentDepot.subscribe(() => {
+          this.getDepotsOfHolding(id);
+        });
+      }
+    );
   }
 
   getStockDetails(id: number) {
@@ -139,7 +135,7 @@ export class StockDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount, data.totalPrice, this.getCurrency()).subscribe(
+      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount, data.totalPrice).subscribe(
         holding => {
           this.holding = holding;
         }, error => {
@@ -158,7 +154,7 @@ export class StockDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount, data.price, this.getCurrency()).subscribe(
+      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount, data.price).subscribe(
         holding => {
           this.holding = holding;
         }, error => {
@@ -219,7 +215,4 @@ export class StockDetailsComponent implements OnInit {
     return plotLines;
   }
 
-  getCurrency() {
-    return this.currencyService.currentCurrency.getValue();
-  }
 }

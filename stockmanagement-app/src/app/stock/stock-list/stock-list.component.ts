@@ -8,7 +8,6 @@ import {StockPurchaseComponent} from "../stock-purchase/stock-purchase.component
 import {TransactionService} from "../../services/transaction/transaction.service";
 import {DepotService} from "../../services/depot/depot.service";
 import {AlarmCreateDialogComponent} from "../../alarm/alarm-create-dialog/alarm-create-dialog.component";
-import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-stock-list',
@@ -25,17 +24,14 @@ export class StockListComponent implements OnInit {
               private createAlarmDialog: MatDialog,
               private purchaseStockDialog: MatDialog,
               private transactionService: TransactionService,
-              private depotService: DepotService,
-              private currencyService: CurrencyService) {
+              private depotService: DepotService) {
   }
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.currencyService.currentCurrency.subscribe(currency => {
-      this.getStocks();
-    });
+    this.getStocks();
   }
 
   getStocks() {
@@ -83,7 +79,7 @@ export class StockListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount, data.totalPrice, this.getCurrency()).subscribe(
+      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount, data.totalPrice).subscribe(
         holding => {
           this.getStocks()
         }, error => {
@@ -92,9 +88,5 @@ export class StockListComponent implements OnInit {
       );
     });
 
-  }
-
-  getCurrency() {
-    return this.currencyService.currentCurrency.getValue();
   }
 }

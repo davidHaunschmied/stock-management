@@ -16,26 +16,25 @@ export class TransactionService {
   constructor(private http: HttpClient) {
   }
 
-  getAllTransactionsByDepot(depotId: number, currency: string): Observable<ITransaction[]> {
-    return this.http.get<ITransaction[]>(this.endpoint + '/' + depotId + "?currency=" + currency, AppSettings.HTTP_OPTIONS);
+  getAllTransactionsByDepot(depotId: number): Observable<ITransaction[]> {
+    return this.http.get<ITransaction[]>(this.endpoint + '/' + depotId, AppSettings.HTTP_OPTIONS);
   }
 
-  sellStock(stock: IStock, depot: IDepot, amount: number, price: number, currency: string): Observable<IHolding> {
-    return this.newTransaction(stock, depot, amount, price, currency, '/sell');
+  sellStock(stock: IStock, depot: IDepot, amount: number, price: number): Observable<IHolding> {
+    return this.newTransaction(stock, depot, amount, price, '/sell');
   }
 
-  purchaseStock(stock: IStock, depot: IDepot, amount: number, price: number, currency: string): Observable<IHolding> {
-    return this.newTransaction(stock, depot, amount, price, currency, '/purchase');
+  purchaseStock(stock: IStock, depot: IDepot, amount: number, price: number): Observable<IHolding> {
+    return this.newTransaction(stock, depot, amount, price, '/purchase');
   }
 
-  private newTransaction(stock: IStock, depot: IDepot, amount: number, price: number, currency: string, subPath: string): Observable<IHolding> {
+  private newTransaction(stock: IStock, depot: IDepot, amount: number, price: number, subPath: string): Observable<IHolding> {
     return this.http.post<IHolding>(this.endpoint + subPath,
       {
         'stockId': stock.id,
         'depotId': depot.id,
         'amount': amount,
         'price': price,
-        'currency': currency,
       }, AppSettings.HTTP_OPTIONS);
   }
 }

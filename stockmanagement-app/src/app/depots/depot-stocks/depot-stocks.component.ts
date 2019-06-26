@@ -7,7 +7,6 @@ import {TransactionService} from "../../services/transaction/transaction.service
 import {HoldingService} from "../../services/holding/holding.service";
 import {IHoldingDetail} from "../../model/IHoldingDetail";
 import {IHolding} from "../../model/IHolding";
-import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-depot-stocks',
@@ -25,8 +24,7 @@ export class DepotStocksComponent implements OnInit {
   constructor(private depotService: DepotService,
               private holdingService: HoldingService,
               private transactionService: TransactionService,
-              private sellStockDialog: MatDialog,
-              private currencyService: CurrencyService) {
+              private sellStockDialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -34,17 +32,15 @@ export class DepotStocksComponent implements OnInit {
   }
 
   getHoldings() {
-    this.currencyService.currentCurrency.subscribe(currency => {
-      this.depotService.currentDepot.subscribe((depot: IDepot) => {
-        this.holdingService.getAllHoldings(depot.id).subscribe(data => {
-          data = data.filter(holding => {
-            return holding.amount > 0
-          });
-          this.holdings = this.initHoldingDetail(data);
-          this.dataSource = new MatTableDataSource(this.holdings);
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
+    this.depotService.currentDepot.subscribe((depot: IDepot) => {
+      this.holdingService.getAllHoldings(depot.id).subscribe(data => {
+        data = data.filter(holding => {
+          return holding.amount > 0
         });
+        this.holdings = this.initHoldingDetail(data);
+        this.dataSource = new MatTableDataSource(this.holdings);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
       });
     });
   }
@@ -58,7 +54,7 @@ export class DepotStocksComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount, data.price, this.getCurrency()).subscribe(
+      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount, data.price).subscribe(
         holding => {
           this.getHoldings()
         }, error => {
@@ -66,11 +62,6 @@ export class DepotStocksComponent implements OnInit {
         }
       );
     });
-  }
-
-  getCurrency() {
-    return this.currencyService.currentCurrency.getValue();
-
   }
 
   private initHoldingDetail(holdings: IHolding[]): IHoldingDetail[] {

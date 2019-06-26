@@ -5,7 +5,6 @@ import {IHolding} from "../../model/IHolding";
 import {IHistoryPoint} from "../../model/IHistoryPoint";
 import {HoldingService} from "../../services/holding/holding.service";
 import * as Highcharts from "highcharts/highstock";
-import {CurrencyService} from "../../services/currency/currency.service";
 
 @Component({
   selector: 'app-depot-overview',
@@ -23,7 +22,10 @@ export class DepotOverviewComponent implements OnInit {
   chartOptions: Object;
   private depot: IDepot;
 
-  constructor(private depotService: DepotService, private holdingService: HoldingService, private currencyService: CurrencyService) {
+  constructor(
+    private depotService: DepotService,
+    private holdingService: HoldingService
+  ) {
   }
 
   ngOnInit() {
@@ -94,9 +96,5 @@ export class DepotOverviewComponent implements OnInit {
 
   getTotalDevelopment(){
     return this.totalEarnings + this.absoluteChange;
-  }
-
-  getCurrency() {
-    return this.currencyService.currentCurrency.getValue();
   }
 }

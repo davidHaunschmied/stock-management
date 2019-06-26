@@ -39,8 +39,8 @@ public class TransactionService {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
         final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
         double price = stockTransactionRequest.getPrice();
-        if (!stockTransactionRequest.getCurrency().getSymbol().equals(Currency.BASE_CURRENCY.getSymbol())) {
-            price /= forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stockTransactionRequest.getCurrency().getSymbol());
+        if (!stock.getCurrency().equals(Currency.BASE_CURRENCY.getSymbol())) {
+            price /= forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stock.getCurrency());
         }
         Transaction transaction = new Transaction(stockTransactionRequest.getAmount(), price,
             new Date(), transactionType);
@@ -49,13 +49,7 @@ public class TransactionService {
         return holdingRepository.save(holding);
     }
 
-    public List<Transaction> getAllByDepotId(long depotId, String currency) {
-        List<Transaction> transactions = transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
-        if (!currency.equals(Currency.BASE_CURRENCY.getSymbol())) {
-            double exchangeRate = forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), currency);
-            transactions.forEach(t -> t.setPrice(t.getPrice() * exchangeRate));
-        }
-        return transactions;
-
+    public List<Transaction> getAllByDepotId(long depotId) {
+        return transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
     }
 }
