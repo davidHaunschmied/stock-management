@@ -26,7 +26,7 @@
         </ng-container>
         <ng-container matColumnDef="price">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Preis</th>
-            <td *matCellDef="let transaction" mat-cell>{{transaction.price | currency:getCurrency():'symbol'}}</td>
+            <td *matCellDef="let transaction" mat-cell>{{transaction.price | currency:'EUR':'symbol'}}</td>
         </ng-container>
         <ng-container matColumnDef="date">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Datum</th>
