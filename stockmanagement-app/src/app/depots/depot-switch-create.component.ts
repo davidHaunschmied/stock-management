@@ -43,6 +43,7 @@ export class DepotSwitchCreateComponent implements OnInit {
       this.depotService.createDepot(name).subscribe(
         depot => {
           this.depots.push(depot);
+          this.depotService.setCurrentDepot(depot);
         }, error => {
           console.log('Error: ' + error.message);
         }
