@@ -132,13 +132,13 @@ export class StockDetailsComponent implements OnInit {
   openBuyStockDialog() {
     const dialogRef = this.purchaseStockDialog.open(StockPurchaseComponent, {
       width: '300px',
-      data: {stock: this.stock, amount: 1, totalPrice: this.stock.price},
+      data: {stock: this.stock, amount: 1},
     });
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount, data.totalPrice).subscribe(
+      this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount).subscribe(
         holding => {
           this.holding = holding;
         }, error => {
@@ -151,13 +151,13 @@ export class StockDetailsComponent implements OnInit {
   openSellStockDialog(): void {
     const dialogRef = this.sellStockDialog.open(StockSellComponent, {
       width: '300px',
-      data: {holding: this.holding, amount: 1, price: this.holding.stock.price},
+      data: {holding: this.holding, amount: 1},
     });
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount, data.price).subscribe(
+      this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount).subscribe(
         holding => {
           this.holding = holding;
         }, error => {

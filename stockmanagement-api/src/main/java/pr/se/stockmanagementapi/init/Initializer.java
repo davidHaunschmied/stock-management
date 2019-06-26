@@ -14,13 +14,11 @@ import pr.se.stockdataservice.scheduler.JobScheduler;
 import pr.se.stockmanagementapi.model.*;
 import pr.se.stockmanagementapi.model.enums.AlarmType;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
-import pr.se.stockmanagementapi.respository.AlarmRepository;
-import pr.se.stockmanagementapi.respository.DepotRepository;
-import pr.se.stockmanagementapi.respository.HoldingRepository;
-import pr.se.stockmanagementapi.respository.StockRepository;
+import pr.se.stockmanagementapi.respository.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Optional;
 
 @Component
 public class Initializer implements ApplicationRunner {
@@ -31,6 +29,7 @@ public class Initializer implements ApplicationRunner {
     private final HoldingRepository holdingRepository;
     private final StockRepository stockRepository;
     private final AlarmRepository alarmRepository;
+    private final SettingsRepository settingsRepository;
 
     private final StockDataUpdater stockDataUpdater;
     private final StockHistoryDataUpdater stockHistoryDataUpdater;
@@ -38,19 +37,21 @@ public class Initializer implements ApplicationRunner {
     private final ForexDataUpdater forexDataUpdater;
 
     @Autowired
-    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, StockHistoryDataUpdater stockHistoryDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmRepository alarmRepository, AlarmNotifier alarmNotifier, ForexDataUpdater forexDataUpdater) {
+    public Initializer(DepotRepository depotRepository, StockDataUpdater stockDataUpdater, StockHistoryDataUpdater stockHistoryDataUpdater, HoldingRepository holdingRepository, StockRepository stockRepository, AlarmRepository alarmRepository, SettingsRepository settingsRepository, AlarmNotifier alarmNotifier, ForexDataUpdater forexDataUpdater) {
         this.depotRepository = depotRepository;
         this.stockDataUpdater = stockDataUpdater;
         this.stockHistoryDataUpdater = stockHistoryDataUpdater;
         this.holdingRepository = holdingRepository;
         this.stockRepository = stockRepository;
         this.alarmRepository = alarmRepository;
+        this.settingsRepository = settingsRepository;
         this.alarmNotifier = alarmNotifier;
         this.forexDataUpdater = forexDataUpdater;
     }
 
     @Override
     public void run(ApplicationArguments args) {
+        createSettingsIfNotExist();
         insertDepotsIfNotExist("Risikodepot", "Sicherheitsdepot");
         stockDataUpdater.updateStockData();
         try {
@@ -60,6 +61,14 @@ public class Initializer implements ApplicationRunner {
         }
         JobScheduler jobScheduler = new JobScheduler(stockDataUpdater, alarmNotifier, stockHistoryDataUpdater, forexDataUpdater);
         jobScheduler.run();
+    }
+
+    private void createSettingsIfNotExist() {
+        Optional<Settings> settingsOptional = settingsRepository.findById(Settings.SETTINGS_ID);
+        if (!settingsOptional.isPresent()){
+            Settings settings = new Settings(0, 0, 0, 0);
+            settingsRepository.save(settings);
+        }
     }
 
     private void insertDepotsIfNotExist(String... depots) {

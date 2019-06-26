@@ -1,5 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
+import {SettingsService} from "../../services/settings/settings.service";
+import {ISettings} from "../../model/ISettings";
 
 @Component({
   selector: 'app-stock-sell',
@@ -7,13 +9,13 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
   styleUrls: ['./stock-sell.component.scss']
 })
 export class StockSellComponent implements OnInit {
-  value = 0;
-  readonly initialPrice: number;
+  private settings: ISettings;
+  totalPrice: number;
 
   constructor(
     public dialogRef: MatDialogRef<StockSellComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.initialPrice = data.price;
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public settingsService: SettingsService) {
   }
 
   onNoClick(): void {
@@ -22,6 +24,12 @@ export class StockSellComponent implements OnInit {
 
 
   ngOnInit() {
+    this.settingsService.getSettings().subscribe(
+      data => {
+        this.settings = data;
+        this.calculateTotalPrice();
+      }
+    )
   }
 
   isAmountValid(): boolean {
@@ -29,6 +37,10 @@ export class StockSellComponent implements OnInit {
   }
 
   calculateTotalPrice() {
-    this.data.price = this.data.amount * this.initialPrice;
+    if (this.data.holding.stock.price * this.data.amount * (1 + this.settings.relativeSellCharges / 100) > this.data.holding.stock.price * this.data.amount + this.settings.flatSellCharges) {
+      this.totalPrice = this.data.holding.stock.price * this.data.amount * (1 - this.settings.relativeSellCharges / 100);
+    } else {
+      this.totalPrice = this.data.holding.stock.price * this.data.amount - this.settings.flatSellCharges;
+    }
   }
 }
