@@ -22,6 +22,8 @@ import pr.se.stockmanagementapi.respository.StockRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
+
 @Component
 public class Initializer implements ApplicationRunner {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -47,6 +49,7 @@ public class Initializer implements ApplicationRunner {
         this.alarmRepository = alarmRepository;
         this.alarmNotifier = alarmNotifier;
         this.forexDataUpdater = forexDataUpdater;
+        this.dateFormat.setTimeZone(TIME_ZONE);
     }
 
     @Override
