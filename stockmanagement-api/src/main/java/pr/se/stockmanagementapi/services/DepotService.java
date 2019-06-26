@@ -8,7 +8,9 @@ import pr.se.stockmanagementapi.model.Earning;
 import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.DepotRepository;
+import pr.se.stockmanagementapi.respository.HoldingRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -18,11 +20,13 @@ import java.util.stream.Collectors;
 public class DepotService {
     private final DepotRepository depotRepository;
     private final HoldingService holdingService;
+    private final HoldingRepository holdingRepository;
 
     @Autowired
-    public DepotService(DepotRepository depotRepository, HoldingService holdingService) {
+    public DepotService(DepotRepository depotRepository, HoldingService holdingService, HoldingRepository holdingRepository) {
         this.depotRepository = depotRepository;
         this.holdingService = holdingService;
+        this.holdingRepository = holdingRepository;
     }
 
     public double calculateEarnings(long depotId) {
@@ -52,5 +56,15 @@ public class DepotService {
     public List<HistoryPoint> getDepotHistorySorted(long depotId) {
         return getDepotHistory(depotId).entrySet().stream().sorted(Map.Entry.comparingByKey())
             .map(e -> new HistoryPoint(e.getKey(), e.getValue())).collect(Collectors.toList());
+    }
+
+
+    public List<Depot> getDepotsByStockId(long stockId){
+        List<Depot> depots = new ArrayList<>();
+        holdingRepository.findAllByStockId(stockId).forEach(holding -> {
+            if(holding.getAmount() > 0)
+                depots.add(holding.getDepot());
+        });
+        return depots;
     }
 }

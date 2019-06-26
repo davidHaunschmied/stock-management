@@ -34,14 +34,31 @@
             <p>Aktie kaufen</p>
         </button>
     </div>
-    <div class="stockholdinginfo">
-        <p>Besitze</p>
-
-        <ul *ngFor="let depot of holdingDepots" class="list">
-            <li>{{depot.name}}</li>
+    <div *ngIf="holdingDepots != null && holdingDepots.length > 0" class="stockholdinginfo floatright">
+        <p>Diese Aktie befindet sich bereits in folgenden Depots</p>
+        <ul id="menu">
+            <ng-container *ngFor="let depot of holdingDepots">
+                <li *ngIf="depot != holdingDepots[0]"><strong>, </strong></li>
+                <li><strong>{{depot.name}}</strong></li>
+            </ng-container>
         </ul>
-
     </div>
+
+        <div *ngIf="alarms != null && alarms.length > 0" class="clearboth">
+            <ng-container *ngFor="let alarm of alarms">
+            <button class="floatright detailsbutton" (click)="deleteAlarm(alarm)">
+                <i class="material-icons">delete_forever</i>
+                <p class="margintop">
+                    ALARM
+                    <ng-container *ngIf="alarm.alarmType == 'UNDER'">UNTER</ng-container>
+                    <ng-container *ngIf="alarm.alarmType == 'OVER'">ÜBER</ng-container>
+                    {{alarm.price | currency : stock.currency + " "}}
+                </p>
+
+            </button>
+        </ng-container>
+        </div>
+
 </div>
 <highcharts-chart *ngIf="stockHistory && stock && alarms"
                   [Highcharts]="Highcharts"

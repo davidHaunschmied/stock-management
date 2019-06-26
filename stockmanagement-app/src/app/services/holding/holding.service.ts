@@ -4,6 +4,7 @@ import {IHolding} from "../../model/IHolding";
 import {AppSettings} from "../../app-settings";
 import {HttpClient} from "@angular/common/http";
 import {IDepot} from "../../model/IDepot";
+import {IStock} from "../../model/IStock";
 
 @Injectable({
   providedIn: 'root'

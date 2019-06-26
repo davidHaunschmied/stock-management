@@ -76,21 +76,4 @@ public class HoldingService {
         return holdingRepository.findAllByStockId(stockId);
     }
 
-    public List<DepotIdAndName> getDepotsByStockId(long stockId){
-        List<DepotIdAndName> depotIdAndNames = null;
-        holdingRepository.findAllByStockId(stockId).forEach(holding -> {
-            depotIdAndNames.add(new DepotIdAndName() {
-                @Override
-                public String getId() {
-                    return holding.getDepot().getId().toString();
-                }
-
-                @Override
-                public String getName() {
-                    return holding.getDepot().getName();
-                }
-            });
-        });
-    return depotIdAndNames;
-    }
 }

@@ -70,9 +70,6 @@ export class StockDetailsComponent implements OnInit {
         });
         this.holdings = data;
         this.getAllDepotsByStock();
-        this.holdings.forEach(x => {
-          console.log("Teest: " + x.amount);
-        });
       });
       this.stock = data;
       }, error => {
@@ -213,10 +210,19 @@ export class StockDetailsComponent implements OnInit {
 
   getAllDepotsByStock(){
     this.depotService.getAllDepotsByStock(this.stock).subscribe(depots => {
+
       this.holdingDepots = depots;
       }, error => {
         console.log('Error: ' + error.message);
       }
     )
+  }
+
+  deleteAlarm(alarm: IAlarm) {
+    console.log(alarm);
+    this.alarmService.deleteAlarm(alarm.id).subscribe(alarms => {
+      this.alarms = alarms;
+    });
+    this.renderChart(this.stock.id);
   }
 }
