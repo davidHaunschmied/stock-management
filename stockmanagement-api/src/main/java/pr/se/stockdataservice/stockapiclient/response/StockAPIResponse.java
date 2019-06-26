@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class StockAPIResponse {
+    public static final String EMPTY_VALUE = "N/A";
     private String message;
 
     public String getMessage() {

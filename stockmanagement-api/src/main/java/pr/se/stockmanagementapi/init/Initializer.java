@@ -56,6 +56,7 @@ public class Initializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         createSettingsIfNotExist();
         insertDepotsIfNotExist("Risikodepot", "Sicherheitsdepot");
+        forexDataUpdater.updateForexData();
         stockDataUpdater.updateStockData();
         try {
             generateHoldingsAndTransactions("Risikodepot");

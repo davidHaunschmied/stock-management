@@ -3,7 +3,6 @@ package pr.se.stockmanagementapi.services;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pr.se.stockmanagementapi.model.*;
-import pr.se.stockmanagementapi.model.enums.Currency;
 import pr.se.stockmanagementapi.model.enums.TransactionType;
 import pr.se.stockmanagementapi.payload.StockTransactionRequest;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
@@ -36,11 +35,8 @@ public class TransactionService {
     public Holding newTransaction(StockTransactionRequest stockTransactionRequest, TransactionType transactionType) {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
         final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
-        double price = this.getPriceWithCharges(transactionType, stockTransactionRequest.getAmount() * stock.getPrice());
-        if (!stock.getCurrency().equals(Currency.BASE_CURRENCY.getSymbol())) {
-            price /= forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stock.getCurrency());
-        }
-        Transaction transaction = new Transaction(stockTransactionRequest.getAmount(), price,
+        Transaction transaction = new Transaction(stockTransactionRequest.getAmount(),
+            this.getPriceWithCharges(transactionType, stockTransactionRequest.getAmount() * stock.getPrice()),
             new Date(), transactionType);
         Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
         holding.addTransaction(transaction);
