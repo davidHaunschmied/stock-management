@@ -53,7 +53,7 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
         if (!currency.equals(Currency.BASE_CURRENCY.getSymbol())) {
             double exchangeRate = forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), currency);
-            transactions.forEach(t -> t.setPrice(t.getPrice() / exchangeRate));
+            transactions.forEach(t -> t.setPrice(t.getPrice() * exchangeRate));
         }
         return transactions;
 

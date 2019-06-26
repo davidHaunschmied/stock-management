@@ -9,15 +9,12 @@ import pr.se.stockdataservice.stockapiclient.request.ForexRequest;
 import pr.se.stockdataservice.stockapiclient.response.ForexHistoryResponse;
 import pr.se.stockdataservice.stockapiclient.response.ForexResponse;
 import pr.se.stockmanagementapi.model.ForexHistory;
-import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.enums.Currency;
 import pr.se.stockmanagementapi.respository.ForexHistoryRepository;
-import pr.se.stockmanagementapi.respository.StockRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static pr.se.stockdataservice.stockapiclient.request.StockHistoryRequest.DATE_FORMAT;
 import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
@@ -27,22 +24,20 @@ public class ForexDataUpdater {
     private static final Logger LOGGER = LoggerFactory.getLogger(ForexDataUpdater.class);
 
     private final ForexHistoryRepository forexHistoryRepository;
-    private final StockRepository stockRepository;
     private final SimpleDateFormat formatter;
 
     @Autowired
-    public ForexDataUpdater(ForexHistoryRepository forexHistoryRepository, StockRepository stockRepository) {
+    public ForexDataUpdater(ForexHistoryRepository forexHistoryRepository) {
         this.forexHistoryRepository = forexHistoryRepository;
-        this.stockRepository = stockRepository;
         this.formatter = new SimpleDateFormat(DATE_FORMAT);
         this.formatter.setTimeZone(TIME_ZONE);
     }
 
     public void updateForexData() {
-        List<String> currencies = stockRepository.findAll().stream().map(Stock::getCurrency).distinct().collect(Collectors.toList());
-        for (String currency : currencies) {
-            if (!currency.equals(Currency.BASE_CURRENCY.getSymbol()) && !historyUpToDate(currency)) {
-                ForexHistoryRequest request = new ForexHistoryRequest(Currency.BASE_CURRENCY.getSymbol(), currency);
+        for (Currency currency : Currency.values()) {
+            String symbol = currency.getSymbol();
+            if (!symbol.equals(Currency.BASE_CURRENCY.getSymbol()) && !historyUpToDate(symbol)) {
+                ForexHistoryRequest request = new ForexHistoryRequest(Currency.BASE_CURRENCY.getSymbol(), symbol);
                 ForexHistoryResponse response = request.getData();
                 saveHistoryResponse(response);
             }
@@ -51,10 +46,11 @@ public class ForexDataUpdater {
         // save current exchange rate
         ForexRequest forexRequest = new ForexRequest(Currency.BASE_CURRENCY.getSymbol());
         ForexResponse forexResponse = forexRequest.getData();
-        for (String currency : currencies) {
-            if (!currency.equals(Currency.BASE_CURRENCY.getSymbol())) {
-                double currentExchangeRate = forexResponse.getData().get(currency);
-                ForexHistory current = new ForexHistory(Currency.BASE_CURRENCY.getSymbol(), currency, ForexHistory.CURRENT_TIMESTAMP, currentExchangeRate);
+        for (Currency currency : Currency.values()) {
+            String symbol = currency.getSymbol();
+            if (!symbol.equals(Currency.BASE_CURRENCY.getSymbol())) {
+                double currentExchangeRate = forexResponse.getData().get(symbol);
+                ForexHistory current = new ForexHistory(Currency.BASE_CURRENCY.getSymbol(), symbol, ForexHistory.CURRENT_TIMESTAMP, currentExchangeRate);
                 forexHistoryRepository.save(current);
             }
         }
