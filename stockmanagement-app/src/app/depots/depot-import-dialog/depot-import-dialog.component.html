@@ -1,13 +1,13 @@
-<h1 mat-dialog-title>Neues Aktiendepot</h1>
+<h1 mat-dialog-title>Import</h1>
 <div mat-dialog-content>
-    <p>Name:</p>
-    <label><input [(ngModel)]="data.name" matInput></label>
     <mat-form-field>
+        <p>Name:</p>
+        <label><input [(ngModel)]="data.name" matInput/></label>
         <label>
             <label for="file">Choose File</label>
-            <input (change)="changeFile($event.target.files)"
+            <input (change)="changeFile($event.target.files)" class=""
                    id="file"
-                   type="file">
+                   type="file"/>
         </label>
     </mat-form-field>
 </div>
