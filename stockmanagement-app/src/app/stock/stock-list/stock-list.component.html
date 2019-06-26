@@ -16,7 +16,7 @@
         </ng-container>
         <ng-container matColumnDef="price">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Preis</th>
-            <td *matCellDef="let element" mat-cell>{{element.price | currency:element.currency:'symbol'}}</td>
+            <td *matCellDef="let element" mat-cell>{{element.price | currency:'EUR':'symbol'}}</td>
         </ng-container>
         <ng-container matColumnDef="day_change">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>Tagesschwankung</th>
