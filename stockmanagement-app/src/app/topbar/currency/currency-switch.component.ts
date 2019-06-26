@@ -7,19 +7,20 @@ import {FormControl} from "@angular/forms";
   styleUrls: ['./currency-switch.component.scss']
 })
 export class CurrencySwitchComponent implements OnInit {
-
+  currentCurrency: string;
   currencies: String[];
   filter = new FormControl();
 
   constructor() {
+    this.currentCurrency = "EUR";
     this.currencies = ["EUR", "USD", "PLN"];
   }
 
   ngOnInit(): void {
-    //this.filter.setValue(currency);
+    this.filter.setValue(this.currentCurrency);
   }
 
   refreshCurrentCurrency() {
-    let currency = this.filter.value;
+    this.currentCurrency = this.filter.value;
   }
 }

@@ -17,6 +17,10 @@
         </mat-list>
     </div>
     <div *ngIf="depot && holdings && holdings.length > 0" class="floatright">
+        <span class="stockdepot-label">
+            <mat-label>Währung:</mat-label>
+        </span>
+        <currency-switch></currency-switch>
         <a [href]="getExportLink()" class="detailsbutton" mat-button>
             <i class="material-icons">get_app</i>
             <p>Exportieren</p>

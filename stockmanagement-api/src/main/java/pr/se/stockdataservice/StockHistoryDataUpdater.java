@@ -56,7 +56,9 @@ public class StockHistoryDataUpdater {
             yesterday.add(Calendar.DATE, -2); // -2 because  time of getDateFrom() is 00:00:00 and yesterday has current time
             if (request.getDateFrom().before(yesterday.getTime())) {
                 StockHistoryResponse response = request.getData();
-                saveHistoryResponse(stock, response);
+                if (!stock.getName().equals(StockAPIResponse.EMPTY_VALUE)) {
+                    saveHistoryResponse(stock, response);
+                }
             }
         } catch (Exception e) {
             LOGGER.error(String.format("Could not update history for stock %s (%s) ", stock.getName(), stock.getSymbol()), e);
