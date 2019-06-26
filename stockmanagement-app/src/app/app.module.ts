@@ -19,7 +19,7 @@ import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.comp
 import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-create-dialog.component";
 import {AlarmListComponent} from "./topbar/alarm/alarm-list.component";
 import {HighchartsChartModule} from 'highcharts-angular';
-import { SettingsComponent } from './settings/settings.component';
+import {SettingsComponent} from './settings/settings.component';
 import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
 import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
 import {CurrencySwitchComponent} from "./topbar/currency/currency-switch.component";
@@ -49,7 +49,7 @@ registerLocaleData(localeDe, 'de'); // moves Currency sign to end of the number
     DepotDeleteDialogComponent,
     AlarmListComponent,
     TransactionListComponent,
-    CurrencySwitchComponent
+    CurrencySwitchComponent,
     TransactionListComponent,
     SettingsComponent
   ],

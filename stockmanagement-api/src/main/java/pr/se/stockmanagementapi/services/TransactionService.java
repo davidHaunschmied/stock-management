@@ -36,7 +36,7 @@ public class TransactionService {
     public Holding newTransaction(StockTransactionRequest stockTransactionRequest, TransactionType transactionType) {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
         final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
-        double price = stockTransactionRequest.getPrice(transactionType, stockTransactionRequest.getAmount() * stock.getPrice());
+        double price = this.getPriceWithCharges(transactionType, stockTransactionRequest.getAmount() * stock.getPrice());
         if (!stock.getCurrency().equals(Currency.BASE_CURRENCY.getSymbol())) {
             price /= forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stock.getCurrency());
         }
