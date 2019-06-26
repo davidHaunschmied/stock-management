@@ -1,5 +1,5 @@
 <mat-card>
-    <div *ngIf="holdings && holdings.length > 0">
+    <div *ngIf="holdings && holdings.length > 0" class="floatleft matlist">
         <mat-list>
             <mat-list-item><span>Absolute Veränderung der Aktienbesitze:</span><span
                 [ngClass]="absoluteChange > 0 ? 'positive-number' : absoluteChange < 0 ? 'negative-number' : ''"
@@ -15,10 +15,15 @@
                 class="padding-left"><strong>{{getTotalDevelopment() | number : '1.2-2'}} &euro;</strong></span></mat-list-item>
         </mat-list>
     </div>
+    <div *ngIf="depot && holdings && holdings.length > 0" class="floatright">
+        <a [href]="getExportLink()" class="detailsbutton" mat-button>
+            <i class="material-icons">get_app</i>
+            <p>Exportieren</p>
+        </a>
+    </div>
     <div *ngIf="!holdings || holdings.length == 0">
         <h3 class="mat-h3">Es befinden sich keine Aktien in diesem Depot!</h3>
     </div>
-</mat-card>
 <mat-divider></mat-divider>
 <highcharts-chart *ngIf="depotHistory && holdings && holdings.length > 0"
                   [Highcharts]="Highcharts"
@@ -27,3 +32,4 @@
 
                   style="width: 100%; height: 400px; display: block;"
 ></highcharts-chart>
+</mat-card>

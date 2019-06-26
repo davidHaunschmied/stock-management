@@ -29,16 +29,7 @@ export class DepotSwitchCreateComponent implements OnInit {
     this.reloadDepots();
   }
 
-  reloadDepots() {
-    this.depotService.getAllDepots().subscribe(
-      depots => {
-        this.depots = depots;
-      },
-      error => {
-        console.log('Error: ' + error.message);
-      }
-    );
-  }
+
 
   openCreateDepotDialog(): void {
     const dialogRef = this.createDepotDialog.open(DepotCreateDialogComponent, {
@@ -52,6 +43,7 @@ export class DepotSwitchCreateComponent implements OnInit {
       this.depotService.createDepot(name).subscribe(
         depot => {
           this.depots.push(depot);
+          this.depotService.setCurrentDepot(depot);
         }, error => {
           console.log('Error: ' + error.message);
         }
@@ -65,5 +57,21 @@ export class DepotSwitchCreateComponent implements OnInit {
 
   compareDepots(d1: IDepot, d2: IDepot): boolean {
     return (d1 && d2) && (d1.id === d2.id);
+  }
+
+  addDepot(depot: IDepot) {
+    this.depots.push(depot);
+  }
+
+  private reloadDepots() {
+    this.depotService.getAllDepots().subscribe(
+      depots => {
+        this.depots = depots;
+      },
+      error => {
+        console.log('Error1: ' + error.message);
+      }
+    );
+    console.log("Selected depot is: " + JSON.stringify(this.filter.value));
   }
 }
