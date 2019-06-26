@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material";
 import {ISettings} from "../../model/ISettings";
 import {SettingsService} from "../../services/settings/settings.service";
@@ -9,24 +9,24 @@ import {SettingsService} from "../../services/settings/settings.service";
   styleUrls: ['./stock-purchase.component.scss']
 })
 export class StockPurchaseComponent implements OnInit {
-  readonly initialTotalPrice: number;
-  settings: ISettings | any;
+  settings: ISettings;
+  totalPrice: number;
 
   constructor(
     public dialogRef: MatDialogRef<StockPurchaseComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public settingsService: SettingsService) {
-    this.initialTotalPrice = this.data.totalPrice;
   }
 
   ngOnInit() {
     this.getSettings();
   }
 
-  getSettings(){
+  getSettings() {
     this.settingsService.getSettings().subscribe(
       data => {
         this.settings = data;
+        this.calculateTotalPrice();
       }
     )
   }
@@ -40,10 +40,10 @@ export class StockPurchaseComponent implements OnInit {
   }
 
   calculateTotalPrice() {
-    if(this.initialTotalPrice*this.data.amount* ( 1 + this.settings.relativePurchaseCharges/100) > this.initialTotalPrice*this.data.amount + this.settings.flatPurchaseCharges) {
-      this.data.totalPrice = this.initialTotalPrice * this.data.amount * (1 + this.settings.relativePurchaseCharges / 100);
-    }else{
-      this.data.totalPrice = this.initialTotalPrice * this.data.amount + this.settings.flatPurchaseCharges;
+    if (this.data.stock.price * this.data.amount * (1 + this.settings.relativePurchaseCharges / 100) > this.data.stock.price * this.data.amount + this.settings.flatPurchaseCharges) {
+      this.totalPrice = this.data.stock.price * this.data.amount * (1 + this.settings.relativePurchaseCharges / 100);
+    } else {
+      this.totalPrice = this.data.stock.price * this.data.amount + this.settings.flatPurchaseCharges;
     }
   }
 }

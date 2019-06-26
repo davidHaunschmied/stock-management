@@ -34,7 +34,7 @@ public class TransactionService {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
         final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
         Transaction transaction = new Transaction(stockTransactionRequest.getAmount(),
-            stockTransactionRequest.getPrice() + getCharges(transactionType, stockTransactionRequest.getPrice()),
+            getPriceWithCharges(transactionType, stockTransactionRequest.getAmount() * stock.getPrice()),
             new Date(), transactionType);
         Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
         holding.addTransaction(transaction);
@@ -45,13 +45,18 @@ public class TransactionService {
         return transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
     }
 
-    private double getCharges(TransactionType transactionType, double price) {
+    private double getPriceWithCharges(TransactionType transactionType, double price) {
         Settings settings = settingsService.getSettings();
         if (transactionType == TransactionType.SALE) {
-            return settings.getFlatSellCharges() + settings.getRelativeSellCharges() * price;
+            return price - calculateCharges(settings.getFlatSellCharges(), settings.getRelativeSellCharges(), price);
         } else if (transactionType == TransactionType.PURCHASE) {
-            return settings.getFlatPurchaseCharges() + settings.getRelativePurchaseCharges() * price;
+            return price + calculateCharges(settings.getFlatPurchaseCharges(), settings.getRelativePurchaseCharges(), price);
         }
         return 0;
+    }
+
+    private double calculateCharges(double minFlatCharges, double relativeChargesPercent, double price) {
+        double relativeCharge = relativeChargesPercent / 100 * price;
+        return relativeCharge < minFlatCharges ? minFlatCharges : relativeCharge;
     }
 }

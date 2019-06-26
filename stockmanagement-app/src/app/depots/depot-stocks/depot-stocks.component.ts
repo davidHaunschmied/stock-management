@@ -54,13 +54,13 @@ export class DepotStocksComponent implements OnInit {
   openSellStockDialog(holding: IHolding): void {
     const dialogRef = this.sellStockDialog.open(StockSellComponent, {
       width: '300px',
-      data: {holding: holding, amount: 1, price: holding.stock.price},
+      data: {holding: holding, amount: 1},
     });
 
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount, data.price).subscribe(
+      this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount).subscribe(
         holding => {
           this.getHoldings()
         }, error => {

@@ -6,8 +6,8 @@
         <input (input)="calculateTotalPrice()" [(ngModel)]="data.amount" cdkFocusInitial matInput type="number">
     </mat-form-field>
     <mat-form-field class="width">
-        <label>Gesamtpreis:</label>
-        <input (ngModelChange)="data.totalPrice = $event" [ngModel]="data.totalPrice | number : '1.2-2'" matInput>
+        <label>Gesamtpreis (inklusive Spesen):</label>
+        <input style="margin-top: 0.5rem" disabled="true" [ngModel]="totalPrice | number : '1.2-2'" matInput/>
     </mat-form-field>
 
 </div>

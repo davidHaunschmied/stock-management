@@ -41,7 +41,7 @@ import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component
     AlarmListComponent,
     DepotDeleteDialogComponent,
     AlarmListComponent,
-    TransactionListComponent
+    TransactionListComponent,
     AlarmListComponent,
     SettingsComponent
   ],
