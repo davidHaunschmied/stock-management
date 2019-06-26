@@ -7,8 +7,6 @@ public class StockTransactionRequest {
     private Long stockId;
     @Positive
     private int amount;
-    @Positive
-    private double price;
 
     public Long getDepotId() {
         return depotId;
@@ -32,14 +30,6 @@ public class StockTransactionRequest {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
     }
 
 }

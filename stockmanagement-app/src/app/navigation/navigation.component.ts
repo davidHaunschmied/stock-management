@@ -23,14 +23,19 @@ export class NavigationComponent implements OnInit {
         index: 1
       },
       {
-        label: 'Alle Aktien',
-        link: './stocks',
+        label: 'Transaktionen',
+        link: './transactions',
         index: 2
       },
       {
-        label: 'Transaktionen',
-        link: './transactions',
+        label: 'Alle Aktien',
+        link: './stocks',
         index: 3
+      },
+      {
+        label: 'Einstellungen',
+        link: './settings',
+        index: 4
       }
     ];
   }

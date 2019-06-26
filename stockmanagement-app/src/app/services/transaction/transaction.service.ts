@@ -20,21 +20,20 @@ export class TransactionService {
     return this.http.get<ITransaction[]>(this.endpoint + '/' + depotId, AppSettings.HTTP_OPTIONS);
   }
 
-  sellStock(stock: IStock, depot: IDepot, amount: number, price: number): Observable<IHolding> {
-    return this.newTransaction(stock, depot, amount, price, '/sell');
+  sellStock(stock: IStock, depot: IDepot, amount: number): Observable<IHolding> {
+    return this.newTransaction(stock, depot, amount, '/sell');
   }
 
-  purchaseStock(stock: IStock, depot: IDepot, amount: number, price: number): Observable<IHolding> {
-    return this.newTransaction(stock, depot, amount, price, '/purchase');
+  purchaseStock(stock: IStock, depot: IDepot, amount: number): Observable<IHolding> {
+    return this.newTransaction(stock, depot, amount, '/purchase');
   }
 
-  private newTransaction(stock: IStock, depot: IDepot, amount: number, price: number, subPath: string): Observable<IHolding> {
+  private newTransaction(stock: IStock, depot: IDepot, amount: number, subPath: string): Observable<IHolding> {
     return this.http.post<IHolding>(this.endpoint + subPath,
       {
         'stockId': stock.id,
         'depotId': depot.id,
-        'amount': amount,
-        'price': price
+        'amount': amount
       }, AppSettings.HTTP_OPTIONS);
   }
 }
