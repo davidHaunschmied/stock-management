@@ -37,6 +37,9 @@ public class DepotController {
         return depotRepository.findAllDepotIdAndName();
     }
 
+    @GetMapping("/byStock/{stockId}")
+    public List<DepotIdAndName> getAllDepotsByStock(@PathVariable long stockId){return holdingService.getDepotsByStockId(stockId);}
+
     @GetMapping("/{depotId}")
     public ResponseEntity<Optional<Depot>> getDepot(@PathVariable long depotId) {
         return ResponseEntity.ok(depotRepository.findById(depotId));

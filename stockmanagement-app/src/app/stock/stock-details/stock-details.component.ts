@@ -30,6 +30,7 @@ export class StockDetailsComponent implements OnInit {
   holding: IHolding;
   holdings: IHolding[];
   private alarms: IAlarm [];
+  holdingDepots: IDepot[];
 
   constructor(private stockService: StockService,
               private route: ActivatedRoute,
@@ -51,13 +52,14 @@ export class StockDetailsComponent implements OnInit {
         if (id) {
           this.getStockDetails(id);
           this.renderChart(id);
+
         }
         this.depotService.currentDepot.subscribe((depot: IDepot) => {
           this.currentDepot = depot;
-          this.getDepotsOfHolding(id);
         });
       }
     );
+
   }
 
   getStockDetails(id: number) {
@@ -67,6 +69,10 @@ export class StockDetailsComponent implements OnInit {
           return holding.amount > 0
         });
         this.holdings = data;
+        this.getAllDepotsByStock();
+        this.holdings.forEach(x => {
+          console.log("Teest: " + x.amount);
+        });
       });
       this.stock = data;
       }, error => {
@@ -167,19 +173,6 @@ export class StockDetailsComponent implements OnInit {
     });
   }
 
-  getDepotsOfHolding(id: number) {
-    this.holdingService.getAllHoldings(this.currentDepot.id).subscribe(data => {
-        data = data.filter(holding => {
-          return holding.amount > 0
-        });
-        this.holdings = data;
-        this.holdings.forEach(holding => {
-          if (holding.stock.id === id)
-            this.holding = holding;
-        })
-      });
-  }
-
 
   hasHolding() {
     return this.holding && this.holding.amount > 0;
@@ -216,5 +209,14 @@ export class StockDetailsComponent implements OnInit {
       });
     }
     return plotLines;
+  }
+
+  getAllDepotsByStock(){
+    this.depotService.getAllDepotsByStock(this.stock).subscribe(depots => {
+      this.holdingDepots = depots;
+      }, error => {
+        console.log('Error: ' + error.message);
+      }
+    )
   }
 }

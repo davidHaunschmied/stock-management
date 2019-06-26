@@ -34,6 +34,14 @@
             <p>Aktie kaufen</p>
         </button>
     </div>
+    <div class="stockholdinginfo">
+        <p>Besitze</p>
+
+        <ul *ngFor="let depot of holdingDepots" class="list">
+            <li>{{depot.name}}</li>
+        </ul>
+
+    </div>
 </div>
 <highcharts-chart *ngIf="stockHistory && stock && alarms"
                   [Highcharts]="Highcharts"

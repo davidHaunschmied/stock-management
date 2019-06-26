@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable} from 'rxjs';
 import {IDepot} from "../../model/IDepot";
 import {AppSettings} from "../../app-settings";
 import {IHistoryPoint} from "../../model/IHistoryPoint";
+import {IStock} from "../../model/IStock";
 
 @Injectable({
   providedIn: 'root'
@@ -41,5 +42,9 @@ export class DepotService {
 
   deleteDepot(depot: IDepot) {
     return this.http.delete<any>(this.endpoint + '/delete/' + depot.id, AppSettings.HTTP_OPTIONS);
+  }
+
+  getAllDepotsByStock(stock: IStock){
+    return this.http.get<IDepot[]>(this.endpoint + '/byStock/' + stock.id, AppSettings.HTTP_OPTIONS);
   }
 }
