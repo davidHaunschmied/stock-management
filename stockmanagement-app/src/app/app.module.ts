@@ -22,6 +22,7 @@ import {HighchartsChartModule} from 'highcharts-angular';
 import { SettingsComponent } from './settings/settings.component';
 import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
 import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
+import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-import-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,10 +40,9 @@ import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component
     StockPurchaseComponent,
     DepotStocksComponent,
     AlarmListComponent,
+    DepotImportDialogComponent,
     DepotDeleteDialogComponent,
-    AlarmListComponent,
     TransactionListComponent,
-    AlarmListComponent,
     SettingsComponent
   ],
   imports: [
@@ -58,6 +58,7 @@ import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component
   bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
+    DepotImportDialogComponent,
     AlarmCreateDialogComponent,
     StockSellComponent,
     StockPurchaseComponent,

@@ -3,6 +3,7 @@ import {DepotService} from "./services/depot/depot.service";
 import {MatDialog} from "@angular/material";
 import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
 import {IDepot} from "./model/IDepot";
+import {DepotImportDialogComponent} from "./depots/depot-import-dialog/depot-import-dialog.component";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   private depot: IDepot;
 
   constructor(private depotService: DepotService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog, private importDepotDialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -42,6 +43,21 @@ export class AppComponent implements OnInit {
           }
         );
       }
+    });
+  }
+
+  openImportDialog() {
+    const dialogRef = this.importDepotDialog.open(DepotImportDialogComponent, {
+      width: '350px',
+      data: {name: ''}
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (name == null)
+        return;
+      this.depotService.importDepot(data.name, data.file).subscribe(depot => {
+        this.depotService.setCurrentDepot(depot);
+      });
     });
   }
 }
