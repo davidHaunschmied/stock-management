@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pr.se.stockdataservice.stockapiclient.request.StockHistoryRequest;
-import pr.se.stockdataservice.stockapiclient.response.StockAPIResponse;
 import pr.se.stockdataservice.stockapiclient.response.StockHistoryResponse;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.StockHistory;
@@ -56,9 +55,7 @@ public class StockHistoryDataUpdater {
             yesterday.add(Calendar.DATE, -2); // -2 because  time of getDateFrom() is 00:00:00 and yesterday has current time
             if (request.getDateFrom().before(yesterday.getTime())) {
                 StockHistoryResponse response = request.getData();
-                if (!stock.getName().equals(StockAPIResponse.EMPTY_VALUE)) {
-                    saveHistoryResponse(stock, response);
-                }
+                saveHistoryResponse(stock, response);
             }
         } catch (Exception e) {
             LOGGER.error(String.format("Could not update history for stock %s (%s) ", stock.getName(), stock.getSymbol()), e);
@@ -82,7 +79,7 @@ public class StockHistoryDataUpdater {
             try {
                 long dateMillis = formatter.parse(dateString).getTime();
                 double price = response.getHistory().get(dateString).getClose();
-                if (!stock.getCurrency().equals(StockAPIResponse.EMPTY_VALUE) && !stock.getCurrency().equals(Currency.BASE_CURRENCY.getSymbol())) {
+                if (!stock.getCurrency().equals(Currency.BASE_CURRENCY.getSymbol())) {
                     price /= forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stock.getCurrency());
                 }
                 StockHistory stockHistory = new StockHistory(stock, dateMillis, price);
