@@ -77,6 +77,8 @@ public class DepotController {
         return depotService.getDepotHistorySorted(depotId);
     }
 
+    @GetMapping("/byStock/{stockId}")
+    public List<Depot> getAllDepotsByStock(@PathVariable long stockId){return depotService.getDepotsByStockId(stockId);}
     @GetMapping("/export/{depotId}")
     public void exportCSV(HttpServletResponse response, @PathVariable long depotId) throws Exception {
 

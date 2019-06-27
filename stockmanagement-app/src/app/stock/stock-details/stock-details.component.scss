@@ -30,6 +30,11 @@
   border: 2px solid grey;
 }
 
+.clearboth .detailsbutton:hover:enabled {
+  background-color: #ffb3b3;
+  color: black;
+}
+
 .detailsbutton:hover:enabled {
   background-color: hsl(0, 0%, 47%);
   color: white;
@@ -38,3 +43,34 @@
 i{
   padding-top: 10px;
 }
+
+.stockholdinginfo{
+  //clear: both;
+  margin: 10px;
+  padding: 0px 10px;
+  border: 2px solid #03a9f4;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #ebf9ff;
+
+  color: #007bb0;
+}
+
+ul#menu li {
+  display:inline;
+}
+
+ul#menu{
+  list-style: none;
+  padding: 0px;
+}
+
+.clearboth{
+  clear: both;
+}
+
+.margintop{
+  margin-top: 4px;
+}
+
+
