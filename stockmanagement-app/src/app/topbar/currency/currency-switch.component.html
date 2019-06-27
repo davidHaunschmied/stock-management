@@ -1,0 +1,8 @@
+<span>
+    <mat-form-field>
+        <mat-select (selectionChange)="refreshCurrentCurrency()" [formControl]="filter">
+            <mat-option *ngFor="let currency of currencies" [value]="currency">{{currency}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</span>
+

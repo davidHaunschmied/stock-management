@@ -23,16 +23,23 @@ export class DepotOverviewComponent implements OnInit {
   private depot: IDepot;
   private file: File;
   newDepotName: string;
+  currencies = ["USD", "PLN"];
+  currencyEarnings: Map<String, number>;
 
-  constructor(private depotService: DepotService, private holdingService: HoldingService) {
+  constructor(
+    private depotService: DepotService,
+    private holdingService: HoldingService
+  ) {
   }
 
   ngOnInit() {
+    this.currencyEarnings = new Map<String, number>();
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
-      if (depot){
+      if (depot) {
         this.depot = depot;
         this.initData();
         this.initChart();
+        this.fetchCurrencyEarnings();
       }
     });
   }
@@ -78,7 +85,7 @@ export class DepotOverviewComponent implements OnInit {
       holdingValue += holding.totalPrice;
     });
     this.relativeChange = this.absoluteChange / holdingValue * 100;
-    if (!this.relativeChange){
+    if (!this.relativeChange) {
       this.relativeChange = 0;
     }
   }
@@ -93,11 +100,26 @@ export class DepotOverviewComponent implements OnInit {
     this.totalEarnings = totalEarnings;
   }
 
-  getTotalDevelopment(){
+  getTotalDevelopment() {
     return this.totalEarnings + this.absoluteChange;
   }
 
   getExportLink() {
     return 'http://localhost:8080/api/depots/export/' + this.depot.id;
+  }
+
+  fetchCurrencyEarnings() {
+    this.currencies.forEach(currency => {
+      this.depotService.getCurrencyEarnings(this.depot.id, currency).subscribe(earnings => {
+
+        this.currencyEarnings.set(currency, earnings);
+      });
+    });
+    this.currencyEarnings.set('USD', 10);
+  }
+
+  getCurrencyEarnings(currency: string) {
+    const earning = this.currencyEarnings.get(currency);
+    return earning ? earning : 0;
   }
 }

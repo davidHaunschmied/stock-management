@@ -78,7 +78,10 @@ public class DepotController {
     }
 
     @GetMapping("/byStock/{stockId}")
-    public List<Depot> getAllDepotsByStock(@PathVariable long stockId){return depotService.getDepotsByStockId(stockId);}
+    public List<Depot> getAllDepotsByStock(@PathVariable long stockId) {
+        return depotService.getDepotsByStockId(stockId);
+    }
+
     @GetMapping("/export/{depotId}")
     public void exportCSV(HttpServletResponse response, @PathVariable long depotId) {
 
@@ -93,4 +96,8 @@ public class DepotController {
         return depotService.importCSV(depotName, file);
     }
 
+    @GetMapping("/{depotId}/currearnings/{currency}")
+    public double getCurrencyEarnings(@PathVariable long depotId, @PathVariable String currency) {
+        return depotService.calculateCurrencyEarnings(depotId, currency);
+    }
 }

@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -17,12 +17,17 @@ import {DepotStocksComponent} from './depots/depot-stocks/depot-stocks.component
 import {StockSellComponent} from './stock/stock-sell/stock-sell.component';
 import {StockPurchaseComponent} from './stock/stock-purchase/stock-purchase.component';
 import {AlarmCreateDialogComponent} from "./alarm/alarm-create-dialog/alarm-create-dialog.component";
-import {AlarmListComponent} from "./alarm/alarm-list.component";
+import {AlarmListComponent} from "./topbar/alarm/alarm-list.component";
 import {HighchartsChartModule} from 'highcharts-angular';
-import { SettingsComponent } from './settings/settings.component';
+import {SettingsComponent} from './settings/settings.component';
 import {TransactionListComponent} from './transaction/transaction-list/transaction-list.component';
 import {DepotDeleteDialogComponent} from './depots/depot-delete-dialog.component';
+import {CurrencySwitchComponent} from "./topbar/currency/currency-switch.component";
+import {registerLocaleData} from "@angular/common";
+import localeDe from '@angular/common/locales/de';
 import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-import-dialog.component';
+
+registerLocaleData(localeDe, 'de'); // moves Currency sign to end of the number
 
 @NgModule({
   declarations: [
@@ -42,6 +47,9 @@ import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-imp
     AlarmListComponent,
     DepotImportDialogComponent,
     DepotDeleteDialogComponent,
+    AlarmListComponent,
+    TransactionListComponent,
+    CurrencySwitchComponent,
     TransactionListComponent,
     SettingsComponent
   ],
@@ -54,7 +62,11 @@ import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-imp
     AppRoutingModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [{
+    provide: LOCALE_ID,
+    useValue: 'de-DE' // 'de-DE' for Germany, 'fr-FR' for France ...
+  },
+  ],
   bootstrap: [AppComponent],
   entryComponents: [
     DepotCreateDialogComponent,
@@ -66,4 +78,5 @@ import {DepotImportDialogComponent} from './depots/depot-import-dialog/depot-imp
   ]
 })
 export class AppModule {
+
 }

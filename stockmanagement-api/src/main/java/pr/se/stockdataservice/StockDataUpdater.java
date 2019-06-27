@@ -7,17 +7,21 @@ import org.springframework.stereotype.Component;
 import pr.se.stockdataservice.stockapiclient.request.SearchRequest;
 import pr.se.stockdataservice.stockapiclient.request.StockRequest;
 import pr.se.stockdataservice.stockapiclient.response.SearchResponse;
+import pr.se.stockdataservice.stockapiclient.response.StockAPIResponse;
 import pr.se.stockdataservice.stockapiclient.response.StockResponse;
 import pr.se.stockdataservice.stockapiclient.stockdata.StockData;
 import pr.se.stockdataservice.stockapiclient.stockdata.StockDataDetail;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.StockExchange;
+import pr.se.stockmanagementapi.model.enums.Currency;
 import pr.se.stockmanagementapi.respository.StockExchangeRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
+import pr.se.stockmanagementapi.services.ForexHistoryService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class StockDataUpdater {
@@ -26,12 +30,13 @@ public class StockDataUpdater {
 
     private final StockRepository stockRepository;
     private final StockExchangeRepository stockExchangeRepository;
+    private final ForexHistoryService forexHistoryService;
 
     @Autowired
-    public StockDataUpdater(StockRepository stockRepository, StockExchangeRepository stockExchangeRepository) {
+    public StockDataUpdater(StockRepository stockRepository, StockExchangeRepository stockExchangeRepository, ForexHistoryService forexHistoryService) {
         this.stockRepository = stockRepository;
         this.stockExchangeRepository = stockExchangeRepository;
-
+        this.forexHistoryService = forexHistoryService;
         initAvailableStockExchanges();
     }
 
@@ -74,7 +79,13 @@ public class StockDataUpdater {
             stockRequest.addSymbol(stockData.getSymbol());
         }
         StockResponse response = stockRequest.getData();
-        saveAllStocks(response.getData());
+        List<StockDataDetail> stocks = response.getData().stream().filter(stockDataDetail -> !stockDataDetail.getName().equals(StockAPIResponse.EMPTY_VALUE)).collect(Collectors.toList());
+        for (StockDataDetail stock : stocks) {
+            if (!stock.getCurrency().equals(StockAPIResponse.EMPTY_VALUE) && !stock.getCurrency().equals(Currency.BASE_CURRENCY.getSymbol())) {
+                stock.setPrice(stock.getPrice() / forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stock.getCurrency()));
+            }
+        }
+        saveAllStocks(stocks);
     }
 
     private void saveAllStockExchanges(List<StockExchange> stockExchanges) {

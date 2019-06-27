@@ -29,9 +29,9 @@ public class StockDataUpdateJob implements Job {
         this.alarmNotifier = (AlarmNotifier) context.getJobDetail().getJobDataMap().get(ALARM_CHECKER_ID);
         this.stockHistoryDataUpdater = (StockHistoryDataUpdater) context.getJobDetail().getJobDataMap().get(HISTORY_UPDATER_ID);
         this.forexDataUpdater = (ForexDataUpdater) context.getJobDetail().getJobDataMap().get(FOREX_UPDATER_ID);
+        updateForexData();
         updateStockData();
         updateHistoryData();
-        updateForexData();
         checkAlarms();
     }
 
