@@ -4,6 +4,8 @@ import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import org.apache.commons.lang3.time.DateUtils;
+import com.opencsv.exceptions.CsvDataTypeMismatchException;
+import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
@@ -23,13 +25,14 @@ import pr.se.stockmanagementapi.respository.TransactionRepository;
 import pr.se.stockmanagementapi.util.CSVUtils;
 
 import javax.servlet.http.HttpServletResponse;
-import java.text.SimpleDateFormat;
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class DepotService {
-    private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
     private final DepotRepository depotRepository;
     private final HoldingService holdingService;
     private final HoldingRepository holdingRepository;
@@ -87,48 +90,56 @@ public class DepotService {
         return depots;
     }
 
-    public void exportCSV(HttpServletResponse response, String depotName, List<Transaction> transactions) throws Exception {
+    public void exportCSV(HttpServletResponse response, String depotName, List<Transaction> transactions) {
+        try {
 
-        List<TransactionCsv> transactionsCsv = transactions.stream().map(TransactionCsv::new).collect(Collectors.toList());
-        //set file name and content type
-        String filename = depotName + ".csv";
+            List<TransactionCsv> transactionsCsv = transactions.stream().map(TransactionCsv::new).collect(Collectors.toList());
+            //set file name and content type
+            String filename = depotName + ".csv";
 
-        response.setContentType("text/csv");
-        response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
-            "attachment; filename=\"" + filename + "\"");
+            response.setContentType("text/csv");
+            response.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + filename + "\"");
 
-        //create a csv writer
-        StatefulBeanToCsv<TransactionCsv> writer = new StatefulBeanToCsvBuilder<TransactionCsv>(response.getWriter())
-            .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
-            .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
-            .withOrderedResults(false)
-            .build();
+            //create a csv writer
+            StatefulBeanToCsv<TransactionCsv> writer = new StatefulBeanToCsvBuilder<TransactionCsv>(response.getWriter())
+                .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)
+                .withSeparator(CSVWriter.DEFAULT_SEPARATOR)
+                .withOrderedResults(false)
+                .build();
 
-        //write all users to csv file
-        writer.write(transactionsCsv);
+            //write all users to csv file
+            writer.write(transactionsCsv);
+        } catch (CsvDataTypeMismatchException | CsvRequiredFieldEmptyException | IOException e) {
+            throw new BadRequestException("Could nod export Depot to CSV: " + depotName);
+        }
 
     }
 
 
-    public ResponseEntity importCSV(String depotName, MultipartFile file) throws Exception {
-        List<TransactionCsv> transactionCsv = CSVUtils.read(TransactionCsv.class, file.getInputStream());
-        if (depotRepository.findDepotByName(depotName).isPresent()) {
+    public ResponseEntity importCSV(String depotName, MultipartFile file) {
+        try {
+            List<TransactionCsv> transactionCsv = CSVUtils.read(TransactionCsv.class, file.getInputStream());
+            if (depotRepository.findDepotByName(depotName).isPresent()) {
 
-            return new ResponseEntity<>(new ApiResponse(false, "Depot name already taken!"), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ApiResponse(false, "Depot name already taken!"), HttpStatus.BAD_REQUEST);
+            }
+            Depot depot = new Depot(depotName);
+            this.depotRepository.save(depot);
+
+            for (TransactionCsv t : transactionCsv) {
+                Stock stock = stockRepository.findBySymbol(t.getSymbol()).orElseThrow(() -> new BadRequestException("Stocksymbol not in CSV-File: " + t.getSymbol()));
+                Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
+
+                Transaction transaction = t.createTransaction();
+                holding.addTransaction(transaction);
+                holdingRepository.save(holding);
+            }
+
+            return new ResponseEntity<>(depot, HttpStatus.CREATED);
+        } catch (IOException | ParseException | BadRequestException e) {
+            return new ResponseEntity<>(new ApiResponse(false, "Could not import CSV: " + e.getMessage()), HttpStatus.BAD_REQUEST);
         }
-        Depot depot = new Depot(depotName);
-        this.depotRepository.save(depot);
-
-        for (TransactionCsv t : transactionCsv) {
-            Stock stock = stockRepository.findBySymbol(t.getSymbol()).orElseThrow(() -> new BadRequestException("Stocksymbol not in CSV-File: " + t.getSymbol()));
-            Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
-
-            Transaction transaction = t.createTransaction();
-            holding.addTransaction(transaction);
-            holdingRepository.save(holding);
-        }
-
-        return new ResponseEntity<>(depot, HttpStatus.CREATED);
     }
 
     public double calculateCurrencyEarnings(long depotId, String currency) {
