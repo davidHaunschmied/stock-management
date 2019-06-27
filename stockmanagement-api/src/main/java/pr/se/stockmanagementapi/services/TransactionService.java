@@ -20,15 +20,13 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final DepotService depotService;
     private final StockService stockService;
-    private final ForexHistoryService forexHistoryService;
 
-    public TransactionService(HoldingRepository holdingRepository, SettingsService settingsService, TransactionRepository transactionRepository, DepotService depotService, StockService stockService, ForexHistoryService forexHistoryService) {
+    public TransactionService(HoldingRepository holdingRepository, SettingsService settingsService, TransactionRepository transactionRepository, DepotService depotService, StockService stockService) {
         this.holdingRepository = holdingRepository;
         this.settingsService = settingsService;
         this.transactionRepository = transactionRepository;
         this.depotService = depotService;
         this.stockService = stockService;
-        this.forexHistoryService = forexHistoryService;
     }
 
     @Transactional

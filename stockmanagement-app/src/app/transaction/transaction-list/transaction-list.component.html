@@ -1,6 +1,5 @@
 <div *ngIf="dataSource && dataSource.data && dataSource.data.length > 0" class="mat-elevation-z8">
     <mat-form-field appearance="outline">
-        <!--<mat-label>Suche</mat-label>-->
         <input (keyup)="applyFilter($event.target.value)" matInput placeholder="Suche">
     </mat-form-field>
 

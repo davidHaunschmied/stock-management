@@ -83,7 +83,7 @@ public class DepotController {
     }
 
     @GetMapping("/export/{depotId}")
-    public void exportCSV(HttpServletResponse response, @PathVariable long depotId) throws Exception {
+    public void exportCSV(HttpServletResponse response, @PathVariable long depotId) {
 
         String depotName = this.depotService.findDepotByIdOrThrow(depotId).getName();
         List<Transaction> transactions = transactionService.getAllByDepotId(depotId);
@@ -92,7 +92,7 @@ public class DepotController {
     }
 
     @PostMapping(value = "/import", consumes = "multipart/form-data")
-    public ResponseEntity uploadMultipart(@RequestParam("depotName") String depotName, @RequestParam("data") MultipartFile file) throws Exception {
+    public ResponseEntity uploadMultipart(@RequestParam("depotName") String depotName, @RequestParam("data") MultipartFile file) {
         return depotService.importCSV(depotName, file);
     }
 

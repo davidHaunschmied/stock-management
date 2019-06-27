@@ -8,7 +8,7 @@ import {FormControl} from "@angular/forms";
 })
 export class CurrencySwitchComponent implements OnInit {
   currentCurrency: string;
-  currencies: String[];
+  currencies: string[];
   filter = new FormControl();
 
   constructor() {
