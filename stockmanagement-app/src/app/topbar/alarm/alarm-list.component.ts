@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import {IAlarm} from "../model/IAlarm";
-import {AppSettings} from "../app-settings";
-import {AlarmService} from "../services/alarm/alarm.service";
+import {IAlarm} from "../../model/IAlarm";
+import {AppSettings} from "../../app-settings";
+import {AlarmService} from "../../services/alarm/alarm.service";
 
 @Component({
   selector: 'app-alert-list',

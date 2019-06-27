@@ -20,13 +20,15 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final DepotService depotService;
     private final StockService stockService;
+    private final ForexHistoryService forexHistoryService;
 
-    public TransactionService(HoldingRepository holdingRepository, SettingsService settingsService, TransactionRepository transactionRepository, DepotService depotService, StockService stockService) {
+    public TransactionService(HoldingRepository holdingRepository, SettingsService settingsService, TransactionRepository transactionRepository, DepotService depotService, StockService stockService, ForexHistoryService forexHistoryService) {
         this.holdingRepository = holdingRepository;
         this.settingsService = settingsService;
         this.transactionRepository = transactionRepository;
         this.depotService = depotService;
         this.stockService = stockService;
+        this.forexHistoryService = forexHistoryService;
     }
 
     @Transactional
@@ -34,7 +36,7 @@ public class TransactionService {
         final Depot depot = depotService.findDepotByIdOrThrow(stockTransactionRequest.getDepotId());
         final Stock stock = stockService.findStockByIdOrThrow(stockTransactionRequest.getStockId());
         Transaction transaction = new Transaction(stockTransactionRequest.getAmount(),
-            getPriceWithCharges(transactionType, stockTransactionRequest.getAmount() * stock.getPrice()),
+            this.getPriceWithCharges(transactionType, stockTransactionRequest.getAmount() * stock.getPrice()),
             new Date(), transactionType);
         Holding holding = holdingRepository.findByDepotAndStock(depot, stock).orElse(new Holding(depot, stock));
         holding.addTransaction(transaction);

@@ -20,6 +20,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Optional;
 
+import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
+
 @Component
 public class Initializer implements ApplicationRunner {
     private final SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
@@ -47,12 +49,14 @@ public class Initializer implements ApplicationRunner {
         this.settingsRepository = settingsRepository;
         this.alarmNotifier = alarmNotifier;
         this.forexDataUpdater = forexDataUpdater;
+        this.dateFormat.setTimeZone(TIME_ZONE);
     }
 
     @Override
     public void run(ApplicationArguments args) {
         createSettingsIfNotExist();
         insertDepotsIfNotExist("Risikodepot", "Sicherheitsdepot");
+        forexDataUpdater.updateForexData();
         stockDataUpdater.updateStockData();
         try {
             generateHoldingsAndTransactions("Risikodepot");

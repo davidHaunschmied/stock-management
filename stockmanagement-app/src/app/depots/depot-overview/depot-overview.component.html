@@ -3,20 +3,28 @@
         <mat-list>
             <mat-list-item><span>Absolute Veränderung der Aktienbesitze:</span><span
                 [ngClass]="absoluteChange > 0 ? 'positive-number' : absoluteChange < 0 ? 'negative-number' : ''"
-                class="padding-left">{{absoluteChange | number : '1.2-2'}} &euro;</span></mat-list-item>
+                class="padding-left">{{absoluteChange | currency:'EUR':'symbol':'1.2-2'}}</span></mat-list-item>
             <mat-list-item><span>Relative Veränderung der Aktienbesitze:</span><span
                 [ngClass]="relativeChange > 0 ? 'positive-number' : relativeChange < 0 ? 'negative-number' : ''"
                 class="padding-left">{{relativeChange | number : '1.2-2'}} %</span></mat-list-item>
             <mat-list-item><span>Realisierter Gewinn durch Verkäufe:</span><span
                 [ngClass]="totalEarnings > 0 ? 'positive-number' : totalEarnings < 0 ? 'negative-number' : ''"
-                class="padding-left">{{totalEarnings | number : '1.2-2'}} &euro;</span></mat-list-item>
+                class="padding-left">{{totalEarnings | currency:'EUR':'symbol':'1.2-2'}}</span></mat-list-item>
             <mat-list-item><span><strong>Gesamtentwicklung des Depots:</strong></span><span
                 [ngClass]="getTotalDevelopment() > 0 ? 'positive-number' : getTotalDevelopment() < 0 ? 'negative-number' : ''"
-                class="padding-left"><strong>{{getTotalDevelopment() | number : '1.2-2'}} &euro;</strong></span></mat-list-item>
+                class="padding-left"><strong>{{getTotalDevelopment() | currency:'EUR':'symbol':'1.2-2'}}</strong></span>
+            </mat-list-item>
         </mat-list>
     </div>
     <div *ngIf="depot && holdings && holdings.length > 0" class="floatright">
-        <a [href]="getExportLink()" class="detailsbutton" mat-button>
+        <mat-list style="width: 50%" *ngIf="currencyEarnings && currencyEarnings.size > 0">
+            <mat-list-item *ngFor="let currency of currencies">
+                <span>Währungsgewinn im Vergleich zu {{currency}}:</span><span
+                [ngClass]="getCurrencyEarnings(currency) > 0 ? 'positive-number' : getCurrencyEarnings(currency) < 0 ? 'negative-number' : ''"
+                class="padding-left">{{getCurrencyEarnings(currency) | currency:'EUR':'symbol':'1.2-2'}}</span>
+            </mat-list-item>
+        </mat-list>
+        <a [href]="getExportLink()" class="detailsbutton" [ngClass]="currencyEarnings && currencyEarnings.size > 0 ? 'top-margin' : ''" mat-button>
             <i class="material-icons">get_app</i>
             <p>Exportieren</p>
         </a>

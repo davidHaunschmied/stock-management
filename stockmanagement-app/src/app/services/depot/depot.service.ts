@@ -14,7 +14,7 @@ export class DepotService {
   readonly current_depot_storage = 'CURRENT_DEPOT';
   readonly endpoint = AppSettings.API_ENDPOINT + '/depots';
 
-  public currentDepot;
+  public currentDepot: BehaviorSubject<IDepot>;
 
   constructor(private http: HttpClient) {
     this.currentDepot = new BehaviorSubject<IDepot>(JSON.parse(localStorage.getItem(this.current_depot_storage)));
@@ -53,7 +53,11 @@ export class DepotService {
     return this.http.delete<any>(this.endpoint + '/delete/' + depot.id, AppSettings.HTTP_OPTIONS);
   }
 
-  getAllDepotsByStock(stock: IStock){
+  getAllDepotsByStock(stock: IStock) {
     return this.http.get<IDepot[]>(this.endpoint + '/byStock/' + stock.id, AppSettings.HTTP_OPTIONS);
+  }
+
+  getCurrencyEarnings(depotId: number, currency: string) {
+    return this.http.get<number>(this.endpoint + '/' + depotId + '/currearnings/' + currency, AppSettings.HTTP_OPTIONS);
   }
 }

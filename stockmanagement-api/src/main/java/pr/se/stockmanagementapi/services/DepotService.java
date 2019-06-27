@@ -3,7 +3,9 @@ package pr.se.stockmanagementapi.services;
 import com.opencsv.CSVWriter;
 import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,12 @@ import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.DepotRepository;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
+import pr.se.stockmanagementapi.respository.TransactionRepository;
 import pr.se.stockmanagementapi.util.CSVUtils;
 
-import java.util.ArrayList;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,13 +34,17 @@ public class DepotService {
     private final HoldingService holdingService;
     private final HoldingRepository holdingRepository;
     private final StockRepository stockRepository;
+    private final ForexHistoryService forexHistoryService;
+    private final TransactionRepository transactionRepository;
 
     @Autowired
-    public DepotService(DepotRepository depotRepository, HoldingService holdingService, HoldingRepository holdingRepository, StockRepository stockRepository) {
+    public DepotService(DepotRepository depotRepository, HoldingService holdingService, HoldingRepository holdingRepository, StockRepository stockRepository, ForexHistoryService forexHistoryService, TransactionRepository transactionRepository) {
         this.depotRepository = depotRepository;
         this.holdingService = holdingService;
         this.holdingRepository = holdingRepository;
         this.stockRepository = stockRepository;
+        this.forexHistoryService = forexHistoryService;
+        this.transactionRepository = transactionRepository;
     }
 
     public double calculateEarnings(long depotId) {
@@ -51,20 +55,21 @@ public class DepotService {
         return depotRepository.findById(id).orElseThrow(() -> new BadRequestException("Depot with id " + id + " not found!"));
     }
 
-
+    @Cacheable("depotHistory")
     public Map<Long, Double> getDepotHistory(long depotId) {
-        Map<Long, Double> result = new TreeMap<>();
+        Map<Long, Double> depotHistory = new TreeMap<>();
+
         for (Holding holding : holdingService.allCurrentHoldings(depotId)) {
             Map<Long, Double> holdingResult = holdingService.getHoldingHistory(holding);
-            for (Map.Entry<Long, Double> entry : result.entrySet()) {
+            for (Map.Entry<Long, Double> entry : depotHistory.entrySet()) {
                 if (holdingResult.containsKey(entry.getKey())) {
-                    result.put(entry.getKey(), result.get(entry.getKey()) + holdingResult.get(entry.getKey()));
+                    depotHistory.put(entry.getKey(), depotHistory.get(entry.getKey()) + holdingResult.get(entry.getKey()));
                     holdingResult.remove(entry.getKey());
                 }
             }
-            result.putAll(holdingResult);
+            depotHistory.putAll(holdingResult);
         }
-        return result;
+        return depotHistory;
     }
 
     public List<HistoryPoint> getDepotHistorySorted(long depotId) {
@@ -73,10 +78,10 @@ public class DepotService {
     }
 
 
-    public List<Depot> getDepotsByStockId(long stockId){
+    public List<Depot> getDepotsByStockId(long stockId) {
         List<Depot> depots = new ArrayList<>();
         holdingRepository.findAllByStockId(stockId).forEach(holding -> {
-            if(holding.getAmount() > 0)
+            if (holding.getAmount() > 0)
                 depots.add(holding.getDepot());
         });
         return depots;
@@ -124,5 +129,28 @@ public class DepotService {
         }
 
         return new ResponseEntity<>(depot, HttpStatus.CREATED);
+    }
+
+    public double calculateCurrencyEarnings(long depotId, String currency) {
+        double currentExchangeRate = forexHistoryService.getCurrentExchangeRateForEur(currency);
+        double currentPriceConverted = calculateEarnings(depotId) / currentExchangeRate;
+        double actualPriceConverted = convertHistoryAtGetCurrentPrice(depotId, currency, currentExchangeRate);
+        return currentPriceConverted - actualPriceConverted;
+    }
+
+    private double convertHistoryAtGetCurrentPrice(long depotId, String currency, double currentExchangeRate) {
+        List<Transaction> transactions = transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
+        double totalDiff = 0;
+        for (Transaction transaction : transactions) {
+            double exchangeRateAtHistoryPoint = forexHistoryService.getCurrentExchangeRateForEurAndDate(currency, getTimestamp(transaction.getDate()));
+            double currentPriceConverted = transaction.getPrice() / currentExchangeRate;
+            double actualPriceConverted = transaction.getPrice() / exchangeRateAtHistoryPoint;
+            totalDiff += currentPriceConverted - actualPriceConverted;
+        }
+        return totalDiff;
+    }
+
+    private long getTimestamp(Date date) {
+        return DateUtils.isSameDay(new Date(), date) ? ForexHistory.CURRENT_TIMESTAMP : date.getTime();
     }
 }

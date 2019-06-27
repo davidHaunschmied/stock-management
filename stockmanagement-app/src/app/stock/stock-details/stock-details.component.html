@@ -7,7 +7,7 @@
             <span>{{stock.stockExchange.name}}</span>
         </mat-list-item>
         <mat-list-item><span>Aktueller Kurs: </span><span class="padding-left">
-            <strong>{{stock.price | currency : stock.currency + " "}}</strong></span>
+            <strong>{{stock.price | currency:'EUR':'symbol'}}</strong></span>
         </mat-list-item>
         <mat-list-item><span>Tagesschwankung:</span><span
             [ngClass]="stock.day_change > 0 ? 'positive-number' : stock.day_change < 0 ? 'negative-number' : ''"
@@ -18,19 +18,19 @@
 <div class="floatright margin" *ngIf="stock">
     <div class="floatright">
         <button class="padding detailsbutton" (click)="openCreateAlarmDialog()">
-            <i class="material-icons">add_alert</i>
+            <mat-icon>add_alert</mat-icon>
             <p>Alarm erstellen</p>
         </button>
     </div>
     <div class="floatright">
         <button (click)="openSellStockDialog()" [disabled]="!hasHolding()" class="padding detailsbutton">
-            <i class="material-icons">gavel</i>
+            <mat-icon>gavel</mat-icon>
             <p>Aktie verkaufen</p>
         </button>
     </div>
     <div class="floatright">
         <button class="padding detailsbutton" (click)="openBuyStockDialog()">
-            <i class="material-icons">gavel</i>
+            <mat-icon>gavel</mat-icon>
             <p>Aktie kaufen</p>
         </button>
     </div>
@@ -52,7 +52,7 @@
                     ALARM
                     <ng-container *ngIf="alarm.alarmType == 'UNDER'">UNTER</ng-container>
                     <ng-container *ngIf="alarm.alarmType == 'OVER'">ÜBER</ng-container>
-                    {{alarm.price | currency : stock.currency + " "}}
+                    {{alarm.price | currency : "EUR" + " "}}
                 </p>
 
             </button>

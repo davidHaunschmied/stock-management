@@ -15,7 +15,7 @@ public class HoldingTest {
     private Holding holding;
 
     @Before
-    public void setup(){
+    public void setup() {
         this.holding = new Holding(mock(Depot.class), mock(Stock.class));
     }
 

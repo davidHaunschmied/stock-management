@@ -8,8 +8,10 @@ import pr.se.stockdataservice.stockapiclient.request.StockHistoryRequest;
 import pr.se.stockdataservice.stockapiclient.response.StockHistoryResponse;
 import pr.se.stockmanagementapi.model.Stock;
 import pr.se.stockmanagementapi.model.StockHistory;
+import pr.se.stockmanagementapi.model.enums.Currency;
 import pr.se.stockmanagementapi.respository.StockHistoryRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
+import pr.se.stockmanagementapi.services.ForexHistoryService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,12 +28,14 @@ public class StockHistoryDataUpdater {
     private final StockRepository stockRepository;
     private final StockHistoryRepository stockHistoryRepository;
     private final SimpleDateFormat formatter;
+    private final ForexHistoryService forexHistoryService;
 
 
     @Autowired
-    public StockHistoryDataUpdater(StockRepository stockRepository, StockHistoryRepository stockHistoryRepository) {
+    public StockHistoryDataUpdater(StockRepository stockRepository, StockHistoryRepository stockHistoryRepository, ForexHistoryService forexHistoryService) {
         this.stockRepository = stockRepository;
         this.stockHistoryRepository = stockHistoryRepository;
+        this.forexHistoryService = forexHistoryService;
 
         this.formatter = new SimpleDateFormat(DATE_FORMAT);
         this.formatter.setTimeZone(TIME_ZONE);
@@ -74,10 +78,16 @@ public class StockHistoryDataUpdater {
         for (String dateString : response.getHistory().keySet()) {
             try {
                 long dateMillis = formatter.parse(dateString).getTime();
-                StockHistory stockHistory = new StockHistory(stock, dateMillis, response.getHistory().get(dateString).getClose());
+                double price = response.getHistory().get(dateString).getClose();
+                if (!stock.getCurrency().equals(Currency.BASE_CURRENCY.getSymbol())) {
+                    price /= forexHistoryService.getCurrentExchangeRate(Currency.BASE_CURRENCY.getSymbol(), stock.getCurrency());
+                }
+                StockHistory stockHistory = new StockHistory(stock, dateMillis, price);
                 stockHistoryRepository.save(stockHistory);
             } catch (ParseException e) {
                 LOGGER.error(String.format("Could not save stock history for stock %s (%s) ", stock.getName(), stock.getSymbol()), e);
+            } catch (NumberFormatException e){
+                LOGGER.error("Could not parse date");
             }
         }
     }

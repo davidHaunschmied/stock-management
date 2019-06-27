@@ -31,5 +31,4 @@ public class StockTransactionRequest {
     public void setAmount(int amount) {
         this.amount = amount;
     }
-
 }

@@ -52,26 +52,24 @@ export class StockDetailsComponent implements OnInit {
         if (id) {
           this.getStockDetails(id);
           this.renderChart(id);
-
         }
         this.depotService.currentDepot.subscribe((depot: IDepot) => {
           this.currentDepot = depot;
+          this.getDepotsOfHolding(id);
         });
-      }
-    );
-
+      });
   }
 
   getStockDetails(id: number) {
     this.stockService.getStockDetails(id).subscribe(data => {
-      this.holdingService.getAllHoldingsByStock(data.id).subscribe(data => {
-        data = data.filter(holding => {
-          return holding.amount > 0
+        this.holdingService.getAllHoldingsByStock(data.id).subscribe(data => {
+          data = data.filter(holding => {
+            return holding.amount > 0
+          });
+          this.holdings = data.filter(h => h.amount > 0);
+          this.getAllDepotsByStock();
         });
-        this.holdings = data;
-        this.getAllDepotsByStock();
-      });
-      this.stock = data;
+        this.stock = data;
       }, error => {
         console.log(error);
       }
@@ -81,34 +79,34 @@ export class StockDetailsComponent implements OnInit {
   private renderChart(id: number) {
     this.stockService.getStockHistory(id).subscribe(data => {
       this.alarmService.getAllAlarmsByStockId(id).subscribe(alarms => {
-        this.alarms = alarms;
-        this.stockHistory = data;
-        this.chartOptions = {
-          xAxis: {
-            title: {
-              text: 'Zeit'
-            }
-          },
-          yAxis: {
-            title: {
-              text: 'Aktueller Wert'
+          this.alarms = alarms;
+          this.stockHistory = data;
+          this.chartOptions = {
+            xAxis: {
+              title: {
+                text: 'Zeit'
+              }
             },
-            plotLines: this.getPlotLines()
-          },
-          series: [{
-            name: this.stock.symbol,
-            data: this.stockHistory.map(function (day) {
-              return [day.dateMillis, day.price];
-            }),
-            tooltip: {
-              valueDecimals: 2
-            }
-          }]
-        };
-      }, error => {
-        console.log(error);
-      }
-    );
+            yAxis: {
+              title: {
+                text: 'Aktueller Wert'
+              },
+              plotLines: this.getPlotLines()
+            },
+            series: [{
+              name: this.stock.symbol,
+              data: this.stockHistory.map(function (day) {
+                return [day.dateMillis, day.price];
+              }),
+              tooltip: {
+                valueDecimals: 2
+              }
+            }]
+          };
+        }, error => {
+          console.log(error);
+        }
+      );
     });
   }
 
@@ -141,9 +139,10 @@ export class StockDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.purchaseStock(data.stock, this.currentDepot, data.amount).subscribe(
+      this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount).subscribe(
         holding => {
           this.holding = holding;
+          this.getAllDepotsByStock();
         }, error => {
           console.log('Error: ' + error.message);
         }
@@ -160,13 +159,26 @@ export class StockDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(data => {
       if (data == null)
         return;
-      this.transactionService.sellStock(data.holding.stock, this.currentDepot, data.amount).subscribe(
+      this.transactionService.sellStock(data.holding.stock, this.depotService.currentDepot.getValue(), data.amount).subscribe(
         holding => {
           this.holding = holding;
         }, error => {
           console.log('Error: ' + error.message);
         }
       );
+    });
+  }
+
+  getDepotsOfHolding(id: number) {
+    this.holdingService.getAllHoldings(this.depotService.currentDepot.getValue().id).subscribe(data => {
+      data = data.filter(holding => {
+        return holding.amount > 0
+      });
+      this.holdings = data;
+      this.holdings.forEach(holding => {
+        if (holding.stock.id === id)
+          this.holding = holding;
+      })
     });
   }
 
@@ -190,7 +202,7 @@ export class StockDetailsComponent implements OnInit {
         dashStyle: 'longdash',
         width: 1,
         label: {
-          text: 'Alarm ' + alarmUnder.price + ' ' + this.stock.currency
+          text: 'Alarm ' + alarmUnder.price + ' EUR'
         }
       });
     }
@@ -201,17 +213,17 @@ export class StockDetailsComponent implements OnInit {
         dashStyle: 'longdash',
         width: 1,
         label: {
-          text: 'Alarm ' + alarmOver.price + ' ' + this.stock.currency
+          text: 'Alarm ' + alarmOver.price + ' EUR'
         }
       });
     }
     return plotLines;
   }
 
-  getAllDepotsByStock(){
+  getAllDepotsByStock() {
     this.depotService.getAllDepotsByStock(this.stock).subscribe(depots => {
 
-      this.holdingDepots = depots;
+        this.holdingDepots = depots;
       }, error => {
         console.log('Error: ' + error.message);
       }
@@ -222,7 +234,7 @@ export class StockDetailsComponent implements OnInit {
     console.log(alarm);
     this.alarmService.deleteAlarm(alarm.id).subscribe(alarms => {
       this.alarms = alarms;
+      this.renderChart(this.stock.id);
     });
-    this.renderChart(this.stock.id);
   }
 }
