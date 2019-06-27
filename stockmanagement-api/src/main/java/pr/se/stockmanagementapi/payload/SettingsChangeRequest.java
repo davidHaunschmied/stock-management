@@ -8,6 +8,7 @@ public class SettingsChangeRequest {
     private double relativePurchaseCharges;
 
     public SettingsChangeRequest() {
+        // empty constructor
     }
 
     public double getFlatSellCharges() {

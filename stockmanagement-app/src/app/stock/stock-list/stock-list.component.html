@@ -1,6 +1,5 @@
 <div class="mat-elevation-z8">
     <mat-form-field appearance="outline">
-        <!--<mat-label>Aktiensuche</mat-label>-->
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Stichwort">
     </mat-form-field>
 
@@ -57,32 +56,3 @@
     </table>
     <mat-paginator [pageSize]="20" [pageSizeOptions]="[5, 10, 20, 100]" showFirstLastButtons></mat-paginator>
 </div>
-
-
-<!--
-<table mat-table [dataSource]="stocks" class="mat-elevation-z8">
-
-
-    <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let stock of stocks"> {{stock.name}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="market">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let stock of stocks"> {{stock.market}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="price">
-        <th mat-header-cell *matHeaderCellDef> Weight </th>
-        <td mat-cell *matCellDef="let stock of stocks"> {{stock.price}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="change1d">
-        <th mat-header-cell *matHeaderCellDef> Symbol </th>
-        <td mat-cell *matCellDef="let stock of stocks"> {{stock.change1d}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>-->
