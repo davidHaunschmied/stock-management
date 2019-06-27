@@ -16,8 +16,7 @@ export class AppComponent implements OnInit {
   depotPresent: boolean;
   private depot: IDepot;
 
-  constructor(private depotService: DepotService,
-              private dialog: MatDialog, private importDepotDialog: MatDialog) {
+  constructor(private depotService: DepotService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -43,21 +42,6 @@ export class AppComponent implements OnInit {
           }
         );
       }
-    });
-  }
-
-  openImportDialog() {
-    const dialogRef = this.importDepotDialog.open(DepotImportDialogComponent, {
-      width: '350px',
-      data: {name: ''}
-    });
-
-    dialogRef.afterClosed().subscribe(data => {
-      if (name == null)
-        return;
-      this.depotService.importDepot(data.name, data.file).subscribe(depot => {
-        this.depotService.setCurrentDepot(depot);
-      });
     });
   }
 }

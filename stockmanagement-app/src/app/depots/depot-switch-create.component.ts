@@ -4,6 +4,7 @@ import {DepotService} from "../services/depot/depot.service";
 import {MatDialog} from "@angular/material";
 import {IDepot} from "../model/IDepot";
 import {FormControl} from "@angular/forms";
+import {DepotImportDialogComponent} from "./depot-import-dialog/depot-import-dialog.component";
 
 @Component({
   selector: 'app-depot-switch-add',
@@ -73,5 +74,22 @@ export class DepotSwitchCreateComponent implements OnInit {
       }
     );
     console.log("Selected depot is: " + JSON.stringify(this.filter.value));
+  }
+
+
+  openImportDialog() {
+    const dialogRef = this.createDepotDialog.open(DepotImportDialogComponent, {
+      width: '350px',
+      data: {name: ''}
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (name == null)
+        return;
+      this.depotService.importDepot(data.name, data.file).subscribe(depot => {
+        this.depots.push(depot);
+        this.depotService.setCurrentDepot(depot);
+      });
+    });
   }
 }
