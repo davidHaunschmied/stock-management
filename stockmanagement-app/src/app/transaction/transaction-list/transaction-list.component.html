@@ -34,7 +34,9 @@
         </ng-container>
         <ng-container matColumnDef="type">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Kauf/Verkauf</th>
-            <td *matCellDef="let transaction" mat-cell>{{transaction.transactionType}}</td>
+            <td *matCellDef="let transaction" mat-cell>
+                {{transaction.transactionType === "PURCHASE" ? "Kauf" : "Verkauf" }}
+            </td>
         </ng-container>
         <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
         <tr *matRowDef="let row ; columns: displayedColumns;" mat-row></tr>

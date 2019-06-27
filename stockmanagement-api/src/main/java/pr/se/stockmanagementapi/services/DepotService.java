@@ -19,6 +19,7 @@ import pr.se.stockmanagementapi.respository.HoldingRepository;
 import pr.se.stockmanagementapi.respository.StockRepository;
 import pr.se.stockmanagementapi.util.CSVUtils;
 
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -71,6 +72,16 @@ public class DepotService {
             .map(e -> new HistoryPoint(e.getKey(), e.getValue())).collect(Collectors.toList());
     }
 
+
+    public List<Depot> getDepotsByStockId(long stockId){
+        List<Depot> depots = new ArrayList<>();
+        holdingRepository.findAllByStockId(stockId).forEach(holding -> {
+            if(holding.getAmount() > 0)
+                depots.add(holding.getDepot());
+        });
+        return depots;
+    }
+
     public void exportCSV(HttpServletResponse response, String depotName, List<Transaction> transactions) throws Exception {
 
         List<TransactionCsv> transactionsCsv = transactions.stream().map(TransactionCsv::new).collect(Collectors.toList());
@@ -111,7 +122,7 @@ public class DepotService {
             holding.addTransaction(transaction);
             holdingRepository.save(holding);
         }
-        
+
         return new ResponseEntity<>(depot, HttpStatus.CREATED);
     }
 }

@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 import pr.se.stockmanagementapi.exceptions.BadRequestException;
 import pr.se.stockmanagementapi.model.Holding;
 import pr.se.stockmanagementapi.model.StockHistory;
+import pr.se.stockmanagementapi.model.lightweights.DepotIdAndName;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
 import pr.se.stockmanagementapi.respository.HoldingRepository;
 
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static pr.se.stockmanagementapi.util.TimeZoneUtils.TIME_ZONE;
@@ -73,4 +75,5 @@ public class HoldingService {
     public List<Holding> getAllByStockId(long stockId){
         return holdingRepository.findAllByStockId(stockId);
     }
+
 }
