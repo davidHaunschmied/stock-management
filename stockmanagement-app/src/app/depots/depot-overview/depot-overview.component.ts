@@ -24,7 +24,7 @@ export class DepotOverviewComponent implements OnInit {
   private file: File;
   newDepotName: string;
   currencies = ["USD", "PLN"];
-  currencyEarnings: Map<String, number>;
+  currencyEarnings: Map<string, number>;
 
   constructor(
     private depotService: DepotService,
@@ -33,7 +33,7 @@ export class DepotOverviewComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.currencyEarnings = new Map<String, number>();
+    this.currencyEarnings = new Map<string, number>();
     this.depotService.currentDepot.subscribe((depot: IDepot) => {
       if (depot) {
         this.depot = depot;
