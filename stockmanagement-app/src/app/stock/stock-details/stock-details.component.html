@@ -1,69 +1,71 @@
-<div class="floatleft">
-    <mat-list *ngIf="stock">
-        <mat-list-item>
-            <span><h2>{{stock.name}}</h2></span>
-        </mat-list-item>
-        <mat-list-item>
-            <span>{{stock.stockExchange.name}}</span>
-        </mat-list-item>
-        <mat-list-item><span>Aktueller Kurs: </span><span class="padding-left">
-            <strong>{{stock.price | currency:'EUR':'symbol'}}</strong></span>
-        </mat-list-item>
-        <mat-list-item><span>Tagesschwankung:</span><span
-            [ngClass]="stock.day_change > 0 ? 'positive-number' : stock.day_change < 0 ? 'negative-number' : ''"
-            class="padding-left"><strong>{{stock.day_change | number : '1.2-2'}} %</strong></span>
-        </mat-list-item>
-    </mat-list>
-</div>
-<div class="floatright margin" *ngIf="stock">
-    <div class="floatright">
-        <button class="padding detailsbutton" (click)="openCreateAlarmDialog()">
-            <mat-icon>add_alert</mat-icon>
-            <p>Alarm erstellen</p>
-        </button>
+<div class="mat-elevation-z8">
+    <div class="floatleft">
+        <mat-list *ngIf="stock">
+            <mat-list-item>
+                <span><h2>{{stock.name}}</h2></span>
+            </mat-list-item>
+            <mat-list-item>
+                <span>{{stock.stockExchange.name}}</span>
+            </mat-list-item>
+            <mat-list-item><span>Aktueller Kurs: </span><span class="padding-left">
+                <strong>{{stock.price | currency:'EUR':'symbol'}}</strong></span>
+            </mat-list-item>
+            <mat-list-item><span>Tagesschwankung:</span><span
+                [ngClass]="stock.day_change > 0 ? 'positive-number' : stock.day_change < 0 ? 'negative-number' : ''"
+                class="padding-left"><strong>{{stock.day_change | number : '1.2-2'}} %</strong></span>
+            </mat-list-item>
+        </mat-list>
     </div>
-    <div class="floatright">
-        <button (click)="openSellStockDialog()" [disabled]="!hasHolding()" class="padding detailsbutton">
-            <mat-icon>gavel</mat-icon>
-            <p>Aktie verkaufen</p>
-        </button>
-    </div>
-    <div class="floatright">
-        <button class="padding detailsbutton" (click)="openBuyStockDialog()">
-            <mat-icon>gavel</mat-icon>
-            <p>Aktie kaufen</p>
-        </button>
-    </div>
-    <div *ngIf="holdingDepots != null && holdingDepots.length > 0" class="stockholdinginfo floatright">
-        <p>Diese Aktie befindet sich bereits in folgenden Depots</p>
-        <ul id="menu">
-            <ng-container *ngFor="let depot of holdingDepots">
-                <li *ngIf="depot != holdingDepots[0]"><strong>, </strong></li>
-                <li><strong>{{depot.name}}</strong></li>
-            </ng-container>
-        </ul>
-    </div>
-
-        <div *ngIf="alarms != null && alarms.length > 0" class="clearboth">
-            <ng-container *ngFor="let alarm of alarms">
-            <button class="floatright detailsbutton" (click)="deleteAlarm(alarm)">
-                <i class="material-icons">delete_forever</i>
-                <p class="margintop">
-                    ALARM
-                    <ng-container *ngIf="alarm.alarmType == 'UNDER'">UNTER</ng-container>
-                    <ng-container *ngIf="alarm.alarmType == 'OVER'">ÜBER</ng-container>
-                    {{alarm.price | currency : "EUR" + " "}}
-                </p>
-
+    <div class="floatright margin" *ngIf="stock">
+        <div class="floatright">
+            <button class="padding detailsbutton" (click)="openCreateAlarmDialog()">
+                <mat-icon>add_alert</mat-icon>
+                <p>Alarm erstellen</p>
             </button>
-        </ng-container>
+        </div>
+        <div class="floatright">
+            <button (click)="openSellStockDialog()" [disabled]="!hasHolding()" class="padding detailsbutton">
+                <mat-icon>gavel</mat-icon>
+                <p>Aktie verkaufen</p>
+            </button>
+        </div>
+        <div class="floatright">
+            <button class="padding detailsbutton" (click)="openBuyStockDialog()">
+                <mat-icon>gavel</mat-icon>
+                <p>Aktie kaufen</p>
+            </button>
+        </div>
+        <div *ngIf="holdingDepots != null && holdingDepots.length > 0" class="stockholdinginfo floatright">
+            <p>Diese Aktie befindet sich bereits in folgenden Depots</p>
+            <ul id="menu">
+                <ng-container *ngFor="let depot of holdingDepots">
+                    <li *ngIf="depot != holdingDepots[0]"><strong>, </strong></li>
+                    <li><strong>{{depot.name}}</strong></li>
+                </ng-container>
+            </ul>
         </div>
 
-</div>
-<highcharts-chart *ngIf="stockHistory && stock && alarms"
-                  [Highcharts]="Highcharts"
-                  [options]="chartOptions"
-                  constructorType="stockChart"
+            <div *ngIf="alarms != null && alarms.length > 0" class="clearboth">
+                <ng-container *ngFor="let alarm of alarms">
+                <button class="floatright detailsbutton" (click)="deleteAlarm(alarm)">
+                    <i class="material-icons">delete_forever</i>
+                    <p class="margintop">
+                        ALARM
+                        <ng-container *ngIf="alarm.alarmType == 'UNDER'">UNTER</ng-container>
+                        <ng-container *ngIf="alarm.alarmType == 'OVER'">ÜBER</ng-container>
+                        {{alarm.price | currency : "EUR" + " "}}
+                    </p>
 
-                  style="width: 100%; height: 400px; display: block;"
-></highcharts-chart>
+                </button>
+            </ng-container>
+            </div>
+
+    </div>
+    <highcharts-chart *ngIf="stockHistory && stock && alarms"
+                      [Highcharts]="Highcharts"
+                      [options]="chartOptions"
+                      constructorType="stockChart"
+
+                      style="width: 100%; height: 400px; display: block;"
+    ></highcharts-chart>
+</div>

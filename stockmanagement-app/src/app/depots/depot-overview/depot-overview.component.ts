@@ -20,7 +20,7 @@ export class DepotOverviewComponent implements OnInit {
   depotHistory: IHistoryPoint[];
   Highcharts = Highcharts;
   chartOptions: Object;
-  private depot: IDepot;
+  depot: IDepot;
   private file: File;
   newDepotName: string;
   currencies = ["USD", "PLN"];

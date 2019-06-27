@@ -19,7 +19,7 @@
 }
 
 .detailsbutton{
-  margin: 10px;
+  margin: 0px 10px 20px 10px;
   border: 2px solid black;
   border-radius: 5px;
   -webkit-transition-duration: 0.4s;
@@ -73,4 +73,8 @@ ul#menu{
   margin-top: 4px;
 }
 
+div {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
