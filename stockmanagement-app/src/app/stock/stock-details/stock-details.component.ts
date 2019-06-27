@@ -66,7 +66,7 @@ export class StockDetailsComponent implements OnInit {
           data = data.filter(holding => {
             return holding.amount > 0
           });
-          this.holdings = data;
+          this.holdings = data.filter(h => h.amount > 0);
           this.getAllDepotsByStock();
         });
         this.stock = data;
@@ -142,6 +142,7 @@ export class StockDetailsComponent implements OnInit {
       this.transactionService.purchaseStock(data.stock, this.depotService.currentDepot.getValue(), data.amount).subscribe(
         holding => {
           this.holding = holding;
+          this.getAllDepotsByStock();
         }, error => {
           console.log('Error: ' + error.message);
         }
@@ -201,7 +202,7 @@ export class StockDetailsComponent implements OnInit {
         dashStyle: 'longdash',
         width: 1,
         label: {
-          text: 'Alarm ' + alarmUnder.price + ' ' + this.stock.currency
+          text: 'Alarm ' + alarmUnder.price + ' EUR'
         }
       });
     }
@@ -212,7 +213,7 @@ export class StockDetailsComponent implements OnInit {
         dashStyle: 'longdash',
         width: 1,
         label: {
-          text: 'Alarm ' + alarmOver.price + ' ' + this.stock.currency
+          text: 'Alarm ' + alarmOver.price + ' EUR'
         }
       });
     }
@@ -233,7 +234,7 @@ export class StockDetailsComponent implements OnInit {
     console.log(alarm);
     this.alarmService.deleteAlarm(alarm.id).subscribe(alarms => {
       this.alarms = alarms;
+      this.renderChart(this.stock.id);
     });
-    this.renderChart(this.stock.id);
   }
 }

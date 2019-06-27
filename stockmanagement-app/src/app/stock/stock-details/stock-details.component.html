@@ -52,7 +52,7 @@
                     ALARM
                     <ng-container *ngIf="alarm.alarmType == 'UNDER'">UNTER</ng-container>
                     <ng-container *ngIf="alarm.alarmType == 'OVER'">ÜBER</ng-container>
-                    {{alarm.price | currency : stock.currency + " "}}
+                    {{alarm.price | currency : "EUR" + " "}}
                 </p>
 
             </button>

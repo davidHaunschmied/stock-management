@@ -86,6 +86,8 @@ public class StockHistoryDataUpdater {
                 stockHistoryRepository.save(stockHistory);
             } catch (ParseException e) {
                 LOGGER.error(String.format("Could not save stock history for stock %s (%s) ", stock.getName(), stock.getSymbol()), e);
+            } catch (NumberFormatException e){
+                LOGGER.error("Could not parse date");
             }
         }
     }

@@ -17,11 +17,14 @@
         </mat-list>
     </div>
     <div *ngIf="depot && holdings && holdings.length > 0" class="floatright">
-        <span class="stockdepot-label">
-            <mat-label>Währung:</mat-label>
-        </span>
-        <currency-switch></currency-switch>
-        <a [href]="getExportLink()" class="detailsbutton" mat-button>
+        <mat-list style="width: 50%" *ngIf="currencyEarnings && currencyEarnings.size > 0">
+            <mat-list-item *ngFor="let currency of currencies">
+                <span>Währungsgewinn im Vergleich zu {{currency}}:</span><span
+                [ngClass]="getCurrencyEarnings(currency) > 0 ? 'positive-number' : getCurrencyEarnings(currency) < 0 ? 'negative-number' : ''"
+                class="padding-left">{{getCurrencyEarnings(currency) | currency:'EUR':'symbol':'1.2-2'}}</span>
+            </mat-list-item>
+        </mat-list>
+        <a [href]="getExportLink()" class="detailsbutton" [ngClass]="currencyEarnings && currencyEarnings.size > 0 ? 'top-margin' : ''" mat-button>
             <i class="material-icons">get_app</i>
             <p>Exportieren</p>
         </a>
