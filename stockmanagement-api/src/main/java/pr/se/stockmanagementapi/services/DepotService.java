@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pr.se.stockmanagementapi.exceptions.BadRequestException;
 import pr.se.stockmanagementapi.model.*;
+import pr.se.stockmanagementapi.model.enums.TransactionType;
 import pr.se.stockmanagementapi.model.export.TransactionCsv;
 import pr.se.stockmanagementapi.payload.ApiResponse;
 import pr.se.stockmanagementapi.payload.HistoryPoint;
@@ -133,21 +134,24 @@ public class DepotService {
 
     public double calculateCurrencyEarnings(long depotId, String currency) {
         double currentExchangeRate = forexHistoryService.getCurrentExchangeRateForEur(currency);
-        double currentPriceConverted = calculateEarnings(depotId) / currentExchangeRate;
-        double actualPriceConverted = convertHistoryAtGetCurrentPrice(depotId, currency, currentExchangeRate);
-        return currentPriceConverted - actualPriceConverted;
-    }
-
-    private double convertHistoryAtGetCurrentPrice(long depotId, String currency, double currentExchangeRate) {
-        List<Transaction> transactions = transactionRepository.findAll().stream().filter(t -> t.getHolding().getDepot().getId() == depotId).collect(Collectors.toList());
+        List<Holding> holdings = holdingRepository.findByDepotId(depotId);
+        double earningsBefore = 0;
         double totalDiff = 0;
-        for (Transaction transaction : transactions) {
-            double exchangeRateAtHistoryPoint = forexHistoryService.getCurrentExchangeRateForEurAndDate(currency, getTimestamp(transaction.getDate()));
-            double currentPriceConverted = transaction.getPrice() / currentExchangeRate;
-            double actualPriceConverted = transaction.getPrice() / exchangeRateAtHistoryPoint;
-            totalDiff += currentPriceConverted - actualPriceConverted;
+        for (Holding holding : holdings) {
+            Set<Transaction> transactions = holding.getTransactions();
+            for (Transaction transaction : transactions) {
+                if (transaction.getTransactionType() == TransactionType.SALE) {
+                    double earnings = holding.getEarningsAt(transaction.getDate().getTime()) - earningsBefore;
+                    double exchangeRateAtHistoryPoint = forexHistoryService.getCurrentExchangeRateForEurAndDate(currency, getTimestamp(transaction.getDate()));
+                    double currentPriceConverted = earnings * currentExchangeRate;
+                    double actualPriceConverted = earnings * exchangeRateAtHistoryPoint;
+                    totalDiff += actualPriceConverted - currentPriceConverted;
+                    earningsBefore = earnings + earningsBefore;
+                }
+            }
         }
-        return totalDiff;
+
+        return totalDiff / currentExchangeRate;
     }
 
     private long getTimestamp(Date date) {
